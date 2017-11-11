@@ -1,0 +1,119 @@
+#http://www.webgraphviz.com/
+
+    digraph G{
+
+    MAIN ->NUM_CONST[label = "<digit>"];
+        NUM_CONST ->NUM_CONST[label = "<digit>"];
+        NUM_CONST ->OUT;
+
+    MAIN ->IDENTIFICATOR[label = "<letter>"];
+        IDENTIFICATOR -> IDENTIFICATOR[label="<idententificator><num_const>"] ;
+        IDENTIFICATOR -> TYPE_INT[label="'int'"];
+            TYPE_INT -> OUT;
+
+        IDENTIFICATOR -> TYPE_STRING[label="'string'"];
+            TYPE_STRING -> OUT;
+
+        IDENTIFICATOR -> BREAK[label="'break'"];
+            BREAK -> OUT;
+
+        IDENTIFICATOR -> RETURN[label="'return'"];
+            RETURN -> OUT;
+
+        IDENTIFICATOR -> IF[label="'if'"];
+            IF -> OUT;
+
+        IDENTIFICATOR -> ELSE[label="'else'"];
+            ELSE -> OUT;
+
+        IDENTIFICATOR -> SCAN[label="'scan'"];
+            SCAN -> OUT;
+
+        IDENTIFICATOR -> OUT;
+
+
+    MAIN ->STRING[label = "  ' "];
+        STRING -> STRING;
+        STRING -> OUT[label = " ' "];
+        STRING -> STRING_SPECIAL_SYMB[label = " \\ "];
+        STRING_SPECIAL_SYMB -> STRING[label = " ' \\ "];
+
+    MAIN ->L_BRACKET[label = "("];
+        L_BRACKET -> OUT;
+
+    MAIN ->R_BRACKET[label = ")"];
+        R_BRACKET -> OUT;
+
+    MAIN ->L_CURLY[label = "{"];
+        L_CURLY -> OUT;
+
+    MAIN ->R_CURLY[label = "}"];
+        R_CURLY -> OUT;
+
+    MAIN ->SEMI_CLN[label = ";"];
+        SEMI_CLN -> OUT;
+
+    MAIN ->PLUS[label = "+"];
+        PLUS -> OUT;
+
+    MAIN ->MINUS[label = "-"];
+        MINUS -> OUT;
+
+    MAIN ->MULT[label = "*"];
+        MULT -> OUT;
+
+    MAIN ->LOGIC_OR_HANDLER[label = "|"];
+        LOGIC_OR_HANDLER -> LOGIC_OP_OR[label = "|"];
+            LOGIC_OP_OR -> OUT;
+        LOGIC_OR_HANDLER -> ERROR_UNKNOWN_SYMB;
+
+    MAIN ->LOGIC_AND_HANDLER[label = "&"];
+        LOGIC_AND_HANDLER -> LOGIC_OP_AND[label = "&"];
+            LOGIC_OP_AND -> OUT;
+        LOGIC_AND_HANDLER -> ERROR_UNKNOWN_SYMB;
+
+    MAIN ->NEGATION[label = "!"];
+        NEGATION -> OUT;
+        NEGATION -> COMP_OP_NOT_EQ[label = "="];
+        COMP_OP_NOT_EQ -> OUT;
+
+    MAIN -> EQ_HANDLER[ label = "=" ];
+        EQ_HANDLER -> ASSIGN_OP_EQ;
+            ASSIGN_OP_EQ -> OUT;
+
+        EQ_HANDLER -> COMP_OP_EQ[ label = "=" ];
+            COMP_OP_EQ -> OUT;
+
+
+    MAIN -> MORE_HANDLER[ label = ">" ];
+        MORE_HANDLER -> COMP_OP_MORE;
+            COMP_OP_MORE -> OUT;
+
+        MORE_HANDLER -> COMP_MORE_EQ[ label = "=" ];
+            COMP_MORE_EQ -> OUT;
+
+    MAIN -> LESS_HANDLER[ label = "<" ];
+            LESS_HANDLER -> COMP_OP_LESS;
+                COMP_OP_LESS -> OUT;
+
+            LESS_HANDLER -> COMP_OP_LESS_EQ[ label = "=" ];
+                COMP_OP_LESS_EQ -> OUT;
+
+    MAIN ->SLASH[label = "/"];
+        SLASH -> SINGLE_L_COMMENT[label = "/"];
+            SINGLE_L_COMMENT -> SINGLE_L_COMMENT;
+            SINGLE_L_COMMENT -> OUT[label = "\n"];
+
+        SLASH -> MULTI_L_COMMENT[label = "*"];
+            MULTI_L_COMMENT -> MULTI_L_COMMENT_HANDLER[ label = "*" ];
+                MULTI_L_COMMENT_HANDLER -> MULTI_L_COMMENT;
+                MULTI_L_COMMENT_HANDLER -> OUT[label = "/"];
+
+            MULTI_L_COMMENT -> MULTI_L_COMMENT;
+
+        SLASH -> DIV;
+            DIV->OUT;
+
+    MAIN ->ERROR_UNKNOWN_SYMB[label = "any other symbol"];
+        ERROR_UNKNOWN_SYMB -> OUT;
+    }

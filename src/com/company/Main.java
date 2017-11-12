@@ -18,7 +18,7 @@ public class Main {
       System.out.println("\n");
       if (tree != null) {
         displayTree(tree, 0);
-        System.out.println("\nSyntaxe is correct\n");
+        System.out.println("\nSyntaxee is correct\n");
       }
       else {
         System.out.println("Syntaxee is incorrect\n");

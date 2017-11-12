@@ -21,7 +21,7 @@ public class Main {
         System.out.println("\nSyntaxe is correct\n");
       }
       else {
-        System.out.println("Syntaxeeee is incorrect\n");
+        System.out.println("Syntaxee is incorrect\n");
       }
 
     } catch (IOException e) {

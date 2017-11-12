@@ -18,10 +18,10 @@ public class Main {
       System.out.println("\n");
       if (tree != null) {
         displayTree(tree, 0);
-        System.out.println("\nSyntaxeded is correct\n");
+        System.out.println("\nSyntax is correct\n");
       }
       else {
-        System.out.println("Syntaxee is incorrect\n");
+        System.out.println("Syntax is incorrect\n");
       }
 
     } catch (IOException e) {

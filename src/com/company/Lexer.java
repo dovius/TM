@@ -36,15 +36,31 @@ public class Lexer {
           analyse(line.charAt(i));
         }
       }
-      analyse(' ');
+      //analyse(' ');
+      analyseEnd();
+
+    }
+  }
+
+  public void analyseEnd() {
+    if (currentState == State.STRING) {
+      currentState = State.ERROR_NOT_CLOSED_STRING;
+      reset();
+    }
+    else if (currentState == State.MULTI_L_COMMENT_HANDLER || currentState == State.MULTI_L_COMMENT) {
+      currentState = State.ERROR_NOT_CLOSED_COMMENT;
+      reset();
+    }
+    else if (currentState != State.MAIN) {
+      currentState = State.ERROR_UNKNOWN_SYMB;
+      reset();
     }
   }
 
   public void analyse(char c) {
     switch (currentState) {
       case MAIN:
-        if (c == '\t' || c == '\n' || c == '\r' || c == ' ') {
-        } else if (isLetter(c)) {
+        if (isLetter(c)) {
           currentState = State.IDENTIFIER;
           lexem += c;
         } else if (isDigit(c)) {
@@ -66,6 +82,14 @@ public class Lexer {
           currentState = State.R_CURLY;
           lexem += c;
           reset();
+        } else if (c == '[') {
+          currentState = State.L_ARRAY_BRACKET;
+          lexem += c;
+          reset();
+        } else if (c == ']') {
+          currentState = State.R_ARRAY_BRACKET;
+          lexem += c;
+          reset();
         } else if (c == ';') {
           currentState = State.SEMI_CLN;
           lexem += c;
@@ -85,10 +109,6 @@ public class Lexer {
         } else if (c == '/') {
           currentState = State.SLASH;
           lexem += c;
-        } else if (c == ',') {
-          currentState = State.COLUMN;
-          lexem += c;
-          reset();
         } else if (c == '=') {
           currentState = State.EQ_HANDLER;
           lexem += c;
@@ -109,6 +129,9 @@ public class Lexer {
           lexem += c;
         } else if (c == '\'') {
           currentState = State.STRING;
+          lexem += c;
+        }
+        else if (c == '\t' || c == '\n' || c == '\r' || c == ' ') {
         } else {
           currentState = State.ERROR_UNKNOWN_SYMB;
           lexem += "FILE : " + fileName + "    " + c;
@@ -125,9 +148,6 @@ public class Lexer {
             case "int":
               currentState = State.TYPE_INT;
               break;
-            case "char":
-              currentState = State.TYPE_CHAR;
-              break;
             case "string":
               currentState = State.TYPE_STRING;
               break;
@@ -143,11 +163,11 @@ public class Lexer {
             case "else":
               currentState = State.ELSE;
               break;
-            case "read":
+            case "scan":
               currentState = State.READ;
               break;
             case "out":
-              currentState = State.OUT;
+              currentState = State.WRITE;
               break;
             default:
               currentState = State.IDENTIFIER;
@@ -170,6 +190,7 @@ public class Lexer {
 
       case STRING:
         if (c == '\'') {
+          lexem += c;
           reset();
           break;
         } else {
@@ -225,11 +246,16 @@ public class Lexer {
         break;
 
       case MULTI_L_COMMENT_HANDLER:
-        currentState = State.MULTI_L_COMMENT;
         if (c == '/') {
+          currentState = State.MULTI_L_COMMENT;
           lexem += c;
           reset();
+        }
+        else if (c == '*') {
+          lexem += c;
         } else {
+          // prideta eilute
+          currentState = State.MULTI_L_COMMENT;
           lexem += c;
         }
         break;

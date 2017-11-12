@@ -10,7 +10,6 @@ public enum State {
   RETURN("return"),
   READ("read"),
   WRITE("write"),
-  OUT("out"),
   TYPE_STRING("string"),
   TYPE_INT("int"),
   TYPE_CHAR("char"),
@@ -20,6 +19,8 @@ public enum State {
   R_BRACKET(")"),
   L_CURLY("{"),
   R_CURLY("}"),
+  L_ARRAY_BRACKET("["),
+  R_ARRAY_BRACKET("]"),
   SEMI_CLN(";"),
   PLUS("+"),
   MINUS("-"),
@@ -48,7 +49,9 @@ public enum State {
   LOGIC_OP_OR("||"),
   LOGIC_OP_AND("&&"),
   ASSIGN_OP_EQ("="),
-  ERROR_UNKNOWN_SYMB("error");
+  ERROR_UNKNOWN_SYMB("error"),
+  ERROR_NOT_CLOSED_COMMENT("error"),
+  ERROR_NOT_CLOSED_STRING("error");
 
   private String name;
 
@@ -58,9 +61,5 @@ public enum State {
 
   public String getName() {
     return this.name;
-  }
-
-  public String toString() {
-    return name();
   }
 }

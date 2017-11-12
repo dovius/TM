@@ -1,14 +1,3 @@
-43243tdtr6546
-if ifas
-546.76576.87687.8768
-==<=>=<>===
-&&&
-// saidsa
-/* h **/
-if ifas
-
-/*
-
 //Mindaugas Čiulada Dovydas Vilimas KM
 
 int main(int a) {

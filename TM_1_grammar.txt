@@ -20,75 +20,88 @@ int main(int a) {
                    | 'int'
 		   | 'string'
 
-<parameter-list> ::= <parameter-declaration>  "," <parameter-list>
-                   | <parameter-declaration>
+<parameter-list> ::= <parameter-declaration>
+		   | <arrayDeclaration>
+		   | <arrayDeclaration> "," <parameter_list>
+		   | <parameter-list> "," <parameter-declaration>
 
 <parameter-declaration> ::= <type-specifier> <identifier>
 
-<expression> ::= <assignment-expression>
-               | <expression> , <assignment-expression>
+<arrayDeclaration> ::= <type> <identifier> "[" <integer> "]" ";"
+<arrayIndexStatement> ::= <identifier> "["<expression>"]"
 
-<assignment-expression> ::= <conditional-expression>
-                          | <unary-expression> <assignment-operator> <assignment-expression>
 
+****************STATEMENTS****************
 <statements> ::= <statement> <statements>
-               | <statement>
+              | <statement>
 
 <statement> ::= <expression-statement>
               | <selection-statement>
-              | <iteration-statement>
-	      | <simple-statement>
-	      | <return-statement>
+              | <simple-statement>
+	          | <return-statement>
+	          | <loop-statement>
 
-<simple-statement> ::= <varDeclaration> 
-		     | <assignmentStmt>
-                     | <ioStmt>
+<simple-statement> ::= <varDeclaration>
+		      | <assignmentStmt>
+              | <ioStmt>
 
-<varDeclaration> ::= <type-specifier> <identifier> ';'
 
-<assignmentStmt> ::= <identifier> "=" <expression-statement>
+<loop-statement> ::= <while-loop> | <for-loop>
 
-<ioStmt> ::= <inputStmt> 
+<while-loop> ::= "while" "(" <expresion> ")" <block-statement>
+
+<for-loop> ::= "for" "(" <varDeclaration> ";" <expression> ";" <post-pre-fix>  ")" <block-statement>
+
+<post-pre-fix> ::= <identifier> <incrementDecrementOp>
+		| <incrementDecrementOp> <identifier>
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<varDeclaration> ::= <type-specifier> <identifier>
+                  | <type-specifier> <identifier> <assigmentOp> <expression>
+
+<assignmentStmt> ::= <identifier> <assigmentOp> <expression-statement>
+                   | <arrayIndexStatement> <assigmentOp> <expression> ";"
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+<ioStmt> ::= <inputStmt>
            | <outputStmt>
 
-<inputStmt>  ::= 'read' <identifier>
+<inputStmt>  ::= 'read' <identifier> ";"
 
-<outputStmt> ::= 'out' <expression>
+<outputStmt> ::= 'out' <expression> ";"
 
 <selection-statement> ::= if ( <expression> ) <block-statement>
 			| if ( <expression> ) <block-statement>else <block-statement>
 
-<iteration-statement> ::= while ( <expression> ) <block-statement>
+****************STATEMENTS****************
 
+
+
+
+****************EXPRESSIONS****************
 <expression-statement> ::= <expression> ";"
-         
-<expresion> ::= <expr-0> 
-
-<expr-0> ::= <expr-1> "&" <expr-0>
-	   | <expr-1>
-
-<expr-1> ::= <expr-2> "==" <expr-1> 
-           | <expr-2>
-
-<expr-2> ::= <expr-3> "+" <expr-2> 
-           | <expr-3>
-
-<expr-3> ::= <expr-4> "*" <expr-3> 
-           | <expr-4>
-
-<expr-4> ::= <identifier> 
-           | <int> 
-           | "(" <expr-0> ")" 
+<expresion> ::= <expr-0>
+<expr-0> ::= <expr-1> <logicOp> <expr-0>  | <expr-1>
+<expr-1> ::= <expr-2> <compareOp> <expr-1> | <expr-2>
+<expr-2> ::= <expr-3> "+" <expr-2>  | <expr-3>
+<expr-3> ::= <expr-4> "*" <expr-3>  | <expr-4>
+<expr-4> ::= <identifier>
+           | <pre-post-fix>
+           | <int>
+           | "(" <expr-0> ")"
+           | <arrayIndexStatement>
            | <function-call>
+	   | <string>
 
-<block-statement> ::= "{" <statements> "}" 
+****************EXPRESSIONS****************
+<block-statement> ::= "{" <statements> "}"
                     | "{" "}"
 
-<function-call>   ::= <identifier> "(" <call-param-list> ")"
+<function-call> ::= <identifier> "(" <call-param-list> ")"
 	            | <identifier> "(" ")"
 
-<call-param-list-item>    ::= <expr-0> 
-                            | <expr-0t> , <call-param-list>
+<call-param-list-item>    ::= <expr-0>
+                            | <expr-0> , <call-param-list>
 
 <identifier> ::= [a-zA-Z_][a-zA-Z0-9_]*
 
@@ -96,105 +109,18 @@ int main(int a) {
 
 <digit> ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
 
-<int> ::= <digit> 
+<int> ::= <digit>
  	| <digit> <int>
 
-<string>  ::= "'" <stringChars> "'" 
+<string>  ::= "'" <stringChars> "'"
             | "'" "'"
-
-<stringChars> ::= <stringChar> <stringChars>
-		| <sringChar>
-		    
-<stringChar> ::= anyCharacterExceptSingleQuote 
-	       | "\'"
+<stringChars> ::= <char> <stringChars>
+		| <char>
 
 <assigmentOp> ::= "="
+<incrementDecrementOp> ::= "++" | "--"
+<logicOp> ::= "&" | "|"
+<compareOp> ::= "==" | "!=" | ">" | "<" | ">=" | "<="
 
 <return-statement> ::= 'return' |
-		       'return' <expr-0>
-
-
-
-
-
-
-q = next_prime(13^13)
-m = 2
-while not(is_prime(q*m+1)):
-    m = m+2
-p = q*m+1
-print 'q',q
-print 'p',p
-c = 2
-alpha = power_mod(c,m,p)
-a = 123123123123123123
-beta = power_mod(alpha, a, p)
-print 'alpha', alpha # private key
-print 'beta', beta
-print power_mod(alpha,q,p)
-
-x = p - 111
-
-k = q - 11112
-kInverse = 1 / k % q
-print k, kInverse, k * kInverse % q
-gama = power_mod(alpha, k, p) % q
-print 'gama', gama
-x = hash('dovydasvilimas')
-delta = (( x + a*gama)*kInverse) % q
-print delta, gcd(delta,q)
-
-
-
-deltaInv = 1/ delta % q
-e1 = x * deltaInv % q
-e2 = (gama * deltaInv) % q
-print ((power_mod(alpha, e1, p) * power_mod(beta, e2, p))%p)%q == gama
-
-
-
-
-
-
-
-
-
-
-
-q = next_prime(13^13)
-m = 2
-while not(is_prime(q*m+1)):
-    m = m+2
-p = q*m+1
-print 'q',q
-print 'p',p
-c = 2
-alpha = power_mod(c,m,p)
-a = 123123123123123123
-beta = power_mod(alpha, a, p)
-print 'alpha', alpha # private key
-print 'beta', beta
-print power_mod(alpha,q,p)
-
-x = p - 111
-
-k = q - 11112
-kInverse = 1 / k % q
-print k, kInverse, k * kInverse % q
-gama = power_mod(alpha, k, p) % q
-print 'gama', gama
-x = hash('dovydasvilimas')
-delta = (( x + a*gama)*kInverse) % q
-print delta, gcd(delta,q)
-
-
-
-deltaInv = 1/ delta % q
-e1 = x * deltaInv % q
-e2 = (gama * deltaInv) % q
-print ((power_mod(alpha, e1, p) * power_mod(beta, e2, p))%p)%q == gama
-
-#ats
-#dovydasvilimas(x)(parassas du skaiciai, abu < q)
-'dovydasvilimas', '(', x'
-
+		       'return' <expresion> ";"

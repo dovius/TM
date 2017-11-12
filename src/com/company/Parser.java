@@ -334,7 +334,7 @@ public class Parser {
   }
 
   public ASTtree parse_OUT() throws IOException {
-    if (equalStates(State.OUT)) {
+    if (equalStates(State.WRITE)) {
       return new ASTtree(createNode());
     }
     return null;
@@ -590,22 +590,6 @@ public class Parser {
         break;
       }
     }
-
-//    if (notEmptyNode != null && notEmptyNode.getChildren().size() > 0) {
-//      boolean allNodesHasOneChild = nodeIter.getChildren().size() == 1 ? true : false;
-//      while (nodeIter.getChildren().size() == 1) {
-//        nodeIter = nodeIter.getChildren().get(0);
-//        if (nodeIter.getChildren().size() > 1) {
-//          allNodesHasOneChild = false;
-//        }
-//      }
-//
-//      if (allNodesHasOneChild) {
-//        while (notEmptyNode.getChildren().size() == 1) {
-//          notEmptyNode = notEmptyNode.getChildren().get(0);
-//        }
-//      }
-//    }
     return notEmptyNode != null ? notEmptyNode : null;
   }
 

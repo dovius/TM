@@ -1,0 +1,35 @@
+43243tdtr6546
+if ifas
+546.76576.87687.8768
+==<=>=<>===
+&&&
+// saidsa
+/* h **/
+if ifas
+
+/*
+
+//Mindaugas Čiulada Dovydas Vilimas KM
+
+int main(int a) {
+	read a;
+	if (a == 5 || a <= 76) {
+		a = a + 1;
+	}
+
+	while(i == 2){
+	i = i +1;
+	}
+	/* ilgas komentaras
+	per dvi eilutes * /
+
+	for (int a = 1; 21 ; i++){
+	d= i + 2;
+	}
+
+	int b[14];
+	b = 10 - a * 5;
+	out b;
+first[0] = 'labas';
+string last = 'ate';
+}

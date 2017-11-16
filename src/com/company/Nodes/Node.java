@@ -1,15 +1,19 @@
 package com.company.Nodes;
 
+import com.company.Parser;
 import com.company.State;
+
+import static com.company.Parser.buildTabs;
 
 public class Node {
 
     public State state;
     public String lexem;
     public String string = "";
+    public int savedCursor;
 
     public Node() {
-
+        savedCursor = Parser.cursor;
     }
 
     public Node(State state, String lexem) {
@@ -41,8 +45,12 @@ public class Node {
         this.lexem = lexem;
     }
 
+    public Node backtrack() {
+        Parser.cursor = savedCursor;
+        return null;
+    }
 
     String toString(int offset) {
-        return string;
+        return buildTabs(offset) + string ;
     }
 }

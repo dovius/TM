@@ -1,10 +1,6 @@
-int main(int a) {
-    go(2);
-    a = b + (c - 5);
-    if (15 * a) {
-        return f(14);
-    }
-    // komentaras
+int main(int a, int b) {
+    a/a/vd/sdv/f;
+    b/w;
 }
 
 

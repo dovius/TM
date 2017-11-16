@@ -80,18 +80,22 @@ int main(int a) {
 
 ****************EXPRESSIONS****************
 <expression-statement> ::= <expression> ";"
-<expresion> ::= <expr-0>
-<expr-0> ::= <expr-1> <logicOp> <expr-0>  | <expr-1>
+<expresion> ::= <expr-1> <logicOp> <expresion>  | <expr-1>
 <expr-1> ::= <expr-2> <compareOp> <expr-1> | <expr-2>
-<expr-2> ::= <expr-3> "+" <expr-2>  | <expr-3>
-<expr-3> ::= <expr-4> "*" <expr-3>  | <expr-4>
+<expr-2> ::= <expr-3> <addSubOp> <expr-2>  | <expr-3>
+<expr-3> ::= <expr-4> <multDivOp> <expr-3>  | <expr-4>
 <expr-4> ::= <identifier>
            | <pre-post-fix>
            | <int>
-           | "(" <expr-0> ")"
+           | "(" <expresion> ")"
            | <arrayIndexStatement>
            | <function-call>
 	   | <string>
+
+<adSubOp> = "+" | "-"
+
+<multDivOp> = "*" | "/"
+
 
 ****************EXPRESSIONS****************
 <block-statement> ::= "{" <statements> "}"
@@ -100,8 +104,8 @@ int main(int a) {
 <function-call> ::= <identifier> "(" <call-param-list> ")"
 	            | <identifier> "(" ")"
 
-<call-param-list-item>    ::= <expr-0>
-                            | <expr-0> , <call-param-list>
+<call-param-list-item>    ::= <expresion>
+                            | <expresion> , <call-param-list>
 
 <identifier> ::= [a-zA-Z_][a-zA-Z0-9_]*
 

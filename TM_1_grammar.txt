@@ -4,7 +4,7 @@ int main(int a) {
 	read a;
 	if (a == 5) {
 		a = a + 1
-	}	
+	}
 	string first = 'labas'
 	int b;
 	b = 10 - a * 5;
@@ -27,7 +27,7 @@ int main(int a) {
 
 <parameter-declaration> ::= <type-specifier> <identifier>
 
-<arrayDeclaration> ::= <type> <identifier> "[" <integer> "]" ";"
+<arrayDeclaration> ::= <type> <identifier> "[" <integer> "]" ";" //TODO semicln?
 <arrayIndexStatement> ::= <identifier> "["<expression>"]"
 
 

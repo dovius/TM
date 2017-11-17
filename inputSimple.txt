@@ -1,5 +1,5 @@
-int main(int a, int b) {
-    f(a+3/3+5/(3>4), b, 4+2, b > 2);
+int main(int a, int mas[10], int lol, int lol, int mas[10], int mas[10]) {
+    2 +2 *5;
     a;
 }
 

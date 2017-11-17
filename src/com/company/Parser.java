@@ -61,26 +61,60 @@ public class Parser {
     public ParameterList parseParameterList() {
         ParameterList parameterList = new ParameterList();
 
+        ArrayDeclaration arrayDeclaration = parseArrayDeclaration();
+        if (arrayDeclaration != null) {
+            parameterList.addNode(arrayDeclaration);
+        }
+
         ParameterDeclaration parameterDeclaration = parseParameterDeclaration();
         if (parameterDeclaration != null) {
-            parameterList.nodes.add(parameterDeclaration);
+            parameterList.addNode(parameterDeclaration);
+        }
+
+
+
+        if (arrayDeclaration != null || parameterDeclaration != null) {
             Node column;
             do {
                 column = parseColumn();
                 if (column != null) {
+                    arrayDeclaration = parseArrayDeclaration();
+                    if (arrayDeclaration != null) {
+                        parameterList.addNode(arrayDeclaration);
+                        continue;
+                    }
+
                     parameterDeclaration = parseParameterDeclaration();
                     if (parameterDeclaration != null) {
                         parameterList.addNode(parameterDeclaration);
-                    } else {
-                        cursor--;
                     }
+
                 }
-            } while (column != null && parameterDeclaration != null);
+            } while (column != null && (arrayDeclaration != null || parameterDeclaration != null));
             return parameterList;
         }
 
+        if (arrayDeclaration != null | parameterDeclaration != null) {
+            return parameterList;
+        }
         return (ParameterList) parameterList.backtrack();
     }
+
+    //    <arrayDeclaration> ::= <type> <identifier> "[" <integer> "]" ";"
+    public ArrayDeclaration parseArrayDeclaration() {
+        ArrayDeclaration arrayDeclaration = new ArrayDeclaration();
+
+        Node typeSpecifier = parseTypeSpecifier();
+        Node identifier = parseIdentifier();
+        Node lArrayBracket = getState(State.L_ARRAY_BRACKET);
+        Node integer = getState(State.NUM_CONST);
+        Node rArrayBracket = getState(State.R_ARRAY_BRACKET);
+        if (checkNodes(typeSpecifier, identifier, lArrayBracket, identifier, rArrayBracket)) {
+            return new ArrayDeclaration(typeSpecifier.lexem, identifier.lexem, integer.lexem);
+        }
+        return (ArrayDeclaration) arrayDeclaration.backtrack();
+    }
+
 
     //  <parameter-declaration> ::= <type-specifier> <identifier>
     public ParameterDeclaration parseParameterDeclaration() {
@@ -285,12 +319,17 @@ public class Parser {
         }
         expression4.backtrack();
 
-
+        Node string = parseState(State.STRING);
+        if (string != null) {
+            string.string = "String: " + string.lexem + "\n";
+            expression4.nodes.add(string);
+            return expression4;
+        }
 
         return (Expression) expression4.backtrack();
     }
 
-//    <function-call> ::= <identifier> "(" <call-param-list> ")"
+    //    <function-call> ::= <identifier> "(" <call-param-list> ")"
 //            | <identifier> "(" ")"
     public FunctionCall parseFunctionCall() {
         FunctionCall functionCall = new FunctionCall();
@@ -307,8 +346,7 @@ public class Parser {
                         functionCall.nodes.add(callParamList);
                         return functionCall;
                     }
-                }
-                else {
+                } else {
                     Node rBracket = parseRBracket();
                     if (rBracket != null) {
                         functionCall.name = identifier.lexem;
@@ -320,13 +358,13 @@ public class Parser {
         return (FunctionCall) functionCall.backtrack();
     }
 
-//        <call-param-list-item>    ::= <expresion>
+    //        <call-param-list-item>    ::= <expresion>
 //                | <expresion> , <call-param-list>
     public Expression parseCallParamList() {
         Expression callParamList = new Expression();
 
         Expression expression = parseExpression();
-        if (expression!= null) {
+        if (expression != null) {
             callParamList.nodes.add(expression);
             Node column;
             do {
@@ -335,8 +373,7 @@ public class Parser {
                     expression = parseExpression();
                     if (expression != null) {
                         callParamList.nodes.add(expression);
-                    }
-                    else {
+                    } else {
                         cursor--;
                     }
                 }
@@ -423,6 +460,15 @@ public class Parser {
         return offset;
     }
 
+
+    public boolean checkNodes(Node... nodes) {
+        for (Node node : nodes) {
+            if (node == null) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     public Node getState(State... types) {
         Token token;

@@ -13,6 +13,7 @@ public class Variable extends Node{
         setType(type);
     }
 
+
     public Variable() {
 
     }

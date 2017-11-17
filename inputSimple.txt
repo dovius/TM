@@ -1,6 +1,6 @@
 int main(int a, int b) {
-    a/a/vd/sdv/f;
-    b/w;
+    a*b+c*e+f > g-w && V+M;
+    c+d;
 }
 
 

@@ -156,15 +156,79 @@ public class Parser {
         return (Expression) expressionStatement.backtrack();
     }
 
+//    <expresion> ::= <expr-1> <logicOp> <expresion>  | <expr-1>
     public Expression parseExpression() {
         Expression expression = new Expression();
 
-        Expression expression3 = parseExpression3();
-        if (expression3 != null) {
-            expression.nodes.add(expression3);
-            return expression;
+        Expression expression1 = parseExpression1();
+        if (expression1 != null) {
+            Node logicNode = parseLogicOp();
+            if (logicNode != null) {
+                Expression recExpression = parseExpression();
+                if (recExpression != null) {
+                    expression.nodes.add(new LogicExpression(logicNode.lexem, expression1, recExpression));
+                    return expression;
+                }
+            }
+        }
+        if (expression1 != null) {
+            expression1.backtrack();
+        }
+        expression1 = parseExpression1();
+        if (expression1 != null) {
+            return expression1;
         }
         return (Expression) expression.backtrack();
+    }
+
+    //    <expr-1> ::= <expr-2> <compareOp> <expr-1> | <expr-2>
+    public Expression parseExpression1() {
+        Expression expression1 = new Expression();
+
+        Expression expression2 = parseExpression2();
+        if (expression2 != null) {
+            Node compareNode = parseCompareOp();
+            if (compareNode != null) {
+                Expression recExpression1 = parseExpression1();
+                if (recExpression1 != null) {
+                    expression1.nodes.add(new CompareExpression(compareNode.lexem, expression2, recExpression1));
+                    return expression1;
+                }
+            }
+        }
+        if (expression2 != null) {
+            expression2.backtrack();
+        }
+        expression2 = parseExpression2();
+        if (expression2 != null) {
+            return expression2;
+        }
+        return (Expression) expression1.backtrack();
+    }
+
+    //    <expr-2> ::= <expr-3> <addSubOp> <expr-2>  | <expr-3>
+    public Expression parseExpression2() {
+        Expression expression2 = new Expression();
+
+        Expression expression3 = parseExpression3();
+        if (expression3 != null) {
+            Node AddSubNode = parseAddSubOp();
+            if (AddSubNode != null) {
+                Expression recExpression2 = parseExpression2();
+                if (recExpression2 != null) {
+                    expression2.nodes.add(new AddSubExpresssion(AddSubNode.lexem, expression3, recExpression2));
+                    return expression2;
+                }
+            }
+        }
+        if (expression3 != null) {
+            expression3.backtrack();
+        }
+        expression3 = parseExpression3();
+        if (expression3 != null) {
+            return expression3;
+        }
+        return (Expression) expression2.backtrack();
     }
 
     //    <expr-3> ::= <expr-4> <multDivOp> <expr-3>  | <expr-4>

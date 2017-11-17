@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 import static com.company.Parser.buildTabs;
 
-public class Program extends Node {
+public class Return extends Node {
     public ArrayList<Node> nodes;
 
-    public Program() {
+    public Return() {
         nodes = new ArrayList<Node>();
     }
 
@@ -16,12 +16,11 @@ public class Program extends Node {
     }
 
     public String toString(int offset) {
-        String str = buildTabs(offset) + "<program> \n";
+        String str = buildTabs(offset) + "<return> \n";
         for (int i = 0; i < nodes.size(); ++i) {
             str += nodes.get(i).toString(offset+1);
         }
-        str += buildTabs(offset) + "</program>\n";
+        str += buildTabs(offset) + "</return> \n";
         return str;
     }
-
 }

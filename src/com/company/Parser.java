@@ -56,8 +56,8 @@ public class Parser {
 
     // ::= <parameter-declaration>
 //		   | <parameter-list> "," <parameter-declaration>
-//  TODO       | <arrayDeclaration>
-//	TODO	   | <arrayDeclaration> "," <parameter_list>
+//         | <arrayDeclaration>
+//		   | <arrayDeclaration> "," <parameter_list>
     public ParameterList parseParameterList() {
         ParameterList parameterList = new ParameterList();
 
@@ -70,8 +70,6 @@ public class Parser {
         if (parameterDeclaration != null) {
             parameterList.addNode(parameterDeclaration);
         }
-
-
 
         if (arrayDeclaration != null || parameterDeclaration != null) {
             Node column;
@@ -94,9 +92,6 @@ public class Parser {
             return parameterList;
         }
 
-        if (arrayDeclaration != null | parameterDeclaration != null) {
-            return parameterList;
-        }
         return (ParameterList) parameterList.backtrack();
     }
 
@@ -114,7 +109,6 @@ public class Parser {
         }
         return (ArrayDeclaration) arrayDeclaration.backtrack();
     }
-
 
     //  <parameter-declaration> ::= <type-specifier> <identifier>
     public ParameterDeclaration parseParameterDeclaration() {
@@ -173,13 +167,17 @@ public class Parser {
             return statement;
         }
 
+        Return returnStatement = parseReturnStatement();
+        if (returnStatement != null) {
+            statement.nodes.add(returnStatement);
+            return statement;
+        }
         return (Statement) statement.backtrack();
     }
 
     //    <expression-statement> ::= <expression> ";"
     public Expression parseExpressionStatement() {
         Expression expressionStatement = new Expression();
-
         Expression expression = parseExpression();
         Node semiColumn = parseSemicolon();
         if (expression != null && semiColumn != null) {
@@ -187,6 +185,24 @@ public class Parser {
             return expressionStatement;
         }
         return (Expression) expressionStatement.backtrack();
+    }
+
+
+//    <return-statement> ::= 'return' <expresion> ";" | 'return'
+    public Return parseReturnStatement() {
+        Return returnStatement = new Return();
+
+        Node returnNode = parseState(State.RETURN);
+        Expression expression = parseExpression();
+        Node semicolumn = parseSemicolon();
+        if (returnNode != null ) {
+            if ( expression != null && semicolumn != null) {
+                returnStatement.nodes.add(expression);
+            }
+            return returnStatement;
+        }
+
+        return (Return) returnStatement.backtrack();
     }
 
     //    <expresion> ::= <expr-1> <logicOp> <expresion>  | <expr-1>
@@ -285,6 +301,12 @@ public class Parser {
     public Expression parseExpression4() {
         Expression expression4 = new Expression();
 
+        ArrayIndex arrayIndex = parseIndexStatement();
+        if (arrayIndex != null) {
+            expression4.nodes.add(arrayIndex);
+            return expression4;
+        }
+
         FunctionCall functionCall = parseFunctionCall();
         if (functionCall != null) {
             expression4.nodes.add(functionCall);
@@ -327,6 +349,27 @@ public class Parser {
         }
 
         return (Expression) expression4.backtrack();
+    }
+
+//    <arrayIndexStatement> ::= <identifier> "["<expression>"]"
+    public ArrayIndex parseIndexStatement() {
+        ArrayIndex arrayIndex = new ArrayIndex();
+
+        Node identifier = parseIdentifier();
+        Node lArrayBracket = parseState(State.L_ARRAY_BRACKET);
+        if (identifier == null || lArrayBracket == null){
+            return (ArrayIndex) arrayIndex.backtrack();
+        }
+        Expression expression = parseExpression();
+        Node rArrayBracket = parseState(State.R_ARRAY_BRACKET);
+
+        if (identifier != null && lArrayBracket != null && expression != null && rArrayBracket != null) {
+            arrayIndex.name = identifier.lexem;
+            arrayIndex.nodes.add(expression);
+            return arrayIndex;
+        }
+
+        return (ArrayIndex) arrayIndex.backtrack();
     }
 
     //    <function-call> ::= <identifier> "(" <call-param-list> ")"

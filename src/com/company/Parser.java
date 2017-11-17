@@ -149,14 +149,13 @@ public class Parser {
         Expression expression = parseExpression();
         Node semiColumn = parseSemicolon();
         if (expression != null && semiColumn != null) {
-            expression.nodes.add(expression);
-            return expression;
+            expressionStatement.nodes.add(expression);
+            return expressionStatement;
         }
-
         return (Expression) expressionStatement.backtrack();
     }
 
-//    <expresion> ::= <expr-1> <logicOp> <expresion>  | <expr-1>
+    //    <expresion> ::= <expr-1> <logicOp> <expresion>  | <expr-1>
     public Expression parseExpression() {
         Expression expression = new Expression();
 
@@ -171,10 +170,6 @@ public class Parser {
                 }
             }
         }
-        if (expression1 != null) {
-            expression1.backtrack();
-        }
-        expression1 = parseExpression1();
         if (expression1 != null) {
             return expression1;
         }
@@ -197,10 +192,6 @@ public class Parser {
             }
         }
         if (expression2 != null) {
-            expression2.backtrack();
-        }
-        expression2 = parseExpression2();
-        if (expression2 != null) {
             return expression2;
         }
         return (Expression) expression1.backtrack();
@@ -222,10 +213,6 @@ public class Parser {
             }
         }
         if (expression3 != null) {
-            expression3.backtrack();
-        }
-        expression3 = parseExpression3();
-        if (expression3 != null) {
             return expression3;
         }
         return (Expression) expression2.backtrack();
@@ -245,11 +232,8 @@ public class Parser {
                     return expression3;
                 }
             }
+            //potentional cursor error
         }
-        if (expression4 != null) {
-            expression4.backtrack();
-        }
-        expression4 = parseExpression4();
         if (expression4 != null) {
             return expression4;
         }
@@ -258,14 +242,21 @@ public class Parser {
 
 
     //    <expr-4> ::= <identifier>
-//           | <pre-post-fix>
+//     TODO      | <pre-post-fix>
 //            | <int>
 //            | "(" <expresion> ")"
-//            | <arrayIndexStatement>
+//     TODO       | <arrayIndexStatement>
 //           | <function-call>
 //            | <string>
     public Expression parseExpression4() {
         Expression expression4 = new Expression();
+
+        FunctionCall functionCall = parseFunctionCall();
+        if (functionCall != null) {
+            expression4.nodes.add(functionCall);
+            return expression4;
+        }
+        expression4.backtrack();
 
         Node identifier = parseIdentifier();
         if (identifier != null) {
@@ -273,7 +264,90 @@ public class Parser {
             expression4.nodes.add(identifier);
             return expression4;
         }
+
+        Node number = parseState(State.NUM_CONST);
+        if (number != null) {
+            number.string = "Number: " + number.lexem + "\n";
+            expression4.nodes.add(number);
+            return expression4;
+        }
+
+        Node LBracket = parseLBracket();
+        if (LBracket != null) {
+            Expression expression = parseExpression();
+            if (expression != null) {
+                Node RBracket = parseRBracket();
+                if (RBracket != null) {
+                    expression4.nodes.add(expression);
+                    return expression4;
+                }
+            }
+        }
+        expression4.backtrack();
+
+
+
         return (Expression) expression4.backtrack();
+    }
+
+//    <function-call> ::= <identifier> "(" <call-param-list> ")"
+//            | <identifier> "(" ")"
+    public FunctionCall parseFunctionCall() {
+        FunctionCall functionCall = new FunctionCall();
+
+        Node identifier = parseIdentifier();
+        if (identifier != null) {
+            Node lBracket = parseLBracket();
+            if (lBracket != null) {
+                Expression callParamList = parseCallParamList();
+                if (callParamList != null) {
+                    Node rBracket = parseRBracket();
+                    if (rBracket != null) {
+                        functionCall.name = identifier.lexem;
+                        functionCall.nodes.add(callParamList);
+                        return functionCall;
+                    }
+                }
+                else {
+                    Node rBracket = parseRBracket();
+                    if (rBracket != null) {
+                        functionCall.name = identifier.lexem;
+                        return functionCall;
+                    }
+                }
+            }
+        }
+        return (FunctionCall) functionCall.backtrack();
+    }
+
+//        <call-param-list-item>    ::= <expresion>
+//                | <expresion> , <call-param-list>
+    public Expression parseCallParamList() {
+        Expression callParamList = new Expression();
+
+        Expression expression = parseExpression();
+        if (expression!= null) {
+            callParamList.nodes.add(expression);
+            Node column;
+            do {
+                column = parseColumn();
+                if (column != null) {
+                    expression = parseExpression();
+                    if (expression != null) {
+                        callParamList.nodes.add(expression);
+                    }
+                    else {
+                        cursor--;
+                    }
+                }
+            } while (expression != null && column != null);
+            return callParamList;
+        }
+        return (Expression) callParamList.backtrack();
+    }
+
+    public Node parseState(State state) {
+        return getState(state);
     }
 
     public Node parseSemicolon() {

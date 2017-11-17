@@ -1,6 +1,6 @@
 int main(int a, int b) {
-    a*b+c*e+f > g-w && V+M;
-    c+d;
+    f(a+3/3+5/(3>4), b, 4+2, b > 2);
+    a;
 }
 
 

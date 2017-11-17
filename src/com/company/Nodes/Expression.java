@@ -9,7 +9,10 @@ public class Expression extends Node {
     }
 
     public String toString(int offset) {
-            return nodes.get(0).toString(offset);
+        for (Node node : nodes) {
+            string += node.toString(offset);
+        }
+        return string;
 
     }
 }

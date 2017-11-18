@@ -154,10 +154,10 @@ public class Parser {
     }
 
     //    <statement> ::= <expression-statement>
-//            | <selection-statement>
+//       todo     | <selection-statement>
 //            | <simple-statement>
 //            | <return-statement>
-//            | <loop-statement>
+//       todo     | <loop-statement>
     public Statement parseStatement() {
         Statement statement = new Statement();
 
@@ -167,6 +167,11 @@ public class Parser {
             return statement;
         }
 
+        SelectionStatement selectionStatement = parseSelectionStatement();
+        if (selectionStatement != null ) {
+            statement.nodes.add(selectionStatement);
+            return statement;
+        }
 
         Expression expressionStatement = parseExpressionStatement();
         if (expressionStatement != null) {
@@ -180,6 +185,39 @@ public class Parser {
             return statement;
         }
         return (Statement) statement.backtrack();
+    }
+
+//    <selection-statement> ::= if ( <expression> ) <block-statement>
+//            | if ( <expression> ) <block-statement>else <block-statement>
+    public SelectionStatement parseSelectionStatement() {
+        SelectionStatement selectionStatement = new SelectionStatement();
+
+        Node ifNode = parseState(State.IF);
+        if (ifNode != null) {
+            Node lBracker = parseLBracket();
+            if (lBracker!=null) {
+                Expression expression = parseExpression();
+                if (expression != null) {
+                    Node rBracket = parseRBracket();
+                    if (rBracket != null) {
+                        Block ifBlock = parseBlock();
+                        if (ifBlock!=null) {
+                            selectionStatement.condition = expression;
+                            selectionStatement.ifNodes = ifBlock.nodes;
+                        }
+                        Node elseNode = parseState(State.ELSE);
+                        if (elseNode != null) {
+                            Block elseBlock = parseBlock();
+                            if (elseBlock != null) {
+                                selectionStatement.elseNodes = elseBlock.nodes;
+                            }
+                        }
+                        return selectionStatement;
+                    }
+                }
+            }
+        }
+        return (SelectionStatement) selectionStatement.backtrack();
     }
 
     //    <expression-statement> ::= <expression> ";"
@@ -439,7 +477,6 @@ public class Parser {
                 }
             }
         }
-
         return (IOStatement) ioStatement.backtrack();
     }
 
@@ -461,7 +498,6 @@ public class Parser {
             }
             cursor--;
         }
-
 
         ArrayIndex arrayIndex = parseIndexStatement();
         if (arrayIndex != null) {

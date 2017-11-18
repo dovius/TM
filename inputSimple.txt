@@ -5,8 +5,13 @@ int main(int a) {
 //      a[2-2/1] = 'bas' - 2/3-5;
 //    int c = 'labas';
 
- read a;
- write a[2-3/1]/10;
+// read a;
+ //write a[2-3/1]/10;
+ if (1 >2) {
+  2;
+ } else {
+    write lol(mas[2]);
+ }
 }
 
 

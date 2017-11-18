@@ -1,8 +1,9 @@
 int main(int a) {
-    int a;
-    int b = mas[10];
-    a[2];
-    int c = 'labas';
+//    int a;
+//    int b = mas[10];
+//    b = 2 -2 /3 -3;
+      a[2-2/1] = 'bas' - 2/3-5;
+//    int c = 'labas';
 }
 
 

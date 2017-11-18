@@ -370,8 +370,49 @@ public class Parser {
             return simpleStatement;
         }
 
+        VarAssigment varAssigment = parseAssigmentStatement();
+        if (varAssigment != null) {
+            simpleStatement.nodes.add(varAssigment);
+            return simpleStatement;
+        }
 
         return (Expression) simpleStatement.backtrack();
+    }
+
+//    <assignmentStmt> ::= <identifier> <assigmentOp> <expression-statement>
+//            | <arrayIndexStatement> <assigmentOp> <expression-statement>
+    public VarAssigment parseAssigmentStatement() {
+        VarAssigment varAssigment = new VarAssigment();
+
+        Node identifier = parseIdentifier();
+        if (identifier != null ){
+            Node assigmentOp = parseState(State.ASSIGN_OP_EQ);
+            if (assigmentOp != null) {
+                Expression expressionStatement = parseExpressionStatement();
+                if (expressionStatement != null) {
+                    varAssigment.name = identifier.lexem;
+                    varAssigment.nodes.add(expressionStatement);
+                    return varAssigment;
+                }
+            }
+            cursor--;
+        }
+
+
+        ArrayIndex arrayIndex = parseIndexStatement();
+        if (arrayIndex != null) {
+            Node assigmentOp = parseState(State.ASSIGN_OP_EQ);
+            if (assigmentOp != null) {
+                Expression expressionStatement = parseExpressionStatement();
+                if (expressionStatement != null) {
+                    varAssigment.name = arrayIndex.name;
+                    varAssigment.nodes.add(expressionStatement.nodes.get(0));
+                    varAssigment.nodes.add(arrayIndex.nodes.get(0));
+                    return varAssigment;
+                }
+            }
+        }
+        return (VarAssigment) varAssigment.backtrack();
     }
 
     //    <varDeclaration> ::= <type-specifier> <identifier>;

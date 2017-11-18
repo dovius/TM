@@ -358,7 +358,7 @@ public class Lexer {
             Token t = i.next();
 
 
-            if (t.getState().equals("SINGLE_L_COMMENT") || t.getState().equals("MULTI_L_COMMENT")) {
+            if (t.getState().equals(State.SINGLE_L_COMMENT) || t.getState().equals(State.MULTI_L_COMMENT)) {
                 i.remove();
             }
         }

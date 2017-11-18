@@ -1,7 +1,8 @@
-int main(int a, int mas[10], int lol, int lol, int mas[10], int mas[10]) {
-    a[3/1-(43-e)];
-    return rastafa;
-    return 2+4-4/a;
+int main(int a) {
+    int a;
+    int b = mas[10];
+    a[2];
+    int c = 'labas';
 }
 
 

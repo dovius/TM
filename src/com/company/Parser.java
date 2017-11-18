@@ -161,6 +161,13 @@ public class Parser {
     public Statement parseStatement() {
         Statement statement = new Statement();
 
+        Node simpleStatement = parseSimpleStatement();
+        if (simpleStatement != null) {
+            statement.nodes.add(simpleStatement);
+            return statement;
+        }
+
+
         Expression expressionStatement = parseExpressionStatement();
         if (expressionStatement != null) {
             statement.nodes.add(expressionStatement);
@@ -188,15 +195,15 @@ public class Parser {
     }
 
 
-//    <return-statement> ::= 'return' <expresion> ";" | 'return'
+    //    <return-statement> ::= 'return' <expresion> ";" | 'return'
     public Return parseReturnStatement() {
         Return returnStatement = new Return();
 
         Node returnNode = parseState(State.RETURN);
         Expression expression = parseExpression();
         Node semicolumn = parseSemicolon();
-        if (returnNode != null ) {
-            if ( expression != null && semicolumn != null) {
+        if (returnNode != null) {
+            if (expression != null && semicolumn != null) {
                 returnStatement.nodes.add(expression);
             }
             return returnStatement;
@@ -295,7 +302,7 @@ public class Parser {
 //     TODO      | <pre-post-fix>
 //            | <int>
 //            | "(" <expresion> ")"
-//     TODO       | <arrayIndexStatement>
+//            | <arrayIndexStatement>
 //           | <function-call>
 //            | <string>
     public Expression parseExpression4() {
@@ -351,13 +358,64 @@ public class Parser {
         return (Expression) expression4.backtrack();
     }
 
-//    <arrayIndexStatement> ::= <identifier> "["<expression>"]"
+    //    <simple-statement> ::= <varDeclaration>
+//		      | <assignmentStmt>
+//              | <ioStmt>
+    public Expression parseSimpleStatement() {
+        Expression simpleStatement = new Expression();
+
+        VarDeclaration varDeclaration = parseVarDeclaration();
+        if (varDeclaration != null) {
+            simpleStatement.nodes.add(varDeclaration);
+            return simpleStatement;
+        }
+
+
+        return (Expression) simpleStatement.backtrack();
+    }
+
+    //    <varDeclaration> ::= <type-specifier> <identifier>;
+//                  | <type-specifier> <identifier> <assigmentOp> <expression>;
+    public VarDeclaration parseVarDeclaration() {
+        VarDeclaration varDeclaration = new VarDeclaration();
+
+        Node typeSpecifier = parseTypeSpecifier();
+        Node identifier = parseIdentifier();
+        if (typeSpecifier != null && identifier != null) {
+
+            Node assigmentOp = getState(State.ASSIGN_OP_EQ);
+            if (assigmentOp != null) {
+                Expression expression = parseExpression();
+                if (expression != null) {
+                    Node semicolumn = parseSemicolon();
+                    if (semicolumn != null) {
+                        varDeclaration.type = typeSpecifier.lexem;
+                        varDeclaration.name = identifier.lexem;
+                        varDeclaration.nodes.add(expression);
+                        return varDeclaration;
+                    }
+                }
+            }
+            else {
+                Node semicolumn = parseSemicolon();
+                if (semicolumn != null) {
+                    varDeclaration.type = typeSpecifier.lexem;
+                    varDeclaration.name = identifier.lexem;
+                    return varDeclaration;
+                }
+            }
+
+        }
+        return (VarDeclaration) varDeclaration.backtrack();
+    }
+
+    //    <arrayIndexStatement> ::= <identifier> "["<expression>"]"
     public ArrayIndex parseIndexStatement() {
         ArrayIndex arrayIndex = new ArrayIndex();
 
         Node identifier = parseIdentifier();
         Node lArrayBracket = parseState(State.L_ARRAY_BRACKET);
-        if (identifier == null || lArrayBracket == null){
+        if (identifier == null || lArrayBracket == null) {
             return (ArrayIndex) arrayIndex.backtrack();
         }
         Expression expression = parseExpression();
@@ -502,7 +560,6 @@ public class Parser {
         }
         return offset;
     }
-
 
     public boolean checkNodes(Node... nodes) {
         for (Node node : nodes) {

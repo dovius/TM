@@ -56,8 +56,8 @@ int main(int a) {
 		| <incrementDecrementOp> <identifier>
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-<varDeclaration> ::= <type-specifier> <identifier>
-                  | <type-specifier> <identifier> <assigmentOp> <expression>
+<varDeclaration> ::= <type-specifier> <identifier> ;
+                  | <type-specifier> <identifier> <assigmentOp> <expression> ;
 
 <assignmentStmt> ::= <identifier> <assigmentOp> <expression-statement>
                    | <arrayIndexStatement> <assigmentOp> <expression> ";"

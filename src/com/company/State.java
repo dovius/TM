@@ -9,6 +9,8 @@ public enum State {
   BREAK("break"),
   RETURN("return"),
   READ("read"),
+  WHILE("while"),
+  FOR("for"),
   WRITE("write"),
   TYPE_STRING("string"),
   TYPE_INT("int"),

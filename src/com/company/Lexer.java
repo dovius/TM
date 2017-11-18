@@ -173,6 +173,12 @@ public class Lexer {
                         case "write":
                             currentState = State.WRITE;
                             break;
+                        case "while":
+                            currentState = State.WHILE;
+                            break;
+                        case "for":
+                            currentState = State.FOR;
+                            break;
                         default:
                             currentState = State.IDENTIFIER;
                             break;

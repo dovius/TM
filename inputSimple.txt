@@ -1,4 +1,7 @@
 int main(int a) {
+while(i>2){
+    i++;
+}
 i++;
 int a;
 /*    int a;
@@ -15,6 +18,10 @@ int a;
     write lol(mas[2]);
  }
  */
+}
+
+int lol(int gg) {
+    write ROFL;
 }
 
 

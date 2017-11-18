@@ -20,6 +20,12 @@ public class Parser {
         FunctionDeclaration functionDeclaration = parseFunctionDeclaration();
         if (functionDeclaration != null) {
             program.addNode(functionDeclaration);
+            do {
+                functionDeclaration = parseFunctionDeclaration();
+                if (functionDeclaration!= null) {
+                    program.nodes.add(functionDeclaration);
+                }
+            } while (functionDeclaration != null);
             return program;
         }
         return (Program) program.backtrack();
@@ -161,6 +167,12 @@ public class Parser {
     public Statement parseStatement() {
         Statement statement = new Statement();
 
+        Expression loopStatement = parseLoopStatement();
+        if (loopStatement != null) {
+            statement.nodes.add(loopStatement);
+            return statement;
+        }
+
         Node simpleStatement = parseSimpleStatement();
         if (simpleStatement != null) {
             statement.nodes.add(simpleStatement);
@@ -218,6 +230,30 @@ public class Parser {
             }
         }
         return (SelectionStatement) selectionStatement.backtrack();
+    }
+
+//  <loop-statement> ::= <while-loop> | <for-loop>
+//  <while-loop> ::= "while" "(" <expresion> ")" <block-statement>
+//  todo <for-loop> ::= "for" "(" <varDeclaration> ";" <expression> ";" <post-pre-fix>  ")" <block-statement>
+    public Expression parseLoopStatement() {
+        Expression loopStatement = new Expression();
+
+        Node whileNode = parseState(State.WHILE);
+        Node lBracket = parseLBracket();
+        if (whileNode != null && lBracket != null) {
+            Expression expression = parseExpression();
+            Node rBracket = parseRBracket();
+            Block block = parseBlock();
+            if (expression!=null && rBracket!=null && block!=null) {
+                loopStatement.nodes.add(new WhileStatement(expression,block));
+                return loopStatement;
+            }
+        }
+        loopStatement.backtrack();
+
+
+
+        return (Expression) loopStatement.backtrack();
     }
 
     //    <expression-statement> ::= <expression> ";"
@@ -335,13 +371,12 @@ public class Parser {
         return (Expression) expression3.backtrack();
     }
 
-
-    //    <expr-4> ::= <identifier>
-//     TODO      | <pre-post-fix>
+//    <expr-4> ::= <identifier>
+//            | <pre-post-fix>
 //            | <int>
 //            | "(" <expresion> ")"
 //            | <arrayIndexStatement>
-//           | <function-call>
+//            | <function-call>
 //            | <string>
     public Expression parseExpression4() {
         Expression expression4 = new Expression();

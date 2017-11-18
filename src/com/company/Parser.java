@@ -251,7 +251,26 @@ public class Parser {
         }
         loopStatement.backtrack();
 
-
+        Node forNode = parseState(State.FOR);
+        if (forNode != null) {
+            lBracket = parseLBracket();
+            VarDeclaration varDeclaration = parseVarDeclaration();
+            Expression expression = parseExpression();
+            Node semicolumn = parseSemicolon();
+            PostPreFix postPreFix = parsePostPrefix();
+            Node rBracket = parseRBracket();
+            Block block = parseBlock();
+            if (lBracket!= null && varDeclaration != null && expression!= null && semicolumn!=null && postPreFix!= null
+                    && rBracket !=null && block!=null) {
+                ForStatement forStatement = new ForStatement();
+                forStatement.nodes.add(varDeclaration);
+                forStatement.nodes.add(expression);
+                forStatement.nodes.add(postPreFix);
+                forStatement.nodes.add(block);
+                loopStatement.nodes.add(forStatement);
+                return loopStatement;
+            }
+        }
 
         return (Expression) loopStatement.backtrack();
     }

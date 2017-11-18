@@ -21,7 +21,9 @@ int a;
 }
 
 int lol(int gg) {
-    write ROFL;
+    for (int i=0; i<gg; i++) {
+        write i;
+    }
 }
 
 

@@ -154,7 +154,7 @@ public class Parser {
     }
 
     //    <statement> ::= <expression-statement>
-//       todo     | <selection-statement>
+//            | <selection-statement>
 //            | <simple-statement>
 //            | <return-statement>
 //       todo     | <loop-statement>
@@ -168,7 +168,7 @@ public class Parser {
         }
 
         SelectionStatement selectionStatement = parseSelectionStatement();
-        if (selectionStatement != null ) {
+        if (selectionStatement != null) {
             statement.nodes.add(selectionStatement);
             return statement;
         }
@@ -187,7 +187,7 @@ public class Parser {
         return (Statement) statement.backtrack();
     }
 
-//    <selection-statement> ::= if ( <expression> ) <block-statement>
+    //    <selection-statement> ::= if ( <expression> ) <block-statement>
 //            | if ( <expression> ) <block-statement>else <block-statement>
     public SelectionStatement parseSelectionStatement() {
         SelectionStatement selectionStatement = new SelectionStatement();
@@ -195,13 +195,13 @@ public class Parser {
         Node ifNode = parseState(State.IF);
         if (ifNode != null) {
             Node lBracker = parseLBracket();
-            if (lBracker!=null) {
+            if (lBracker != null) {
                 Expression expression = parseExpression();
                 if (expression != null) {
                     Node rBracket = parseRBracket();
                     if (rBracket != null) {
                         Block ifBlock = parseBlock();
-                        if (ifBlock!=null) {
+                        if (ifBlock != null) {
                             selectionStatement.condition = expression;
                             selectionStatement.ifNodes = ifBlock.nodes;
                         }
@@ -346,6 +346,12 @@ public class Parser {
     public Expression parseExpression4() {
         Expression expression4 = new Expression();
 
+        PostPreFix postPreFix = parsePostPrefix();
+        if (postPreFix != null) {
+            expression4.nodes.add(postPreFix);
+            return expression4;
+        }
+
         ArrayIndex arrayIndex = parseIndexStatement();
         if (arrayIndex != null) {
             expression4.nodes.add(arrayIndex);
@@ -396,6 +402,42 @@ public class Parser {
         return (Expression) expression4.backtrack();
     }
 
+
+    //    <post-pre-fix> ::= <identifier> <incrementDecrementOp>
+//		| <incrementDecrementOp> <identifier>
+    public PostPreFix parsePostPrefix() {
+        PostPreFix postPreFix = new PostPreFix();
+
+        Node identifier = parseIdentifier();
+        if (identifier != null) {
+            Node first = getState(State.PLUS, State.MINUS);
+            if (first != null) {
+                Node second = getState(State.PLUS, State.MINUS);
+                if (first.lexem.equals(second.lexem)) {
+                    postPreFix.isPrefix = false;
+                    postPreFix.identifier = identifier.lexem;
+                    postPreFix.operator = second.lexem;
+                    return postPreFix;
+                }
+            }
+        }
+        Node first = getState(State.PLUS, State.MINUS);
+        if (first != null) {
+            Node second = getState(State.PLUS, State.MINUS);
+            if (first.lexem.equals(second.lexem)) {
+                identifier = parseIdentifier();
+                if (identifier != null) {
+                    postPreFix.isPrefix = true;
+                    postPreFix.identifier = identifier.lexem;
+                    postPreFix.operator = second.lexem;
+                    return postPreFix;
+                }
+            }
+        }
+
+        return (PostPreFix) postPreFix.backtrack();
+    }
+
     //    <simple-statement> ::= <varDeclaration>
 //		      | <assignmentStmt>
 //              | <ioStmt>
@@ -423,7 +465,7 @@ public class Parser {
         return (Expression) simpleStatement.backtrack();
     }
 
-//    <ioStmt> ::= <inputStmt>
+    //    <ioStmt> ::= <inputStmt>
 //               | <outputStmt>
     public Expression parseIoStatement() {
         Expression ioStatement = new Expression();
@@ -443,7 +485,7 @@ public class Parser {
         return (Expression) ioStatement.backtrack();
     }
 
-//    <inputStmt>  ::= 'read' <identifier> ";"
+    //    <inputStmt>  ::= 'read' <identifier> ";"
     public IOStatement parseInputStatement() {
         IOStatement ioStatement = new IOStatement();
 
@@ -462,7 +504,7 @@ public class Parser {
         return (IOStatement) ioStatement.backtrack();
     }
 
-//    <outputStmt> ::= 'write' <expression> ";"
+    //    <outputStmt> ::= 'write' <expression> ";"
     public IOStatement parseOutputStatement() {
         IOStatement ioStatement = new IOStatement();
         Node write = parseState(State.WRITE);
@@ -480,13 +522,13 @@ public class Parser {
         return (IOStatement) ioStatement.backtrack();
     }
 
-//    <assignmentStmt> ::= <identifier> <assigmentOp> <expression-statement>
+    //    <assignmentStmt> ::= <identifier> <assigmentOp> <expression-statement>
 //            | <arrayIndexStatement> <assigmentOp> <expression-statement>
     public VarAssigment parseAssigmentStatement() {
         VarAssigment varAssigment = new VarAssigment();
 
         Node identifier = parseIdentifier();
-        if (identifier != null ){
+        if (identifier != null) {
             Node assigmentOp = parseState(State.ASSIGN_OP_EQ);
             if (assigmentOp != null) {
                 Expression expressionStatement = parseExpressionStatement();
@@ -536,8 +578,7 @@ public class Parser {
                         return varDeclaration;
                     }
                 }
-            }
-            else {
+            } else {
                 Node semicolumn = parseSemicolon();
                 if (semicolumn != null) {
                     varDeclaration.type = typeSpecifier.lexem;

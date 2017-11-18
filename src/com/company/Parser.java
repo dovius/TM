@@ -376,7 +376,71 @@ public class Parser {
             return simpleStatement;
         }
 
+        Expression iOStatement = parseIoStatement();
+        if (iOStatement != null) {
+            simpleStatement.nodes.add(iOStatement);
+            return simpleStatement;
+        }
+
         return (Expression) simpleStatement.backtrack();
+    }
+
+//    <ioStmt> ::= <inputStmt>
+//               | <outputStmt>
+    public Expression parseIoStatement() {
+        Expression ioStatement = new Expression();
+
+        IOStatement io = parseInputStatement();
+        if (io != null) {
+            ioStatement.nodes.add(io);
+            return ioStatement;
+        }
+
+        io = parseOutputStatement();
+        if (io != null) {
+            ioStatement.nodes.add(io);
+            return ioStatement;
+        }
+
+        return (Expression) ioStatement.backtrack();
+    }
+
+//    <inputStmt>  ::= 'read' <identifier> ";"
+    public IOStatement parseInputStatement() {
+        IOStatement ioStatement = new IOStatement();
+
+        Node read = parseState(State.READ);
+        if (read != null) {
+            Node identifier = parseIdentifier();
+            if (identifier != null) {
+                Node semicolumn = parseSemicolon();
+                if (semicolumn != null) {
+                    ioStatement.isReadStatemnt = true;
+                    ioStatement.identifier = identifier.lexem;
+                    return ioStatement;
+                }
+            }
+        }
+        return (IOStatement) ioStatement.backtrack();
+    }
+
+//    <outputStmt> ::= 'write' <expression> ";"
+    public IOStatement parseOutputStatement() {
+        IOStatement ioStatement = new IOStatement();
+        Node write = parseState(State.WRITE);
+        if (write != null) {
+            Expression expression = parseExpression();
+            if (expression != null) {
+                Node semicolumn = parseSemicolon();
+                if (semicolumn != null) {
+                    ioStatement.isReadStatemnt = false;
+                    ioStatement.addNode(expression);
+                    return ioStatement;
+                }
+            }
+        }
+
+        return (IOStatement) ioStatement.backtrack();
     }
 
 //    <assignmentStmt> ::= <identifier> <assigmentOp> <expression-statement>

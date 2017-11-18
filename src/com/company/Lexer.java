@@ -167,10 +167,10 @@ public class Lexer {
                         case "else":
                             currentState = State.ELSE;
                             break;
-                        case "scan":
+                        case "read":
                             currentState = State.READ;
                             break;
-                        case "out":
+                        case "write":
                             currentState = State.WRITE;
                             break;
                         default:

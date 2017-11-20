@@ -1,6 +1,35 @@
-int test(int a) {
+int test(int a[22],) {
 
-a = a - 2;
+a = a+ j(a[j+i()] + 1) * 12 + (a + 1 *);
 }
+
+
+int main(int a) {
+while(i>2){
+    i++;
+}
+i++;
+int a;
+    int a;
+    int b = mas[10];
+    b = 2 -2 /3 -3;
+      a[2-2/1] = 'bas' - 2/3-5;
+    int c = 'labas';
+
+// read a;
+ //write a[2-3/1]/10;
+ if (1 >2) {
+  2;
+ } else {
+    write lol(mas[2]);
+ }
+}
+
+int lol(int gg) {
+    for (int i=0; i<gg; i++) {
+        write i;
+    }
+}
+
 
 

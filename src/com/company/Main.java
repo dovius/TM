@@ -17,15 +17,12 @@ public class Main {
             System.out.println("\n");
 
             Program tree = parser.parseProgram();
-            PrintWriter writer = new PrintWriter("out.txt", "UTF-8");
+            PrintWriter writer = new PrintWriter("out.xml", "UTF-8");
             if (tree != null) {
                 String file = tree.toString(0);
                 writer.print(file);
             }
             writer.close();
-            if (tree != null)
-                System.out.println(tree.toString(0));
-
             System.out.println("\n");
             if (tree != null) {
 //        displayTree(tree, 0);

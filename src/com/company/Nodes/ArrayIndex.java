@@ -23,7 +23,7 @@ public class ArrayIndex extends Node {
         for (int i = 0; i < nodes.size(); ++i) {
             str += nodes.get(i).toString(offset+2);
         }
-        str += buildTabs(offset+1) + "<index>\n";
+        str += buildTabs(offset+1) + "</index>\n";
         str += buildTabs(offset) + "</Array>\n";
         return str;
     }

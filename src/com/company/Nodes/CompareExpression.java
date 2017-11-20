@@ -16,7 +16,7 @@ public class CompareExpression extends Expression {
     public String toString(int offset) {
 
         String str = buildTabs(offset) + "<CompareExpression> \n";
-        str += buildTabs(offset + 1) + "Operator: " + operation + "\n";
+        str += buildTabs(offset + 1) + "Operator: '" + operation + "'\n";
         str += buildTabs(offset + 1) + "<left> \n";
         str += left.toString(offset + 2);
         str += buildTabs(offset + 1) + "</left>\n";

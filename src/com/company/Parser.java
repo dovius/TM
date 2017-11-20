@@ -338,9 +338,10 @@ public class Parser {
             if (compareNode != null) {
                 Expression recExpression1 = parseExpression1();
                 if (recExpression1 != null) {
-                    expression1.nodes.add(new CompareExpression(compareNode.lexem, expression2, recExpression1));
-                    return expression1;
-                }
+                    expression1.nodes.add(new CompareExpression(compareNode.state.toString(), expression2, recExpression1));
+                return expression1;
+            }
+                cursor--;
             }
         }
         if (expression2 != null) {
@@ -362,6 +363,7 @@ public class Parser {
                     expression2.nodes.add(new AddSubExpresssion(AddSubNode.lexem, expression3, recExpression2));
                     return expression2;
                 }
+                cursor--;
             }
         }
         if (expression3 != null) {
@@ -383,6 +385,7 @@ public class Parser {
                     expression3.nodes.add(new MultDivExpresssion(multDivNode.lexem, expression4, recExpression3));
                     return expression3;
                 }
+                cursor--;
             }
             //potentional cursor error
         }
@@ -482,13 +485,15 @@ public class Parser {
         Node first = getState(State.PLUS, State.MINUS);
         if (first != null) {
             Node second = getState(State.PLUS, State.MINUS);
-            if (first.lexem.equals(second.lexem)) {
-                identifier = parseIdentifier();
-                if (identifier != null) {
-                    postPreFix.isPrefix = true;
-                    postPreFix.identifier = identifier.lexem;
-                    postPreFix.operator = second.lexem;
-                    return postPreFix;
+            if (second != null) {
+                if (first.lexem.equals(second.lexem)) {
+                    identifier = parseIdentifier();
+                    if (identifier != null) {
+                        postPreFix.isPrefix = true;
+                        postPreFix.identifier = identifier.lexem;
+                        postPreFix.operator = second.lexem;
+                        return postPreFix;
+                    }
                 }
             }
         }
@@ -623,12 +628,17 @@ public class Parser {
         Node typeSpecifier = parseTypeSpecifier();
         Node identifier = parseIdentifier();
         if (typeSpecifier != null && identifier != null) {
-
+            Node semicolumn = parseSemicolon();
+            if (semicolumn != null) {
+                varDeclaration.type = typeSpecifier.lexem;
+                varDeclaration.name = identifier.lexem;
+                return varDeclaration;
+            }
             Node assigmentOp = getState(State.ASSIGN_OP_EQ);
             if (assigmentOp != null) {
                 Expression expression = parseExpression();
                 if (expression != null) {
-                    Node semicolumn = parseSemicolon();
+                    semicolumn = parseSemicolon();
                     if (semicolumn != null) {
                         varDeclaration.type = typeSpecifier.lexem;
                         varDeclaration.name = identifier.lexem;
@@ -636,15 +646,7 @@ public class Parser {
                         return varDeclaration;
                     }
                 }
-            } else {
-                Node semicolumn = parseSemicolon();
-                if (semicolumn != null) {
-                    varDeclaration.type = typeSpecifier.lexem;
-                    varDeclaration.name = identifier.lexem;
-                    return varDeclaration;
-                }
             }
-
         }
         return (VarDeclaration) varDeclaration.backtrack();
     }

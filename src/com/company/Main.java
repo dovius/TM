@@ -25,7 +25,7 @@ public class Main {
             writer.close();
             System.out.println("\n");
             if (tree != null) {
-//        displayTree(tree, 0);
+
                 System.out.println("\nSyntax is correct\n");
             } else {
                 System.out.println("Syntax is incorrect\n");

@@ -110,9 +110,9 @@ public class Parser {
         Node typeSpecifier = parseTypeSpecifier();
         Node identifier = parseIdentifier();
         Node lArrayBracket = getState(State.L_ARRAY_BRACKET);
-        Node integer = getState(State.NUM_CONST);
+        Node integer = parseExpression();
         Node rArrayBracket = getState(State.R_ARRAY_BRACKET);
-        if (checkNodes(typeSpecifier, identifier, lArrayBracket, identifier, rArrayBracket)) {
+        if (checkNodes(typeSpecifier, identifier, lArrayBracket, integer, rArrayBracket)) {
             return new ArrayDeclaration(typeSpecifier.lexem, identifier.lexem, integer.lexem);
         }
         return (ArrayDeclaration) arrayDeclaration.backtrack();
@@ -472,6 +472,7 @@ public class Parser {
             Node first = getState(State.PLUS, State.MINUS);
             if (first != null) {
                 Node second = getState(State.PLUS, State.MINUS);
+
                 if (second!=null) {
                     if (first.lexem.equals(second.lexem)) {
                         postPreFix.isPrefix = false;

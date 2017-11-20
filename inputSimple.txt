@@ -1,30 +1,6 @@
-int main(int a) {
-while(i>2){
-    i++;
-}
-i++;
-int a;
-/*    int a;
-    int b = mas[10];
-    b = 2 -2 /3 -3;
-      a[2-2/1] = 'bas' - 2/3-5;
-    int c = 'labas';
+int test(int a) {
 
-// read a;
- //write a[2-3/1]/10;
- if (1 >2) {
-  2;
- } else {
-    write lol(mas[2]);
- }
- */
+a = a - 2;
 }
-
-int lol(int gg) {
-    for (int i=0; i<gg; i++) {
-        write i;
-    }
-}
-
 
 

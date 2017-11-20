@@ -92,7 +92,9 @@ public class Parser {
                     if (parameterDeclaration != null) {
                         parameterList.addNode(parameterDeclaration);
                     }
-
+                    if (arrayDeclaration == null && parameterDeclaration == null) {
+                        return (ParameterList) parameterList.backtrack();
+                    }
                 }
             } while (column != null && (arrayDeclaration != null || parameterDeclaration != null));
             return parameterList;
@@ -163,7 +165,7 @@ public class Parser {
 //            | <selection-statement>
 //            | <simple-statement>
 //            | <return-statement>
-//       todo     | <loop-statement>
+//            | <loop-statement>
     public Statement parseStatement() {
         Statement statement = new Statement();
 
@@ -234,7 +236,7 @@ public class Parser {
 
 //  <loop-statement> ::= <while-loop> | <for-loop>
 //  <while-loop> ::= "while" "(" <expresion> ")" <block-statement>
-//  todo <for-loop> ::= "for" "(" <varDeclaration> ";" <expression> ";" <post-pre-fix>  ")" <block-statement>
+//  <for-loop> ::= "for" "(" <varDeclaration> ";" <expression> ";" <post-pre-fix>  ")" <block-statement>
     public Expression parseLoopStatement() {
         Expression loopStatement = new Expression();
 
@@ -467,11 +469,13 @@ public class Parser {
             Node first = getState(State.PLUS, State.MINUS);
             if (first != null) {
                 Node second = getState(State.PLUS, State.MINUS);
-                if (first.lexem.equals(second.lexem)) {
-                    postPreFix.isPrefix = false;
-                    postPreFix.identifier = identifier.lexem;
-                    postPreFix.operator = second.lexem;
-                    return postPreFix;
+                if (second!=null) {
+                    if (first.lexem.equals(second.lexem)) {
+                        postPreFix.isPrefix = false;
+                        postPreFix.identifier = identifier.lexem;
+                        postPreFix.operator = second.lexem;
+                        return postPreFix;
+                    }
                 }
             }
         }

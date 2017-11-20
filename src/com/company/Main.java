@@ -3,6 +3,7 @@ package com.company;
 import com.company.Nodes.Program;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -16,6 +17,12 @@ public class Main {
             System.out.println("\n");
 
             Program tree = parser.parseProgram();
+            PrintWriter writer = new PrintWriter("out.txt", "UTF-8");
+            if (tree != null) {
+                String file = tree.toString(0);
+                writer.print(file);
+            }
+            writer.close();
             if (tree != null)
                 System.out.println(tree.toString(0));
 

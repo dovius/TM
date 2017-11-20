@@ -50,7 +50,7 @@ int main(int a) {
 
 <while-loop> ::= "while" "(" <expresion> ")" <block-statement>
 
-<for-loop> ::= "for" "(" <varDeclaration> ";" <expression> ";" <post-pre-fix>  ")" <block-statement>
+    <for-loop> ::= "for" "(" <varDeclaration> ";" <expression> ";" <post-pre-fix>  ")" <block-statement>
 
 <post-pre-fix> ::= <identifier> <incrementDecrementOp>
 		| <incrementDecrementOp> <identifier>

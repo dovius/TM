@@ -47,7 +47,7 @@ public enum State {
   LOGIC_OP_AND("&&"),
   ASSIGN_OP_EQ("="),
   ERROR_UNKNOWN_SYMB("error"),
-  ERROR_NOT_CLOSED_COMMENT"error"),
+  ERROR_NOT_CLOSED_COMMENT("error"),
   ERROR_NOT_CLOSED_STRING("error");
 
   private String name;

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import static com.company.Parser.buildTabs;
 
 public class WhileStatement extends Node {
-    public ArrayList<Node> nodes;
 
     public WhileStatement(Expression expression, Block block) {
         nodes = new ArrayList<Node>();

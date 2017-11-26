@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import static com.company.Parser.buildTabs;
 
 public class ArrayDeclaration extends Node {
-    public ArrayList<Node> nodes = new ArrayList<>();
     public String typeSpecifier;
     public String size;
     public String identifier;

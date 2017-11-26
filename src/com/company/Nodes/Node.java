@@ -4,6 +4,8 @@ import com.company.Parser;
 import com.company.Scope;
 import com.company.State;
 
+import java.util.ArrayList;
+
 import static com.company.Parser.buildTabs;
 
 public class Node {
@@ -14,6 +16,9 @@ public class Node {
     public int savedCursor;
     public Node type;
     public Node name;
+    public Node target;
+    public String varType;
+    public ArrayList<Node> nodes = new ArrayList<>();
 
     public Node() {
         savedCursor = Parser.cursor;
@@ -55,13 +60,17 @@ public class Node {
 
     public void resolveNames( Scope scope ) throws Exception {
         if (state == State.IDENTIFIER) {
-            scope.lookup(this.lexem);
+            target = scope.lookup(this.lexem);
             return;
         }
         if (state == State.NUM_CONST) {
             return;
         }
         System.out.println( "Resolve names not implemented in: " + this.getClass() );
+    }
+
+    public void checkTypes() throws Exception {
+        System.out.println( "Check types not implement in: " + this.getClass() );
     }
 
     String toString(int offset) {

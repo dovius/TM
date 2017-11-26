@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import static com.company.Parser.buildTabs;
 
 public class PostPreFix extends Node {
-    public ArrayList<Node> nodes;
     public String operator;
     public String identifier;
     public boolean isPrefix;

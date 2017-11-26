@@ -5,7 +5,6 @@ import com.company.Scope;
 import java.util.ArrayList;
 
 public class ParameterDeclaration extends Node {
-    public ArrayList<Node> nodes = new ArrayList<>();
     public String typeSpecifier;
     public String indentifier;
 

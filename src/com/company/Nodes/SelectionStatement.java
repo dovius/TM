@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import static com.company.Parser.buildTabs;
 
 public class SelectionStatement extends Node {
-    public ArrayList<Node> nodes;
 
     public Node condition;
     public ArrayList<Node> ifNodes;

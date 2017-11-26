@@ -8,7 +8,6 @@ import static com.company.Parser.buildTabs;
 
 public class FunctionCall extends Node {
     public String name;
-    public ArrayList<Node> nodes = new ArrayList<>();
 
     public FunctionCall() {
     }

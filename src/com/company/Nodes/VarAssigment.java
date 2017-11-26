@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import static com.company.Parser.buildTabs;
 
 public class VarAssigment extends Node {
-    public ArrayList<Node> nodes;
     public String name;
     public String type;
     public String index;

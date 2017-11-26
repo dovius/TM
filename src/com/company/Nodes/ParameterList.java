@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import static com.company.Parser.buildTabs;
 
 public class ParameterList extends Node {
-    public ArrayList<Node> nodes = new ArrayList<>();
 
 
     public void addNode(Node statement) {

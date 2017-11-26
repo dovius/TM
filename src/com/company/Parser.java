@@ -640,7 +640,7 @@ public class Parser {
         if (typeSpecifier != null && identifier != null) {
             Node semicolumn = parseSemicolon();
             if (semicolumn != null) {
-                varDeclaration.type = typeSpecifier.lexem;
+                varDeclaration.varType = typeSpecifier.lexem;
                 varDeclaration.name = identifier.lexem;
                 return varDeclaration;
             }
@@ -650,7 +650,7 @@ public class Parser {
                 if (expression != null) {
                     semicolumn = parseSemicolon();
                     if (semicolumn != null) {
-                        varDeclaration.type = typeSpecifier.lexem;
+                        varDeclaration.varType = typeSpecifier.lexem;
                         varDeclaration.name = identifier.lexem;
                         varDeclaration.nodes.add(expression);
                         return varDeclaration;

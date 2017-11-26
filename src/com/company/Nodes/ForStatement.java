@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import static com.company.Parser.buildTabs;
 
 public class ForStatement extends Node {
-    public ArrayList<Node> nodes;
 
 //    <for-loop> ::= "for" "(" <varDeclaration> ";" <expression> ";" <post-pre-fix>  ")" <block-statement>
     public ForStatement() {

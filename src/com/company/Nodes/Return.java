@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import static com.company.Parser.buildTabs;
 
 public class Return extends Node {
-    public ArrayList<Node> nodes;
 
     public Return() {
         nodes = new ArrayList<Node>();

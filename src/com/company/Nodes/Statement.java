@@ -9,7 +9,6 @@ import static com.company.Parser.buildTabs;
 public class Statement extends Node {
     public Statement() {
     }
-    public ArrayList<Node> nodes = new ArrayList<>();
 
 
     public String toString(int offset) {

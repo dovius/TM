@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import static com.company.Parser.buildTabs;
 
 public class IOStatement extends Node {
-    public ArrayList<Node> nodes;
     public String identifier;
     public boolean isReadStatemnt;
 

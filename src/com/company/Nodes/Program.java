@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import static com.company.Parser.buildTabs;
 
 public class Program extends Node {
-    public ArrayList<Node> nodes;
 
     public Program() {
         nodes = new ArrayList<Node>();
@@ -36,5 +35,10 @@ public class Program extends Node {
         }
     }
 
-
+    @Override
+    public void checkTypes() throws Exception {
+        for (Node node : nodes) {
+            node.checkTypes();
+        }
+    }
 }

@@ -6,10 +6,12 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class Main {
+    public static boolean errorState;
+
     public static void main(String[] args) throws Exception {
 
         try {
-            Lexer lex = new Lexer("inputSimple.txt");
+            Lexer lex = new Lexer("inputSimple.c");
             lex.execute();
 
             Parser parser = new Parser(lex.getTokens());
@@ -21,8 +23,13 @@ public class Main {
             if (program != null) {
                 String file = program.toString(0);
 
+                //4.1 checking names
                 Scope scope = new Scope(null , "global");
                 program.resolveNames(scope);
+
+                //4.2 checking types
+                program.checkTypes();
+
 
                 writer.print(file);
                 writer.close();
@@ -42,11 +49,4 @@ public class Main {
     }
 
 
-    static String prefix(int level) {
-        StringBuilder s = new StringBuilder();
-        for (int i = 0; i < level; i++) {
-            s.append("  ");
-        }
-        return s.toString();
-    }
 }

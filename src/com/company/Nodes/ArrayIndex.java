@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import static com.company.Parser.buildTabs;
 
 public class ArrayIndex extends Node {
-    public ArrayList<Node> nodes;
     public String name;
 
     public ArrayIndex() {

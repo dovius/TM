@@ -1,5 +1,7 @@
 package com.company.Nodes;
 
+import com.company.Scope;
+
 import java.util.ArrayList;
 
 import static com.company.Parser.buildTabs;
@@ -29,6 +31,14 @@ public class VarDeclaration extends Node {
         }
         str += buildTabs(offset) + "</VarDeclaration>\n";
         return str;
+    }
+
+    public void resolveNames(Scope scope) throws Exception {
+        scope.addVar(name, this);
+        for (int i = 0; i < nodes.size(); ++i) {
+            nodes.get(i).resolveNames(scope);
+        }
+
     }
 
 }

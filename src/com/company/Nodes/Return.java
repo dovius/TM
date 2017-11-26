@@ -1,5 +1,7 @@
 package com.company.Nodes;
 
+import com.company.Scope;
+
 import java.util.ArrayList;
 
 import static com.company.Parser.buildTabs;
@@ -22,5 +24,13 @@ public class Return extends Node {
         }
         str += buildTabs(offset) + "</return> \n";
         return str;
+    }
+
+    public void resolveNames(Scope scope) throws Exception {
+        if (nodes!=null) {
+            for (int i = 0; i < nodes.size(); i++) {
+                nodes.get(i).resolveNames(scope);
+            }
+        }
     }
 }

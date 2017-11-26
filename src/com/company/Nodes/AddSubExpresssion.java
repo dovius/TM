@@ -1,5 +1,7 @@
 package com.company.Nodes;
 
+import com.company.Scope;
+
 import static com.company.Parser.buildTabs;
 
 public class AddSubExpresssion extends Expression {
@@ -26,6 +28,11 @@ public class AddSubExpresssion extends Expression {
         str += buildTabs(offset) + "</AddSubExpression> \n";
 
         return str;
+    }
+
+    public void resolveNames(Scope scope) throws Exception {
+        left.resolveNames(scope);
+        right.resolveNames(scope);
     }
 
 }

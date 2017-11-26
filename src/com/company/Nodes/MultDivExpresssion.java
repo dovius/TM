@@ -1,5 +1,7 @@
 package com.company.Nodes;
 
+import com.company.Scope;
+
 import java.util.ArrayList;
 
 import static com.company.Parser.buildTabs;
@@ -28,6 +30,11 @@ public class MultDivExpresssion extends Expression {
         str += buildTabs(offset) + "</MultDivExpression> \n";
 
         return str;
+    }
+
+    public void resolveNames(Scope scope) throws Exception {
+        left.resolveNames(scope);
+        right.resolveNames(scope);
     }
 
 }

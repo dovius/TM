@@ -1,5 +1,7 @@
 package com.company.Nodes;
 
+import com.company.Scope;
+
 import java.util.ArrayList;
 
 import static com.company.Parser.buildTabs;
@@ -21,5 +23,12 @@ public class ParameterList extends Node {
         }
         str += buildTabs(offset) + "</parameters-list>\n";
         return str;
+    }
+
+    public void resolveNames(Scope scope) throws Exception {
+        Scope FunctionParametersScope = new Scope(scope, "functionParameter");
+        for (int i = 0; i < nodes.size(); i++ ){
+            nodes.get(i).resolveNames(FunctionParametersScope);
+        }
     }
 }

@@ -1,5 +1,7 @@
 package com.company.Nodes;
 
+import com.company.Scope;
+
 import java.util.ArrayList;
 
 import static com.company.Parser.buildTabs;
@@ -34,5 +36,12 @@ public class FunctionCall extends Node {
         }
         str += buildTabs(offset) + "</FunctionCall> \n";
         return str;
+    }
+
+    public void resolveNames(Scope scope) throws Exception {
+        scope.lookup(name);
+        for (int i = 0; i < nodes.size(); ++i) {
+            nodes.get(i).resolveNames(scope);
+        }
     }
 }

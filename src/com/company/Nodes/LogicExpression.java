@@ -1,5 +1,7 @@
 package com.company.Nodes;
 
+import com.company.Scope;
+
 import static com.company.Parser.buildTabs;
 
 public class LogicExpression extends Expression {
@@ -25,5 +27,10 @@ public class LogicExpression extends Expression {
         str += buildTabs(offset+1) + "</right> \n";
         str += buildTabs(offset) + "</LogicExpression> \n";
         return str;
+    }
+
+    public void resolveNames(Scope scope) throws Exception {
+        left.resolveNames(scope);
+        right.resolveNames(scope);
     }
 }

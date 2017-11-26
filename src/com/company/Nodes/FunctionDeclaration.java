@@ -1,5 +1,7 @@
 package com.company.Nodes;
 
+import com.company.Scope;
+
 import java.util.ArrayList;
 
 import static com.company.Parser.buildTabs;
@@ -11,17 +13,24 @@ public class FunctionDeclaration extends Node {
     public String typeSpecifier;
     public String indentifier;
 
-    public void addNode (Node statement) {
+    public void addNode(Node statement) {
         nodes.add(statement);
     }
 
     public String toString(int offset) {
         String str = buildTabs(offset) + "<function-declaration> \n";
         for (int i = 0; i < nodes.size(); ++i) {
-            str += nodes.get(i).toString(offset + 1 );
+            str += nodes.get(i).toString(offset + 1);
         }
         str += buildTabs(offset) + "</function-declaration>\n";
         return str;
+    }
+
+    public void resolveNames(Scope scope) throws Exception {
+        scope.addVar(((Function) nodes.get(0)).name.lexem, nodes.get(0));
+        for (int i = 1; i < nodes.size(); i++ ){
+            nodes.get(i).resolveNames(scope);
+        }
     }
 
     public String getTypeSpecifier() {

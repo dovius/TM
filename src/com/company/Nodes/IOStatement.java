@@ -1,5 +1,7 @@
 package com.company.Nodes;
 
+import com.company.Scope;
+
 import java.util.ArrayList;
 
 import static com.company.Parser.buildTabs;
@@ -13,7 +15,7 @@ public class IOStatement extends Node {
         nodes = new ArrayList<Node>();
     }
 
-    public void addNode (Node statement) {
+    public void addNode(Node statement) {
         nodes.add(statement);
     }
 
@@ -21,9 +23,9 @@ public class IOStatement extends Node {
         String str;
         if (isReadStatemnt) {
             str = buildTabs(offset) + "<read> \n";
-            str += buildTabs(offset+1) + "Name : " + identifier + "\n";
+            str += buildTabs(offset + 1) + "Name : " + identifier + "\n";
             str += buildTabs(offset) + "</read>\n";
-        }else  {
+        } else {
             str = buildTabs(offset) + "<write> \n";
             for (int i = 0; i < nodes.size(); ++i) {
                 str += nodes.get(i).toString(offset + 1);
@@ -31,6 +33,17 @@ public class IOStatement extends Node {
             str += buildTabs(offset) + "</write>\n";
         }
         return str;
+    }
+
+    public void resolveNames(Scope scope) throws Exception {
+        if (!isReadStatemnt) {
+            for (int i = 0; i < nodes.size(); ++i) {
+                nodes.get(i).resolveNames(scope);
+            }
+        }
+        else {
+            scope.lookup(identifier);
+        }
     }
 
 }

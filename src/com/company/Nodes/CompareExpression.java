@@ -1,5 +1,7 @@
 package com.company.Nodes;
 
+import com.company.Scope;
+
 import static com.company.Parser.buildTabs;
 
 public class CompareExpression extends Expression {
@@ -26,5 +28,10 @@ public class CompareExpression extends Expression {
         str += buildTabs(offset) + "</CompareExpression> \n";
 
         return str;
+    }
+
+    public void resolveNames(Scope scope) throws Exception {
+        left.resolveNames(scope);
+        right.resolveNames(scope);
     }
 }

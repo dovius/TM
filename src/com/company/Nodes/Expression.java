@@ -1,5 +1,7 @@
 package com.company.Nodes;
 
+import com.company.Scope;
+
 import java.util.ArrayList;
 
 public class Expression extends Node {
@@ -13,6 +15,14 @@ public class Expression extends Node {
             string += node.toString(offset);
         }
         return string;
+    }
 
+    public void resolveNames(Scope scope) throws Exception {
+        if (nodes == null ){
+            System.out.println("sth strange...");
+        }
+        for (int i = 0; i < nodes.size(); ++i) {
+            nodes.get(i).resolveNames(scope);
+        }
     }
 }

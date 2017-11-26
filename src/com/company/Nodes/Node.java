@@ -1,6 +1,7 @@
 package com.company.Nodes;
 
 import com.company.Parser;
+import com.company.Scope;
 import com.company.State;
 
 import static com.company.Parser.buildTabs;
@@ -11,6 +12,8 @@ public class Node {
     public String lexem;
     public String string = "";
     public int savedCursor;
+    public Node type;
+    public Node name;
 
     public Node() {
         savedCursor = Parser.cursor;
@@ -50,7 +53,34 @@ public class Node {
         return null;
     }
 
+    public void resolveNames( Scope scope ) throws Exception {
+        if (state == State.IDENTIFIER) {
+            scope.lookup(this.lexem);
+            return;
+        }
+        if (state == State.NUM_CONST) {
+            return;
+        }
+        System.out.println( "Resolve names not implemented in: " + this.getClass() );
+    }
+
     String toString(int offset) {
         return buildTabs(offset) + string ;
+    }
+
+    public Node getType() {
+        return type;
+    }
+
+    public void setType(Node type) {
+        this.type = type;
+    }
+
+    public Node getName() {
+        return name;
+    }
+
+    public void setName(Node name) {
+        this.name = name;
     }
 }

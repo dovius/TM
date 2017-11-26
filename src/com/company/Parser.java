@@ -54,6 +54,16 @@ public class Parser {
                             }
                         }
                     }
+                    Node RBracket = parseRBracket();
+                    if (RBracket != null) {
+                        Node block = parseBlock();
+                        if (block != null) {
+                            functionDeclaration.addNode(new Function(typeSpeficier, identifier));
+                            functionDeclaration.addNode(block);
+                            return functionDeclaration;
+                        }
+                    }
+
                 }
             }
         }

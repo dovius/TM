@@ -19,7 +19,7 @@ public class VarDeclaration extends Node {
 
     public String toString(int offset) {
         String str = buildTabs(offset) + "<VarDeclaration> \n";
-        str += buildTabs(offset+1) + "Type: " + varType + " Name: " + varType + "\n";
+        str += buildTabs(offset+1) + "Type: " + varType + " Name: " + name + "\n";
         if (nodes.size() > 0) {
             str += buildTabs(offset + 1) + "<value>\n";
             for (int i = 0; i < nodes.size(); ++i) {
@@ -35,6 +35,18 @@ public class VarDeclaration extends Node {
         scope.addVar(name, this);
         for (int i = 0; i < nodes.size(); ++i) {
             nodes.get(i).resolveNames(scope);
+        }
+
+
+
+    }
+
+    public void checkTypes() throws Exception {
+        for (Node node : nodes) {
+            node.checkTypes();
+        }
+        if (!cmpTypes(varType, nodes)) {
+            throw new Exception("bad types in var assignment");
         }
 
     }

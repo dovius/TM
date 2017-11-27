@@ -37,4 +37,16 @@ public class MultDivExpresssion extends Expression {
         right.resolveNames(scope);
     }
 
+    @Override
+    public void checkTypes() throws Exception {
+        //if same
+        left.checkTypes();
+        right.checkTypes();
+        if (left.varType.equals(right.varType)) {
+            varType = left.varType;
+        }
+        else {
+            throw new Exception("bad types in mulDiv sentence");
+        }
+    }
 }

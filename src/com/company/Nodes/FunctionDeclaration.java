@@ -44,9 +44,10 @@ public class FunctionDeclaration extends Node {
         if (returnStm == null) {
             throw new Exception("Error:  return not found");
         }
-        else if (target != null && !target.varType.equals(((Function) nodes.get(0)).type.lexem)) {
-            throw new Exception("Error:  bad return type");
-        }
+        //TODO fix numbers
+//        else if (target != null && !target.varType.equals(((Function) nodes.get(0)).type.lexem)) {
+//            throw new Exception("Error:  bad return type");
+//        }
 
         if (((Function) nodes.get(0)).name.lexem != null && ((Function) nodes.get(0)).name.lexem.equals("main")){
             if (nodes.size() == 3) {

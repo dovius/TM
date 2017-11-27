@@ -38,10 +38,20 @@ public class VarAssigment extends Node {
     }
 
     public void resolveNames(Scope scope) throws Exception {
-        scope.lookup(name);
+        target = scope.lookup(name);
         for (int i = 0; i < nodes.size(); ++i) {
             nodes.get(i).resolveNames(scope);
         }
+    }
+
+    public void checkTypes() throws Exception {
+        for (Node node : nodes) {
+            node.checkTypes();
+        }
+        if (!cmpTypes(target.varType, nodes)) {
+            throw new Exception("bad types in var assignment");
+        }
+
     }
 
 }

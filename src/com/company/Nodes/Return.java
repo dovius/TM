@@ -32,4 +32,11 @@ public class Return extends Node {
             }
         }
     }
+
+    @Override
+    public void checkTypes() throws Exception {
+        for (Node node : nodes) {
+            node.checkTypes();
+        }
+    }
 }

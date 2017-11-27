@@ -24,4 +24,15 @@ public class Expression extends Node {
             nodes.get(i).resolveNames(scope);
         }
     }
+
+    @Override
+    public void checkTypes() throws Exception {
+        for (Node node : nodes) {
+            node.checkTypes();
+        }
+        varType = nodes.get(0).varType;
+
+
+
+    }
 }

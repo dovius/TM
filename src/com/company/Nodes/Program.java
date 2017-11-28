@@ -1,6 +1,6 @@
 package com.company.Nodes;
 
-import com.company.Scope;
+import com.company.*;
 
 import java.util.ArrayList;
 
@@ -11,6 +11,8 @@ public class Program extends Node {
     public Program() {
         nodes = new ArrayList<Node>();
     }
+    public Label mainLabel;
+
 
     public void addNode(Node statement) {
         nodes.add(statement);
@@ -39,6 +41,30 @@ public class Program extends Node {
     public void checkTypes() throws Exception {
         for (Node node : nodes) {
             node.checkTypes();
+        }
+    }
+
+    public void run( IntermediateRepresentation rep ) throws Exception {
+        this.mainLabel = rep.newLabel();
+        Instruction mainInstr = new Instruction();
+        mainInstr.instructionNumber = Instructions.I_CALL;
+        mainInstr.args.add( String.valueOf( 0 ) );
+        mainInstr.label = this.mainLabel;
+        rep.addInstr( mainInstr );
+
+        Instruction exitInstr = new Instruction();
+        exitInstr.instructionNumber = Instructions.I_EXIT;
+        rep.addInstr( exitInstr );
+        for( int i = 0; i < nodes.size(); i++ ) {
+            //todo move to other place parent???
+            nodes.get(i).parent = this;
+            nodes.get( i ).run( rep );
+        }
+    }
+
+    public void allocateSlots() {
+        for( int i = 0; i < nodes.size(); i++ ) {
+            nodes.get( i ).allocateSlots();
         }
     }
 }

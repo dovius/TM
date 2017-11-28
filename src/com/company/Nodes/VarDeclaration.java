@@ -1,6 +1,6 @@
 package com.company.Nodes;
 
-import com.company.Scope;
+import com.company.*;
 
 import java.util.ArrayList;
 
@@ -8,6 +8,7 @@ import static com.company.Parser.buildTabs;
 
 public class VarDeclaration extends Node {
     public String name;
+    public int localSlot;
 
     public VarDeclaration() {
         nodes = new ArrayList<Node>();
@@ -36,9 +37,6 @@ public class VarDeclaration extends Node {
         for (int i = 0; i < nodes.size(); ++i) {
             nodes.get(i).resolveNames(scope);
         }
-
-
-
     }
 
     public void checkTypes() throws Exception {
@@ -48,7 +46,20 @@ public class VarDeclaration extends Node {
         if (!cmpTypes(varType, nodes)) {
             throw new Exception("bad types in var assignment");
         }
-
     }
 
+    public void allocateSlots() {
+        this.localSlot  = Main.localSlot;
+        Main.localSlot += 1;
+    }
+
+    public void run( IntermediateRepresentation rep  ) throws Exception {
+        nodes.get(0).run( rep );
+        Instruction instr = new Instruction();
+        instr.instructionNumber = Instructions.I_SET;
+        instr.args.add( String.valueOf( localSlot ) );
+        instr.args.add( "=" );
+        instr.args.add( "( " + name + " )" );
+        rep.addInstr( instr );
+    }
 }

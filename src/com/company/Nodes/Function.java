@@ -8,6 +8,8 @@ public class Function extends Variable {
         setType(type);
     }
 
+    public void allocateSlots() { }
+
     @Override
     public void checkTypes() throws Exception {
         if (name.lexem != null && name.lexem.equals("main")) {

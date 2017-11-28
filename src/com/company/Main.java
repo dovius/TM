@@ -7,6 +7,8 @@ import java.io.PrintWriter;
 
 public class Main {
     public static boolean errorState;
+    public static int localSlot = 0;
+    public static int globalSlot = 0;
 
     public static void main(String[] args) throws Exception {
 
@@ -24,11 +26,26 @@ public class Main {
                 String file = program.toString(0);
 
                 //4.1 checking names
+                //todo post/pre-fix, loop, if
                 Scope scope = new Scope(null , "global");
                 program.resolveNames(scope);
 
                 //4.2 checking types
+                //todo arrays, post/pre-fix, loop, if
                 program.checkTypes();
+
+
+                //4.3 find parents
+
+                program.allocateSlots();
+
+
+                //4.4
+                IntermediateRepresentation rep = new IntermediateRepresentation();
+                program.run(rep);
+                rep.print();
+
+
 
 
                 writer.print(file);

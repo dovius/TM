@@ -1,5 +1,6 @@
 package com.company.Nodes;
 
+import com.company.IntermediateRepresentation;
 import com.company.Scope;
 
 import java.util.ArrayList;
@@ -30,6 +31,18 @@ public class Statement extends Node {
     public void checkTypes() throws Exception {
         for (Node node : nodes) {
             node.checkTypes();
+        }
+    }
+
+    public void allocateSlots() {
+        for (Node node : nodes) {
+            node.allocateSlots();
+        }
+    }
+
+    public void run(IntermediateRepresentation rep) throws Exception {
+        for (Node node : nodes) {
+            node.run(rep);
         }
     }
 }

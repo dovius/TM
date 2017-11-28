@@ -1,6 +1,6 @@
 package com.company.Nodes;
 
-import com.company.Scope;
+import com.company.*;
 
 import java.util.ArrayList;
 
@@ -22,9 +22,14 @@ public class Block extends Node {
 
 
     public void resolveNames(Scope scope) throws Exception {
-        Scope innerFunctionScope = new Scope(scope, "innerFunctionScope");
         for (int i = 0; i < nodes.size(); ++i) {
-            nodes.get(i).resolveNames(innerFunctionScope);
+            nodes.get(i).resolveNames(scope);
+        }
+    }
+
+    public void allocateSlots() {
+        for (Node node : nodes) {
+            node.allocateSlots();
         }
     }
 
@@ -35,5 +40,12 @@ public class Block extends Node {
         }
 
     }
+
+    public void run(IntermediateRepresentation rep) throws Exception {
+        for (Node node : nodes) {
+            node.run(rep);
+        }
+    }
+
 
 }

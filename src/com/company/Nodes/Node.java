@@ -1,8 +1,6 @@
 package com.company.Nodes;
 
-import com.company.Parser;
-import com.company.Scope;
-import com.company.State;
+import com.company.*;
 
 import java.util.ArrayList;
 
@@ -17,7 +15,10 @@ public class Node {
     public Node type;
     public Node name;
     public Node target;
+    public Node parent;
+
     public String varType;
+    public String value;
     public ArrayList<Node> nodes = new ArrayList<>();
 
     public Node() {
@@ -83,6 +84,52 @@ public class Node {
             return;
         }
         System.out.println( "Check types not implement in: " + this.getClass() );
+    }
+
+    public void run( IntermediateRepresentation rep ) throws Exception {
+        Instruction instr = new Instruction();
+        if( state == State.STRING ) {
+            instr.instructionNumber = Instructions.I_PUSH_STRING;
+            value = lexem;
+            instr.args.add( lexem );
+            rep.addInstr( instr );
+        } else if( state == State.NUM_CONST) {
+            instr.instructionNumber = Instructions.I_PUSH_INT;
+            value = lexem;
+            instr.args.add( lexem );
+            rep.addInstr( instr );
+        } else if (state == State.IDENTIFIER){
+            instr.instructionNumber = Instructions.I_GET;
+            if( this.target instanceof VarDeclaration ) {
+                VarDeclaration declTarget = ( VarDeclaration ) target;
+                instr.args.add( String.valueOf( declTarget.localSlot ) );
+                instr.args.add( "( " + String.valueOf( declTarget.name + " )" ) );
+                value = declTarget.name;
+            } else if( this.target instanceof Parameter ) {
+                Parameter paramTarget = ( Parameter ) target;
+                instr.args.add( String.valueOf( paramTarget.parent.localSlot ) );
+                instr.args.add( "( " + String.valueOf( paramTarget.name.lexem + " )" ) );
+                value = paramTarget.name.lexem;
+            } else {
+                System.out.println( "Unhandled error in varExp run " );
+            }
+            rep.addInstr( instr );
+
+        }
+        else {
+
+            System.out.println( "Run not implement in: " + this.getClass() );
+        }
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+
+    public void allocateSlots() {
+//        System.out.println( "Allocate slots not implement in: " + this.getClass() );
+
     }
 
     public boolean cmpTypes(String type, ArrayList<Node> nodes) {

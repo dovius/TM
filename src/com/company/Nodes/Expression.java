@@ -1,5 +1,6 @@
 package com.company.Nodes;
 
+import com.company.IntermediateRepresentation;
 import com.company.Scope;
 
 import java.util.ArrayList;
@@ -30,9 +31,28 @@ public class Expression extends Node {
         for (Node node : nodes) {
             node.checkTypes();
         }
-        varType = nodes.get(0).varType;
+        if (nodes!= null && nodes.size() != 0) {
+            varType = nodes.get(0).varType;
+        }
 
 
 
     }
+
+    public void allocateSlots() {
+        for (Node node : nodes) {
+            node.allocateSlots();
+        }
+    }
+
+    public void run(IntermediateRepresentation rep) throws Exception {
+        for (Node node : nodes) {
+            node.run(rep);
+        }
+    }
+
+    public String getValue() {
+        return nodes.get(0).getValue();
+    }
+
 }

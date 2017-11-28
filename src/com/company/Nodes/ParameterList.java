@@ -1,5 +1,6 @@
 package com.company.Nodes;
 
+import com.company.Main;
 import com.company.Scope;
 
 import java.util.ArrayList;
@@ -7,6 +8,7 @@ import java.util.ArrayList;
 import static com.company.Parser.buildTabs;
 
 public class ParameterList extends Node {
+    public int localSlot;
 
 
     public void addNode(Node statement) {
@@ -25,9 +27,17 @@ public class ParameterList extends Node {
     }
 
     public void resolveNames(Scope scope) throws Exception {
-        Scope FunctionParametersScope = new Scope(scope, "functionParameter");
         for (int i = 0; i < nodes.size(); i++ ){
-            nodes.get(i).resolveNames(FunctionParametersScope);
+            nodes.get(i).resolveNames(scope);
+        }
+    }
+
+    public void checkTypes() {
+    }
+
+    public void allocateSlots() {
+        for( int i = 0; i < nodes.size(); i++ ) {
+            nodes.get( i ).allocateSlots();
         }
     }
 }

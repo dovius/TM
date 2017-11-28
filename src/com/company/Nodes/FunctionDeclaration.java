@@ -1,6 +1,6 @@
 package com.company.Nodes;
 
-import com.company.Scope;
+import com.company.*;
 
 import java.util.ArrayList;
 
@@ -11,6 +11,10 @@ import static com.company.Parser.buildTabs;
 public class FunctionDeclaration extends Node {
     public String typeSpecifier;
     public String indentifier;
+    public int globalSlot;
+    public int numSlots;
+    public int codeOffset;
+
 
     public void addNode(Node statement) {
         nodes.add(statement);
@@ -26,9 +30,12 @@ public class FunctionDeclaration extends Node {
     }
 
     public void resolveNames(Scope scope) throws Exception {
-        scope.addVar(((Function) nodes.get(0)).name.lexem, nodes.get(0));
-        for (int i = 1; i < nodes.size(); i++ ){
-            nodes.get(i).resolveNames(scope);
+        //todo parent? not this
+        scope.addVar(indentifier, this);
+        Scope innerFunctionScope = new Scope(scope, indentifier + "FunctionScope");
+
+        for (int i = 1; i < nodes.size(); i++) {
+            nodes.get(i).resolveNames(innerFunctionScope);
         }
     }
 
@@ -39,17 +46,17 @@ public class FunctionDeclaration extends Node {
         }
 
         Return returnStm = (Return) findReturn(nodes.get(nodes.size() - 1), ((Function) nodes.get(0)).type.lexem);
-        Node target = findTarget(returnStm);
-
         if (returnStm == null) {
             throw new Exception("Error:  return not found");
         }
-        //TODO fix numbers
-//        else if (target != null && !target.varType.equals(((Function) nodes.get(0)).type.lexem)) {
-//            throw new Exception("Error:  bad return type");
-//        }
+        Node target = findTarget(returnStm);
 
-        if (((Function) nodes.get(0)).name.lexem != null && ((Function) nodes.get(0)).name.lexem.equals("main")){
+        //TODO fix numbers
+        if (target != null && !target.varType.equals(((Function) nodes.get(0)).type.lexem)) {
+            throw new Exception("Error:  bad return type");
+        }
+
+        if (((Function) nodes.get(0)).name.lexem != null && ((Function) nodes.get(0)).name.lexem.equals("main")) {
             if (nodes.size() == 3) {
                 throw new Exception("Error:  invalid number of parameters in main function!");
             }
@@ -64,7 +71,7 @@ public class FunctionDeclaration extends Node {
         if (nodes != null) {
             for (Node node : start.nodes) {
                 Node targetNode = findTarget(node);
-                if (targetNode  != null) {
+                if (targetNode != null) {
                     return targetNode;
                 }
             }
@@ -81,13 +88,44 @@ public class FunctionDeclaration extends Node {
         if (nodes != null) {
             for (Node node : start.nodes) {
                 Node returnNode = findReturn(node, type);
-                if (returnNode  != null) {
+                if (returnNode != null) {
                     return returnNode;
                 }
             }
         }
 
         return null;
+    }
+
+    public void allocateSlots() {
+        this.globalSlot = Main.globalSlot;
+        Main.globalSlot += 1;
+        Main.localSlot   = 0;
+
+        for (Node node : nodes) {
+            node.allocateSlots();
+        }
+//        for( int i = 0; i < params.size(); i++ ) {
+//            params.get( i ).allocateSlots();
+//        }
+//        for( int i = 0; i < body.size(); i++ ) {
+//            body.get( i ).allocateSlots();
+//        }
+        this.numSlots = Main.localSlot;
+    }
+
+    public void run(IntermediateRepresentation rep) throws Exception {
+        if (indentifier.equals("main")) {
+            rep.placeLabel(((Program) parent).mainLabel);
+        }
+
+        rep.addGlobal(this.globalSlot);
+        this.codeOffset = rep.offset();
+        Instruction instr = new Instruction();
+        instr.instructionNumber = Instructions.I_LOCAL_ALLOC;
+        instr.args.add(String.valueOf(numSlots));
+        rep.addInstr(instr);
+        nodes.get(nodes.size() - 1).run(rep);
     }
 
     public String getTypeSpecifier() {

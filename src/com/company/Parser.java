@@ -22,7 +22,7 @@ public class Parser {
             program.addNode(functionDeclaration);
             do {
                 functionDeclaration = parseFunctionDeclaration();
-                if (functionDeclaration!= null) {
+                if (functionDeclaration != null) {
                     program.nodes.add(functionDeclaration);
                 }
             } while (functionDeclaration != null);
@@ -50,6 +50,9 @@ public class Parser {
                                 functionDeclaration.addNode(new Function(typeSpeficier, identifier));
                                 functionDeclaration.addNode(parameterList);
                                 functionDeclaration.addNode(block);
+                                functionDeclaration.varType = typeSpeficier.lexem;
+                                functionDeclaration.indentifier = identifier.lexem;
+
                                 return functionDeclaration;
                             }
                         }
@@ -60,6 +63,8 @@ public class Parser {
                         if (block != null) {
                             functionDeclaration.addNode(new Function(typeSpeficier, identifier));
                             functionDeclaration.addNode(block);
+                            functionDeclaration.varType = typeSpeficier.lexem;
+                            functionDeclaration.indentifier = identifier.lexem;
                             return functionDeclaration;
                         }
                     }
@@ -135,7 +140,7 @@ public class Parser {
         Node typeSpeficier = parseTypeSpecifier();
         if (typeSpeficier != null) {
             Node identifier = parseIdentifier();
-            parameterDeclaration.nodes.add(new Parameter(typeSpeficier, identifier));
+            parameterDeclaration.nodes.add(new Parameter(typeSpeficier, identifier, parameterDeclaration));
             return parameterDeclaration;
         }
         return (ParameterDeclaration) parameterDeclaration.backtrack();
@@ -244,7 +249,7 @@ public class Parser {
         return (SelectionStatement) selectionStatement.backtrack();
     }
 
-//  <loop-statement> ::= <while-loop> | <for-loop>
+    //  <loop-statement> ::= <while-loop> | <for-loop>
 //  <while-loop> ::= "while" "(" <expresion> ")" <block-statement>
 //  <for-loop> ::= "for" "(" <varDeclaration> ";" <expression> ";" <post-pre-fix>  ")" <block-statement>
     public Expression parseLoopStatement() {
@@ -256,8 +261,8 @@ public class Parser {
             Expression expression = parseExpression();
             Node rBracket = parseRBracket();
             Block block = parseBlock();
-            if (expression!=null && rBracket!=null && block!=null) {
-                loopStatement.nodes.add(new WhileStatement(expression,block));
+            if (expression != null && rBracket != null && block != null) {
+                loopStatement.nodes.add(new WhileStatement(expression, block));
                 return loopStatement;
             }
         }
@@ -272,8 +277,8 @@ public class Parser {
             PostPreFix postPreFix = parsePostPrefix();
             Node rBracket = parseRBracket();
             Block block = parseBlock();
-            if (lBracket!= null && varDeclaration != null && expression!= null && semicolumn!=null && postPreFix!= null
-                    && rBracket !=null && block!=null) {
+            if (lBracket != null && varDeclaration != null && expression != null && semicolumn != null && postPreFix != null
+                    && rBracket != null && block != null) {
                 ForStatement forStatement = new ForStatement();
                 forStatement.nodes.add(varDeclaration);
                 forStatement.nodes.add(expression);
@@ -349,8 +354,8 @@ public class Parser {
                 Expression recExpression1 = parseExpression1();
                 if (recExpression1 != null) {
                     expression1.nodes.add(new CompareExpression(compareNode.state.toString(), expression2, recExpression1));
-                return expression1;
-            }
+                    return expression1;
+                }
                 cursor--;
             }
         }
@@ -405,7 +410,7 @@ public class Parser {
         return (Expression) expression3.backtrack();
     }
 
-//    <expr-4> ::= <identifier>
+    //    <expr-4> ::= <identifier>
 //            | <pre-post-fix>
 //            | <int>
 //            | "(" <expresion> ")"
@@ -482,7 +487,7 @@ public class Parser {
             Node first = getState(State.PLUS, State.MINUS);
             if (first != null) {
                 Node second = getState(State.PLUS, State.MINUS);
-                if (second!=null) {
+                if (second != null) {
                     if (first.lexem.equals(second.lexem)) {
                         postPreFix.isPrefix = false;
                         postPreFix.identifier = identifier.lexem;
@@ -516,6 +521,18 @@ public class Parser {
 //              | <ioStmt>
     public Expression parseSimpleStatement() {
         Expression simpleStatement = new Expression();
+
+        ArrayDeclaration arrayDeclaration = parseArrayDeclaration();
+        if (arrayDeclaration != null) {
+            Node cln = parseState(State.SEMI_CLN);
+            if (cln != null) {
+                simpleStatement.nodes.add(arrayDeclaration);
+                return simpleStatement;
+            }
+            else {
+                arrayDeclaration.backtrack();
+            }
+        }
 
         VarDeclaration varDeclaration = parseVarDeclaration();
         if (varDeclaration != null) {

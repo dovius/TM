@@ -1,5 +1,8 @@
 package com.company.Nodes;
 
+import com.company.Instruction;
+import com.company.Instructions;
+import com.company.IntermediateRepresentation;
 import com.company.Scope;
 
 import java.util.ArrayList;
@@ -21,12 +24,12 @@ public class MultDivExpresssion extends Expression {
 
         String str = buildTabs(offset) + "<MultDivExpression> \n";
         str += buildTabs(offset + 1) + "Operator: " + operation + "\n";
-        str += buildTabs(offset+1) + "<left> \n";
-        str += left.toString(offset+2);
-        str += buildTabs(offset+1) + "</left>\n";
-        str += buildTabs(offset+1) + "<right> \n";
-        str += right.toString(offset+2);
-        str += buildTabs(offset+1) + "</right> \n";
+        str += buildTabs(offset + 1) + "<left> \n";
+        str += left.toString(offset + 2);
+        str += buildTabs(offset + 1) + "</left>\n";
+        str += buildTabs(offset + 1) + "<right> \n";
+        str += right.toString(offset + 2);
+        str += buildTabs(offset + 1) + "</right> \n";
         str += buildTabs(offset) + "</MultDivExpression> \n";
 
         return str;
@@ -44,9 +47,27 @@ public class MultDivExpresssion extends Expression {
         right.checkTypes();
         if (left.varType.equals(right.varType)) {
             varType = left.varType;
-        }
-        else {
+        } else {
             throw new Exception("bad types in mulDiv sentence");
         }
+    }
+
+    public String getValue() {
+        return left.getValue() + " " + right.getValue();
+    }
+
+
+    public void run(IntermediateRepresentation rep) throws Exception {
+        right.run(rep);
+        left.run(rep);
+        Instruction instr = new Instruction();
+        if (operation.equals("*")) {
+            instr.instructionNumber = Instructions.I_MUL;
+        } else {
+            instr.instructionNumber = Instructions.I_DIV;
+        }
+        instr.args.add(left.getValue());
+        instr.args.add(right.getValue());
+        rep.addInstr(instr);
     }
 }

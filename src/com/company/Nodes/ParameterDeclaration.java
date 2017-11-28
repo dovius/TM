@@ -1,5 +1,6 @@
 package com.company.Nodes;
 
+import com.company.Main;
 import com.company.Scope;
 
 import java.util.ArrayList;
@@ -7,6 +8,7 @@ import java.util.ArrayList;
 public class ParameterDeclaration extends Node {
     public String typeSpecifier;
     public String indentifier;
+    public int localSlot;
 
     public void addNode (Node statement) {
         nodes.add(statement);
@@ -25,5 +27,10 @@ public class ParameterDeclaration extends Node {
         for (int i = 1; i < nodes.size(); i++ ){
             nodes.get(i).resolveNames(scope);
         }
+    }
+
+    public void allocateSlots() {
+        this.localSlot  = Main.localSlot;
+        Main.localSlot += 1;
     }
 }

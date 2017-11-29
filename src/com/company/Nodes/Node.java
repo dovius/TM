@@ -105,15 +105,17 @@ public class Node {
                 instr.args.add( String.valueOf( declTarget.localSlot ) );
                 instr.args.add( "( " + String.valueOf( declTarget.name + " )" ) );
                 value = declTarget.name;
+                rep.addInstr( instr );
             } else if( this.target instanceof Parameter ) {
                 Parameter paramTarget = ( Parameter ) target;
                 instr.args.add( String.valueOf( paramTarget.parent.localSlot ) );
                 instr.args.add( "( " + String.valueOf( paramTarget.name.lexem + " )" ) );
                 value = paramTarget.name.lexem;
+                rep.addInstr( instr );
             } else {
                 System.out.println( "Unhandled error in varExp run " );
+                throw new Exception("Unexpected variable " + this.lexem);
             }
-            rep.addInstr( instr );
 
         }
         else {

@@ -140,7 +140,9 @@ public class Parser {
         Node typeSpeficier = parseTypeSpecifier();
         if (typeSpeficier != null) {
             Node identifier = parseIdentifier();
-            parameterDeclaration.nodes.add(new Parameter(typeSpeficier, identifier, parameterDeclaration));
+            Parameter parameter = new Parameter(typeSpeficier, identifier, parameterDeclaration);
+            parameterDeclaration.nodes.add(parameter);
+            parameterDeclaration.varType = parameter.varType;
             return parameterDeclaration;
         }
         return (ParameterDeclaration) parameterDeclaration.backtrack();

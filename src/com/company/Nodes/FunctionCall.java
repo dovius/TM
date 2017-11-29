@@ -1,6 +1,6 @@
 package com.company.Nodes;
 
-import com.company.Scope;
+import com.company.*;
 
 import java.util.ArrayList;
 
@@ -38,9 +38,57 @@ public class FunctionCall extends Node {
     }
 
     public void resolveNames(Scope scope) throws Exception {
-        scope.lookup(name);
+        target = scope.lookup(name);
         for (int i = 0; i < nodes.size(); ++i) {
             nodes.get(i).resolveNames(scope);
         }
+    }
+
+    @Override
+    public void checkTypes() throws Exception {
+        for (Node node : nodes) {
+            node.checkTypes();
+        }
+
+        varType = target.varType;
+        ArrayList<String> argsTypes = new ArrayList<>();
+
+
+        if (nodes != null && nodes.size() > 0) {
+            for (Node node : nodes.get(0).nodes) {
+                if (node.varType != null) {
+                    argsTypes.add(node.varType);
+                } else {
+                    System.out.println("Error in checking function call parameters types");
+                }
+            }
+            if (target.nodes.size() == 2) {
+                throw new Exception(name + " function must have no arguments");
+            }
+            int i = 0;
+            for (Node paramNode : target.nodes.get(1).nodes) {
+                if (!paramNode.varType.equals(argsTypes.get(i))) {
+                    throw new Exception(name + " function expected " + paramNode.varType + " type, but got " + argsTypes.get(i) + " instead");
+                }
+                i++;
+            }
+        }
+    }
+
+    public String getValue() {
+        return target.getValue();
+    }
+
+
+    public void run(IntermediateRepresentation rep) throws Exception {
+        for (Node node : nodes) {
+            node.run(rep);
+        }
+        Instruction instr = new Instruction();
+        instr.instructionNumber = Instructions.I_CALL;
+        instr.label = new Label();
+        instr.label.position = ((FunctionDeclaration) this.target).codeOffset;
+        instr.args.add(String.valueOf(this.nodes.get(0).nodes.size()));
+        rep.addInstr(instr);
     }
 }

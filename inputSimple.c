@@ -1,15 +1,13 @@
-int lol(int gg, int bb) {
-    int a = gg;
-    return a;
-}
-
-int kazkoka(int b) {
-    return 0;
+int ss(int a, int b) {
+    int cc = a;
+    int cr = b;
+    return cc + cr;
 }
 
 int main() {
-    int v = 1;
-    int b = lol(2, kazkoka(1));
+    int a = 1;
+    int b = 3;
+    int c = ss(a, b);
     return 4;
 }
 

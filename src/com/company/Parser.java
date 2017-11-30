@@ -192,6 +192,14 @@ public class Parser {
             return statement;
         }
 
+        FunctionCall functionCall = parseFunctionCall();
+        if (functionCall != null && getState(State.SEMI_CLN) != null) {
+            functionCall.isStetement = true;
+            statement.nodes.add(functionCall);
+            return statement;
+        }
+        statement.backtrack();
+
         Node simpleStatement = parseSimpleStatement();
         if (simpleStatement != null) {
             statement.nodes.add(simpleStatement);
@@ -307,6 +315,7 @@ public class Parser {
     }
 
 
+    //todo remove empty return;
     //    <return-statement> ::= 'return' <expresion> ";" | 'return'
     public Return parseReturnStatement() {
         Return returnStatement = new Return();

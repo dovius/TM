@@ -8,6 +8,7 @@ import static com.company.Parser.buildTabs;
 
 public class FunctionCall extends Node {
     public String name;
+    public boolean isStetement = false;
 
     public FunctionCall() {
     }
@@ -23,8 +24,12 @@ public class FunctionCall extends Node {
 
     @Override
     public String toString(int offset) {
+        String nodeName = "functionCall";
+        if (isStetement) {
+            nodeName += "statement";
+        }
 
-        String str = buildTabs(offset) + "<FunctionCall> \n";
+        String str = buildTabs(offset) + "<"+ nodeName +"> \n";
         str += buildTabs(offset + 1) + "Name: " + name + "\n";
         if (nodes != null) {
             str += buildTabs(offset + 1) + "<parameters> \n";
@@ -33,7 +38,7 @@ public class FunctionCall extends Node {
             }
             str += buildTabs(offset + 1) + "</parameters>\n";
         }
-        str += buildTabs(offset) + "</FunctionCall> \n";
+        str += buildTabs(offset) + "</"+ nodeName +"> \n";
         return str;
     }
 
@@ -83,6 +88,13 @@ public class FunctionCall extends Node {
     public void run(IntermediateRepresentation rep) throws Exception {
         for (Node node : nodes) {
             node.run(rep);
+        }
+
+        if (isStetement) {
+            Instruction instruction = new Instruction();
+            instruction.instructionNumber = Instructions.I_POP;
+            rep.addInstr(instruction);
+            return;
         }
         Instruction instr = new Instruction();
         instr.instructionNumber = Instructions.I_CALL;

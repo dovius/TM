@@ -1,13 +1,11 @@
 int ss(int a, int b) {
-    int cc = a;
-    int cr = b;
-    return cc + cr;
+    while (a > 10) {
+        a = a + 1;
+    }
+    return a;
 }
 
 int main() {
-    int a = 1;
-    int b = 3;
-    int c = ss(a, b);
     return 4;
 }
 

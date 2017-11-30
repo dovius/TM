@@ -28,4 +28,6 @@ public class ForStatement extends Node {
         str += buildTabs(offset) + "</for-loop>\n";
         return str;
     }
+
+    //todo implement for loop????
 }

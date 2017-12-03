@@ -80,10 +80,45 @@ public class PostPreFix extends Node {
                 instr.args.add("( " + String.valueOf(declTarget.name + " )"));
                 value = declTarget.name;
                 rep.addInstr(instr);
-
-
-
             }
+            else {
+            }
+        } else {
+            instr.instructionNumber = Instructions.I_GET;
+            VarDeclaration declTarget = (VarDeclaration) target;
+            instr.args.add(String.valueOf(declTarget.localSlot));
+            instr.args.add("( " + String.valueOf(declTarget.name + " )"));
+            value = declTarget.name;
+            rep.addInstr(instr);
+
+            declTarget = (VarDeclaration) target;
+            instr = new Instruction();
+            instr.instructionNumber = Instructions.I_PUSH_INT;
+            instr.args.add(String.valueOf(1));
+            rep.addPostfixInstr(instr);
+
+            instr = new Instruction();
+            instr.instructionNumber = Instructions.I_GET;
+            instr.args.add(String.valueOf(declTarget.localSlot));
+            instr.args.add("( " + String.valueOf(declTarget.name + " )"));
+            value = declTarget.name;
+            rep.addPostfixInstr(instr);
+
+            instr = new Instruction();
+            instr.instructionNumber = operator.equals("+") ? Instructions.I_ADD : Instructions.I_SUB;
+            instr.args.add(identifier);
+            instr.args.add(String.valueOf(1));
+            rep.addPostfixInstr(instr);
+
+            instr = new Instruction();
+            instr.instructionNumber = Instructions.I_SET;
+            declTarget = (VarDeclaration) target;
+            instr.args.add(String.valueOf(declTarget.localSlot));
+            instr.args.add("=");
+            instr.args.add("( " + String.valueOf(declTarget.name + " )"));
+            rep.addPostfixInstr(instr);
+
+
         }
     }
 

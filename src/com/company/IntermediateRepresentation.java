@@ -9,17 +9,41 @@ public class IntermediateRepresentation {
 	public ArrayList<Label> labels;
 	//public ArrayList<Global> globals;
 	public ArrayList<Integer> globals;
-	
+	public ArrayList<Instruction> postfixInstructions;
+	public int skipForPostfix = 2;
+
 	public IntermediateRepresentation() {
 		instructions = new ArrayList<Instruction>();
 		intInstructions = new ArrayList<Integer>();
 		labels = new ArrayList<Label>();
 		//globals = new ArrayList<Global>();
 		globals = new ArrayList<Integer>();
+		postfixInstructions = new ArrayList<>();
 	}
 	
 	public void addInstr( Instruction instruction) {
+		if (instruction.instructionNumber == Instructions.I_RET_VALUE) {
+			for (Instruction prefixInstr : postfixInstructions) {
+				instructions.add(prefixInstr);
+			}
+			instructions.add(instruction);
+			return;
+		}
 		instructions.add(instruction);
+		if (postfixInstructions.size() != 0) {
+			skipForPostfix--;
+			if (skipForPostfix==0) {
+				for (Instruction prefixInstr : postfixInstructions) {
+					instructions.add(prefixInstr);
+				}
+				postfixInstructions.clear();
+				skipForPostfix = 2;
+			}
+		}
+	}
+
+	public void addPostfixInstr(Instruction instruction) {
+		postfixInstructions.add(instruction);
 	}
 	
 	public void print() {

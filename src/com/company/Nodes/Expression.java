@@ -34,9 +34,6 @@ public class Expression extends Node {
         if (nodes!= null && nodes.size() != 0) {
             varType = nodes.get(0).varType;
         }
-
-
-
     }
 
     public void allocateSlots() {

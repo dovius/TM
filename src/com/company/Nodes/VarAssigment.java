@@ -60,21 +60,35 @@ public class VarAssigment extends Node {
     public void run(IntermediateRepresentation rep) throws Exception {
         Instruction instr = new Instruction();
         instr.instructionNumber = Instructions.I_SET;
+        if (nodes.size() > 1) {
+            nodes.get(1).run(rep);
+        }
         nodes.get(0).run(rep);
         if (this.target instanceof VarDeclaration) {
             VarDeclaration declTarget = (VarDeclaration) target;
             instr.args.add(String.valueOf(declTarget.localSlot));
             instr.args.add("=");
             instr.args.add("( " + String.valueOf(declTarget.name + " )"));
+            rep.addInstr(instr);
         } else if (this.target instanceof ParameterDeclaration) {
             ParameterDeclaration paramTarget = (ParameterDeclaration) target;
             instr.args.add(String.valueOf(paramTarget.localSlot));
             instr.args.add("=");
             instr.args.add("( " + String.valueOf(paramTarget.name + " )"));
+            rep.addInstr(instr);
+        } else if (this.target instanceof ArrayDeclaration) {
+            ArrayDeclaration arrayTarget = (ArrayDeclaration) target;
+            instr.args.add("( " + String.valueOf(arrayTarget.identifier + " )"));
+            rep.addInstr(instr);
+        } else if (this.target instanceof Parameter) {
+            Parameter paramTarget = (Parameter) target;
+            instr.args.add(String.valueOf(paramTarget.parent.localSlot));
+            instr.args.add("=");
+            instr.args.add("( " + String.valueOf(paramTarget.name.lexem + " )"));
+            value = paramTarget.name.lexem;
+            rep.addInstr(instr);
         } else {
             System.out.println("Unhandled error in assign statement ");
         }
-        rep.addInstr(instr);
     }
-
 }

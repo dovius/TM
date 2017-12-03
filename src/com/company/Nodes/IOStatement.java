@@ -1,5 +1,8 @@
 package com.company.Nodes;
 
+import com.company.Instruction;
+import com.company.Instructions;
+import com.company.IntermediateRepresentation;
 import com.company.Scope;
 
 import java.util.ArrayList;
@@ -34,11 +37,26 @@ public class IOStatement extends Node {
         return str;
     }
 
+    public void checkTypes() throws Exception {
+        nodes.get(0).checkTypes();
+    }
+
+    public void run( IntermediateRepresentation rep  ) throws Exception {
+        if (!isReadStatemnt) {
+            nodes.get(0).run(rep);
+            Instruction instr = new Instruction();
+            instr.args.add(nodes.get(0).getValue());
+            instr.instructionNumber = Instructions.I_PRINT;
+            rep.addInstr(instr);
+        }
+    }
+
     public void resolveNames(Scope scope) throws Exception {
         if (!isReadStatemnt) {
             for (int i = 0; i < nodes.size(); ++i) {
                 nodes.get(i).resolveNames(scope);
             }
+
         }
         else {
             scope.lookup(identifier);

@@ -35,8 +35,8 @@ public class Parser {
     public FunctionDeclaration parseFunctionDeclaration() {
         FunctionDeclaration functionDeclaration = new FunctionDeclaration();
 
-        Node typeSpeficier = parseTypeSpecifier();
-        if (typeSpeficier != null) {
+        Node typeSpecifier = parseTypeSpecifier();
+        if (typeSpecifier != null) {
             Node identifier = parseIdentifier();
             if (identifier != null) {
                 Node LBracket = parseLBracket();
@@ -47,10 +47,10 @@ public class Parser {
                         if (RBracket != null) {
                             Node block = parseBlock();
                             if (block != null) {
-                                functionDeclaration.addNode(new Function(typeSpeficier, identifier));
+                                functionDeclaration.addNode(new Function(typeSpecifier, identifier));
                                 functionDeclaration.addNode(parameterList);
                                 functionDeclaration.addNode(block);
-                                functionDeclaration.varType = typeSpeficier.lexem;
+                                functionDeclaration.varType = typeSpecifier.lexem;
                                 functionDeclaration.indentifier = identifier.lexem;
 
                                 return functionDeclaration;
@@ -61,9 +61,9 @@ public class Parser {
                     if (RBracket != null) {
                         Node block = parseBlock();
                         if (block != null) {
-                            functionDeclaration.addNode(new Function(typeSpeficier, identifier));
+                            functionDeclaration.addNode(new Function(typeSpecifier, identifier));
                             functionDeclaration.addNode(block);
-                            functionDeclaration.varType = typeSpeficier.lexem;
+                            functionDeclaration.varType = typeSpecifier.lexem;
                             functionDeclaration.indentifier = identifier.lexem;
                             return functionDeclaration;
                         }

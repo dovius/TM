@@ -31,21 +31,24 @@ public class ForStatement extends Node {
     }
 
     public void allocateSlots() {
-        nodes.get(0).allocateSlots();
-        nodes.get(3).allocateSlots();
+        nodes.get(1).allocateSlots();
+
     }
 
     public void resolveNames(Scope scope) throws Exception {
         Scope innerScope = new Scope(scope, "forscope");
-        for (Node node : nodes) {
-            node.resolveNames(innerScope);
-        }
+        nodes.get(0).resolveNames(scope);
+        nodes.get(1).resolveNames(innerScope);
+        nodes.get(2).resolveNames(innerScope);
+        nodes.get(3).resolveNames(innerScope);
     }
 
     public void checkTypes() throws Exception {
         nodes.get(0).checkTypes();
         nodes.get(1).checkTypes();
         nodes.get(2).checkTypes();
+        nodes.get(3).checkTypes();
+
         if (!nodes.get(0).varType.equals("int")) {
             throw new Exception("Error: invalid condition type " + nodes.get(0).varType);
         }
@@ -62,10 +65,14 @@ public class ForStatement extends Node {
         Label label = rep.newLabel();
         Instruction instr = new Instruction();
         nodes.get(0).run(rep);
+        rep.placeLabel(retLabel);
         nodes.get(1).run(rep);
+
+
         instr.instructionNumber = Instructions.I_JZ;
         instr.label = label;
         nodes.get(2).run(rep);
+        nodes.get(3).run(rep);
         rep.addInstr( instr );
         rep.addInstr(retInstr);
         rep.placeLabel(label);
@@ -73,5 +80,4 @@ public class ForStatement extends Node {
     }
 
 
-    //todo implement for loop????
 }

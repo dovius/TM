@@ -39,6 +39,10 @@ public class FunctionDeclaration extends Node {
         }
     }
 
+    public String getValue() {
+        return indentifier;
+    }
+
     @Override
     public void checkTypes() throws Exception {
         for (Node node : nodes) {
@@ -105,12 +109,6 @@ public class FunctionDeclaration extends Node {
         for (Node node : nodes) {
             node.allocateSlots();
         }
-//        for( int i = 0; i < params.size(); i++ ) {
-//            params.get( i ).allocateSlots();
-//        }
-//        for( int i = 0; i < body.size(); i++ ) {
-//            body.get( i ).allocateSlots();
-//        }
         this.numSlots = Main.localSlot;
     }
 

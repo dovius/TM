@@ -1,5 +1,6 @@
 package com.company.Nodes;
 
+import com.company.IntermediateRepresentation;
 import com.company.Main;
 import com.company.Scope;
 import com.company.State;
@@ -12,9 +13,10 @@ public class ArrayDeclaration extends Node {
     public String typeSpecifier;
     public String size;
     public String identifier;
-    private int localSlot;
+    public int localSlot;
+    public int localStartSlot;
 
-    public void addNode (Node statement) {
+    public void addNode(Node statement) {
         nodes.add(statement);
     }
 
@@ -31,21 +33,30 @@ public class ArrayDeclaration extends Node {
 
     public String toString(int offset) {
         String str = new String();
-        str +=  buildTabs(offset) + "Array Type: " + typeSpecifier + " Size: " + size + " Name: " +identifier + "\n";
+        str += buildTabs(offset) + "Array Type: " + typeSpecifier + " Size: " + size + " Name: " + identifier + "\n";
         return str;
     }
 
-    public void resolveNames( Scope scope ) throws Exception {
+    public void resolveNames(Scope scope) throws Exception {
         scope.addVar(identifier, this);
-        varType = typeSpecifier + "Array";
+        varType = typeSpecifier;
     }
 
-    @Override
     public void checkTypes() throws Exception {
+        for (Node node : nodes) {
+            node.checkTypes();
+        }
+        if (!cmpTypes(varType, nodes)) {
+            throw new Exception("bad types in array assignment");
+        }
     }
 
     public void allocateSlots() {
-        this.localSlot  = Main.localSlot;
-        Main.localSlot += 1;
+        this.localSlot = Main.localSlot;
+        localStartSlot = localSlot+1;
+        Main.localSlot += Integer.valueOf(size) ;
+    }
+
+    public void run(IntermediateRepresentation rep) throws Exception {
     }
 }

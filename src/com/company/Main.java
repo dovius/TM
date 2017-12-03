@@ -25,28 +25,28 @@ public class Main {
             if (program != null) {
                 String file = program.toString(0);
 
+                //todo post/pre-fix, for, array
                 //4.1 checking names
-                //todo post/pre-fix, loop, if
+                System.out.println("\n---- name check ----");
                 Scope scope = new Scope(null , "global");
                 program.resolveNames(scope);
 
                 //4.2 checking types
-                //todo arrays, post/pre-fix, loop, if
+                //todo bad return types   parameter
+                System.out.println("\n---- type check ----");
                 program.checkTypes();
-
-
-                //4.3 find parents
 
                 program.allocateSlots();
 
-
                 //4.4
+                System.out.println("\n---- instructions ----");
                 IntermediateRepresentation rep = new IntermediateRepresentation();
                 program.run(rep);
                 rep.print();
 
-
-
+                System.out.println("\n---- output ----");
+                Interpreter interpreter = new Interpreter( rep.instructions );
+                interpreter.execute( 0 );
 
                 writer.print(file);
                 writer.close();

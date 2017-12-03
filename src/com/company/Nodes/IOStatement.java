@@ -13,6 +13,7 @@ public class IOStatement extends Node {
     public String identifier;
     public boolean isReadStatemnt;
 
+
     public IOStatement() {
         nodes = new ArrayList<Node>();
     }

@@ -44,6 +44,7 @@ public class Main {
                 program.run(rep);
                 rep.print();
 
+
                 System.out.println("\n---- output ----");
                 Interpreter interpreter = new Interpreter( rep.instructions );
                 interpreter.execute( 0 );

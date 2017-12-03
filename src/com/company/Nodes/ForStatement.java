@@ -62,17 +62,14 @@ public class ForStatement extends Node {
         Instruction instr = new Instruction();
         nodes.get(0).run(rep);
         nodes.get(1).run(rep);
-        //nodes.get(2).run(rep);
         instr.instructionNumber = Instructions.I_JZ;
         instr.label = label;
-        //nodes.get(4).run(rep);
+        //nodes.get(2).run(rep);
         rep.addInstr( instr );
-
         rep.addInstr(retInstr);
         rep.placeLabel(label);
         rep.placeLabel(this.jumpOutside);
     }
 
 
-    //todo implement for loop????
 }

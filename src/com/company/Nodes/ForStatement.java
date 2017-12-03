@@ -62,15 +62,15 @@ public class ForStatement extends Node {
 
         this.jumpOutside = new Label();
         Label label = rep.newLabel();
-        rep.placeLabel(retLabel);
+
 
         Instruction instr = new Instruction();
         instr.label = label;
         nodes.get(0).run(rep);
-        nodes.get(1).run(rep);
-        instr.instructionNumber = Instructions.I_JZ;
         rep.placeLabel(retLabel);
+        nodes.get(1).run(rep);
 
+        instr.instructionNumber = Instructions.I_JZ;
         nodes.get(2).run(rep);
         nodes.get(3).run(rep);
 
@@ -78,7 +78,7 @@ public class ForStatement extends Node {
         rep.addInstr( instr );
         rep.addInstr(retInstr);
         rep.placeLabel(label);
-       // rep.placeLabel(retLabel);
+        //rep.placeLabel(retLabel);
 
         rep.placeLabel(this.jumpOutside);
     }

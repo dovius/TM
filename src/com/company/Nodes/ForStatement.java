@@ -31,24 +31,22 @@ public class ForStatement extends Node {
     }
 
     public void allocateSlots() {
-        nodes.get(1).allocateSlots();
-
+        nodes.get(0).allocateSlots();
+        nodes.get(3).allocateSlots();
     }
 
     public void resolveNames(Scope scope) throws Exception {
         Scope innerScope = new Scope(scope, "forscope");
-        nodes.get(0).resolveNames(scope);
-        nodes.get(1).resolveNames(innerScope);
-        nodes.get(2).resolveNames(innerScope);
-        nodes.get(3).resolveNames(innerScope);
+        for (Node node : nodes) {
+            node.resolveNames(innerScope);
+        }
     }
 
     public void checkTypes() throws Exception {
         nodes.get(0).checkTypes();
         nodes.get(1).checkTypes();
         nodes.get(2).checkTypes();
-        nodes.get(3).checkTypes();
-
+        //nodes.get(3).checkTypes();
         if (!nodes.get(0).varType.equals("int")) {
             throw new Exception("Error: invalid condition type " + nodes.get(0).varType);
         }
@@ -59,25 +57,32 @@ public class ForStatement extends Node {
         Instruction retInstr = new Instruction();
         retInstr.instructionNumber = Instructions.I_JMP;
         retInstr.label = retLabel;
-        rep.placeLabel(retLabel);
+
+        //rep.placeLabel(retLabel);
 
         this.jumpOutside = new Label();
         Label label = rep.newLabel();
-        Instruction instr = new Instruction();
-        nodes.get(0).run(rep);
         rep.placeLabel(retLabel);
-        nodes.get(1).run(rep);
 
-
-        instr.instructionNumber = Instructions.I_JZ;
+        Instruction instr = new Instruction();
         instr.label = label;
+        nodes.get(0).run(rep);
+        nodes.get(1).run(rep);
+        instr.instructionNumber = Instructions.I_JZ;
+        rep.placeLabel(retLabel);
+
         nodes.get(2).run(rep);
         nodes.get(3).run(rep);
+
+
         rep.addInstr( instr );
         rep.addInstr(retInstr);
         rep.placeLabel(label);
+       // rep.placeLabel(retLabel);
+
         rep.placeLabel(this.jumpOutside);
     }
 
 
+    //todo implement for loop????
 }

@@ -46,6 +46,14 @@ public class SelectionStatement extends Node {
         for (int i = 0; i < nodes.size(); i++) {
             nodes.get(i).allocateSlots();
         }
+        for (Node node : ifNodes) {
+            node.allocateSlots();
+        }
+        if (elseNodes != null) {
+            for (Node node : elseNodes) {
+                node.allocateSlots();
+            }
+        }
     }
 
     public void resolveNames(Scope scope) throws Exception {

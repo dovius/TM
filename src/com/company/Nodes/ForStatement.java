@@ -31,7 +31,8 @@ public class ForStatement extends Node {
     }
 
     public void allocateSlots() {
-        nodes.get(1).allocateSlots();
+        nodes.get(0).allocateSlots();
+        nodes.get(3).allocateSlots();
     }
 
     public void resolveNames(Scope scope) throws Exception {

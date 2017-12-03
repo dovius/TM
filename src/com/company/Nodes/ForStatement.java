@@ -36,8 +36,9 @@ public class ForStatement extends Node {
 
     public void resolveNames(Scope scope) throws Exception {
         Scope innerScope = new Scope(scope, "forscope");
-        nodes.get(0).resolveNames(scope);
-        nodes.get(1).resolveNames(innerScope);
+        for (Node node : nodes) {
+            node.resolveNames(innerScope);
+        }
     }
 
     public void checkTypes() throws Exception {

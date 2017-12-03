@@ -64,6 +64,25 @@ public class PostPreFix extends Node {
                 instr.args.add(identifier);
                 instr.args.add(String.valueOf(1));
                 rep.addInstr(instr);
+
+                instr = new Instruction();
+                instr.instructionNumber = Instructions.I_SET;
+                declTarget = (VarDeclaration) target;
+                instr.args.add(String.valueOf(declTarget.localSlot));
+                instr.args.add("=");
+                instr.args.add("( " + String.valueOf(declTarget.name + " )"));
+                rep.addInstr(instr);
+
+                instr = new Instruction();
+                instr.instructionNumber = Instructions.I_GET;
+                declTarget = (VarDeclaration) target;
+                instr.args.add(String.valueOf(declTarget.localSlot));
+                instr.args.add("( " + String.valueOf(declTarget.name + " )"));
+                value = declTarget.name;
+                rep.addInstr(instr);
+
+
+
             }
         }
     }

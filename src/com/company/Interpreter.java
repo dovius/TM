@@ -50,7 +50,7 @@ public class Interpreter {
                 break;
 
             case Instructions.I_GET:
-                if (instr.args.size() < 3) {
+                if (instr.args.size() < 2) {
                     System.out.println("array get not implemented yet");
                     break;
                 }

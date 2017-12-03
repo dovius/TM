@@ -46,6 +46,7 @@ public class ForStatement extends Node {
         nodes.get(0).checkTypes();
         nodes.get(1).checkTypes();
         nodes.get(2).checkTypes();
+        //nodes.get(3).checkTypes();
         if (!nodes.get(0).varType.equals("int")) {
             throw new Exception("Error: invalid condition type " + nodes.get(0).varType);
         }
@@ -56,19 +57,29 @@ public class ForStatement extends Node {
         Instruction retInstr = new Instruction();
         retInstr.instructionNumber = Instructions.I_JMP;
         retInstr.label = retLabel;
-        rep.placeLabel(retLabel);
+
+        //rep.placeLabel(retLabel);
 
         this.jumpOutside = new Label();
         Label label = rep.newLabel();
+
+
         Instruction instr = new Instruction();
-        nodes.get(0).run(rep);
-        nodes.get(1).run(rep);
-        instr.instructionNumber = Instructions.I_JZ;
         instr.label = label;
+        nodes.get(0).run(rep);
+        rep.placeLabel(retLabel);
+        nodes.get(1).run(rep);
+
+        instr.instructionNumber = Instructions.I_JZ;
         nodes.get(2).run(rep);
+        nodes.get(3).run(rep);
+
+
         rep.addInstr( instr );
         rep.addInstr(retInstr);
         rep.placeLabel(label);
+        //rep.placeLabel(retLabel);
+
         rep.placeLabel(this.jumpOutside);
     }
 

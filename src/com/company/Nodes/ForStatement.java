@@ -7,7 +7,7 @@ import static com.company.Parser.buildTabs;
 
 public class ForStatement extends Node {
     public Label jumpOutside;
-//    <for-loop> ::= "for" "(" <varDeclaration> ";" <expression> ";" <post-pre-fix>  ")" <block-statement>
+    //    <for-loop> ::= "for" "(" <varDeclaration> ";" <expression> ";" <post-pre-fix>  ")" <block-statement>
     public ForStatement() {
         nodes = new ArrayList<>();
     }
@@ -64,7 +64,7 @@ public class ForStatement extends Node {
         nodes.get(2).run(rep);
         instr.instructionNumber = Instructions.I_JZ;
         instr.label = label;
-       // nodes.get(4).run(rep);
+        // nodes.get(4).run(rep);
         rep.addInstr( instr );
 
         rep.addInstr(retInstr);

@@ -53,6 +53,12 @@ public class FunctionDeclaration extends Node {
         if (returnStm == null) {
             throw new Exception("Error:  return not found");
         }
+
+        String returnExprType = returnStm.nodes.get(0).varType;
+        if (returnExprType != null && !returnExprType.equals(varType)) {
+            throw new Exception("Error:  bad return types");
+         }
+
         Node target = findTarget(returnStm);
 
         //TODO fix numbers

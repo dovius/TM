@@ -54,6 +54,9 @@ public class VarDeclaration extends Node {
     }
 
     public void run( IntermediateRepresentation rep  ) throws Exception {
+        if (nodes.size() == 0) {
+            return;
+        }
         nodes.get(0).run( rep );
         Instruction instr = new Instruction();
         instr.instructionNumber = Instructions.I_SET;

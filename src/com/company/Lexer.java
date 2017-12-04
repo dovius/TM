@@ -284,10 +284,10 @@ public class Lexer {
             case MORE_HANDLER:
                 if (c == '=') {
                     lexem += '=';
-                    currentState = State.COMP_OP_MORE;
+                    currentState = State.COMP_OP_MORE_EQ;
                     reset();
                 } else {
-                    currentState = State.COMP_OP_MORE_EQ;
+                    currentState = State.COMP_OP_MORE;
                     reset();
                     analyse(c);
                 }
@@ -296,10 +296,10 @@ public class Lexer {
             case LESS_HANDLER:
                 if (c == '=') {
                     lexem += '=';
-                    currentState = State.COMP_OP_LESS;
+                    currentState = State.COMP_OP_LESS_EQ;
                     reset();
                 } else {
-                    currentState = State.COMP_OP_LESS_EQ;
+                    currentState = State.COMP_OP_LESS;
                     reset();
                     analyse(c);
                 }

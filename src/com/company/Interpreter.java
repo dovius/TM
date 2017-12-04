@@ -141,26 +141,26 @@ public class Interpreter {
                 break;
 
             case Instructions.I_GREATER:
-                right = pop();
                 left = pop();
+                right = pop();
                 push((int) left > (int) right);
                 break;
 
             case Instructions.I_GREATER_EQ:
-                right = pop();
                 left = pop();
+                right = pop();
                 push((int) left >= (int) right);
                 break;
 
             case Instructions.I_LESS:
-                right = pop();
                 left = pop();
+                right = pop();
                 push((int) left < (int) right);
                 break;
 
             case Instructions.I_LESS_EQ:
-                right = pop();
                 left = pop();
+                right = pop();
                 push((int) left <= (int) right);
                 break;
 

@@ -30,7 +30,7 @@ int main() {
 
     write zodis;
 
-    int a = darbasSuMayvu(ar)
+    int a = darbasSuMayvu(ar);
     string sudurtinis = zodis + zodis;
     string stringSuInt = zodis + toString(1);
     return 1;

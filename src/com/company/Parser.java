@@ -26,8 +26,11 @@ public class Parser {
                     program.nodes.add(functionDeclaration);
                 }
             } while (functionDeclaration != null);
-            return program;
+            if (getNextToken().getState() == State.END) {
+                return program;
+            }
         }
+
         return (Program) program.backtrack();
     }
 
@@ -127,8 +130,11 @@ public class Parser {
         Node lArrayBracket = getState(State.L_ARRAY_BRACKET);
         Node integer = getState(State.NUM_CONST);
         Node rArrayBracket = getState(State.R_ARRAY_BRACKET);
-        if (checkNodes(typeSpecifier, identifier, lArrayBracket, identifier, rArrayBracket)) {
+        if (checkNodes(typeSpecifier, identifier, lArrayBracket, integer, rArrayBracket)) {
             return new ArrayDeclaration(typeSpecifier.lexem, integer.lexem, identifier.lexem);
+        }
+        if (checkNodes(typeSpecifier, identifier, lArrayBracket, rArrayBracket) && integer == null) {
+                return new ArrayDeclaration(typeSpecifier.lexem, identifier.lexem);
         }
         return (ArrayDeclaration) arrayDeclaration.backtrack();
     }
@@ -658,7 +664,7 @@ public class Parser {
         return (VarAssigment) varAssigment.backtrack();
     }
 
-    //    <varDeclaration> ::= <type-specifier> <identifier>;
+//    <varDeclaration> ::= <type-specifier> <identifier>;
 //                  | <type-specifier> <identifier> <assigmentOp> <expression>;
     public VarDeclaration parseVarDeclaration() {
         VarDeclaration varDeclaration = new VarDeclaration();

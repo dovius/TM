@@ -31,6 +31,12 @@ public class ArrayDeclaration extends Node {
         varType = typeSpecifier;
     }
 
+    public ArrayDeclaration(String typeSpecifier, String identifier) {
+        this.typeSpecifier = typeSpecifier;
+        this.identifier = identifier;
+        varType = typeSpecifier;
+    }
+
     public String toString(int offset) {
         String str = new String();
         str += buildTabs(offset) + "Array Type: " + typeSpecifier + " Size: " + size + " Name: " + identifier + "\n";

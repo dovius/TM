@@ -37,7 +37,7 @@ public class Scope {
         } else if( parent != null ) {
             return parent.lookup( name );
         } else {
-            throw new Exception( "Error: variable " + name + " not found!" );
+            throw new Exception( "Error: variable or function " + name + " not found!" );
         }
     }
 

@@ -15,15 +15,15 @@ public class Main {
         try {
             Lexer lex = new Lexer("inputSimple.c");
             lex.execute();
-
             Parser parser = new Parser(lex.getTokens());
-
             System.out.println("\n");
 
             Program program = parser.parseProgram();
             PrintWriter writer = new PrintWriter("out.xml", "UTF-8");
-            if (program != null) {
+            if (program != null ) {
                 String file = program.toString(0);
+                writer.print(file);
+                writer.close();
 
                 //todo post/pre-fix, for, array
                 //4.1 checking names
@@ -44,16 +44,12 @@ public class Main {
                 program.run(rep);
                 rep.print();
 
-
                 System.out.println("\n---- output ----");
                 Interpreter interpreter = new Interpreter( rep.instructions );
                 interpreter.execute( 0 );
 
-                writer.print(file);
-                writer.close();
                 System.out.println("\n");
             }
-
 
             if (program != null) {
                 System.out.println("\nSyntax is correct\n");

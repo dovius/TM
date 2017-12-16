@@ -72,6 +72,12 @@ public class FunctionCall extends Node {
             }
             int i = 0;
             for (Node paramNode : target.nodes.get(1).nodes) {
+                if (argsTypes.size() <= i) {
+                    throw new Exception("parameters error, number of parameters and arguments must match!");
+                }
+                if (argsTypes == null || argsTypes.get(i) == null) {
+                    throw new Exception("parameters error");
+                }
                 if (!paramNode.varType.equals(argsTypes.get(i))) {
                     throw new Exception(name + " function expected " + paramNode.varType + " type, but got " + argsTypes.get(i) + " instead");
                 }

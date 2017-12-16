@@ -16,7 +16,15 @@ int main() {
     mas[0] = 123;
     mas[1] = 122;
     mas[2] = 121;
-
     int plz = get(mas,0);
+
+
+    string zodis = 'labas';
+    string sudurtinis = zodis + zodis;
+    int a = 2+2;
+    write a;
+    write sudurtinis;
+
+
     return plz;
 }

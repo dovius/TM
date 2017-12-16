@@ -49,7 +49,7 @@ public class IntermediateRepresentation {
 	public void print() {
 		System.out.println( "---------------------------------------" );
 		String columnsDescription = String.format( "%1$-4s" , "NUMB") 			 + "    " +
-								    String.format( "%1$-15s",  "COMMAND TITLE" ) + "    " + 
+								    String.format( "%1$-15s",  "COMMAND TITLE" ) + "    " +
 								    String.format( "%1$-15s", "COMMAND ARGS");
 		System.out.println( columnsDescription );
 		System.out.println( "---------------------------------------" );

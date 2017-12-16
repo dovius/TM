@@ -1,37 +1,22 @@
-string sum4(int a, int b) {
-    string c;
-    return c + c;
+int get(int mas[], int index) {
+    for (int i=0;i<2;++i) {
+        write mas[i];
+    }
+    return mas[index];
 }
-
-string sum1(int a) {
-    return 'labas';
-}
-int sum3(int a) {
-a = a + 12;
-    return 12 + 9;
-}
-
-string sum(int a, string zodis) {
-    return zodis;
-}
-
-int darbasSuMayvu(int mas[]) {
-    return mas[9];
-}
-
+//
+//int test(int a, int b) {
+//    write a;
+//    write b;
+//    return 22;
+//}
 
 int main() {
-    int ar[20];
-    int arr[30];
-    string zodis = 'labas';
-    for(int i=0;i<2;++i){
-        write 2;
-    }
+    int mas[20];
+    mas[0] = 123;
+    mas[1] = 122;
+    mas[2] = 121;
 
-    write zodis;
-
-    int a = darbasSuMayvu(ar);
-    string sudurtinis = zodis + zodis;
-    string stringSuInt = zodis + toString(1);
-    return 1;
+    int plz = get(mas,0);
+    return plz;
 }

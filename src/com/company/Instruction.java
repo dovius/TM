@@ -92,6 +92,12 @@ public class Instruction {
 				return "I_PRINT";
 			case 25:
 				return "I_EXIT";
+			case 26:
+				return "I_ARRAY_VAL_SET";
+			case 27:
+				return "I_ARRAY_VAL_GET";
+			case 28:
+				return "I_ARRAY_GET";
 			default:
 				return "I_UNKNOWN";
 		}

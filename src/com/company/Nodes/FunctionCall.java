@@ -9,6 +9,7 @@ import static com.company.Parser.buildTabs;
 public class FunctionCall extends Node {
     public String name;
     public boolean isStetement = false;
+    ArrayList<ArrayDeclaration> arrays = new ArrayList<>();
 
     public FunctionCall() {
     }
@@ -46,6 +47,17 @@ public class FunctionCall extends Node {
         target = scope.lookup(name);
         for (int i = 0; i < nodes.size(); ++i) {
             nodes.get(i).resolveNames(scope);
+        }
+
+        for(Node expr : nodes.get(0).nodes) {
+            String variable = expr.getValue();
+            if (variable == null) {
+                continue;
+            }
+            Node array = scope.lookup(expr.getValue());
+            if (array instanceof ArrayDeclaration)
+            arrays.add((ArrayDeclaration) array);
+            System.out.println(expr.getValue());
         }
     }
 
@@ -106,7 +118,12 @@ public class FunctionCall extends Node {
         instr.instructionNumber = Instructions.I_CALL;
         instr.label = new Label();
         instr.label.position = ((FunctionDeclaration) this.target).codeOffset;
-        instr.args.add(String.valueOf(this.nodes.get(0).nodes.size()));
+        int size = this.nodes.get(0).nodes.size();
+        for (ArrayDeclaration array : arrays) {
+            size--;
+            size+=Interpreter.ARR_SIZE;
+        }
+        instr.args.add(String.valueOf(size));
         rep.addInstr(instr);
     }
 }

@@ -46,7 +46,12 @@ public final class Instructions {
 	
 	//********EXIT********
 	public static final int I_EXIT  = 25;
-	
+
+	//********ARRAY********
+	public static final int I_ARRAY_VALUE_SET = 26;
+	public static final int I_ARRAY_VALUE_GET = 27;
+	public static final int I_ARRAY_GET = 28;
+
 	private int instructionNumber;
 	
 	private Instructions(int instrNumb ) {

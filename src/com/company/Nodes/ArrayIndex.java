@@ -21,6 +21,7 @@ public class ArrayIndex extends Node {
         if (nodes == null) {
             System.out.println("sth strange...");
         }
+        target = (ArrayDeclaration) scope.lookup(name);
         for (int i = 0; i < nodes.size(); ++i) {
             nodes.get(i).resolveNames(scope);
         }
@@ -39,10 +40,11 @@ public class ArrayIndex extends Node {
 
     public void run(IntermediateRepresentation rep) throws Exception {
         Instruction instr = new Instruction();
+        ArrayDeclaration arrayTarget = (ArrayDeclaration) target;
         nodes.get(0).run(rep);
-        instr.instructionNumber = Instructions.I_GET;
-
-        instr.args.add("( " + String.valueOf(name + " )"));
+        instr.instructionNumber = Instructions.I_ARRAY_VALUE_GET;
+        instr.args.add(String.valueOf(arrayTarget.localStartSlot));
+        instr.args.add("(" + name + "["+nodes.get(0).getValue() + "]" + ")");
         rep.addInstr(instr);
 
     }
@@ -59,4 +61,7 @@ public class ArrayIndex extends Node {
         return str;
     }
 
+    public String getValue() {
+        return "(" + name + "["+nodes.get(0).getValue() + "]" + ")";
+    }
 }

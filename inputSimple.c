@@ -18,6 +18,11 @@ int main() {
     mas[2] = 121;
     int plz = get(mas,0);
 
+    int mas2[21];
+    for (int i = 0; i<21; ++i) {
+        mas2[i] = i;
+    }
+    write get(mas2, 11);
 
     string zodis = 'labas';
     string sudurtinis = zodis + zodis;

@@ -105,15 +105,24 @@ public class Interpreter {
                 break;
 
             case Instructions.I_ADD:
+
                 right = pop();
                 left = pop();
-                push((int) left + (int) right);
+                try {
+                    push( (int) left + (int) right);
+
+}
+                catch (Exception e){
+                    String tt = (String.valueOf(left)+String.valueOf(right));
+                    tt=tt.replace("'","");
+                    push (tt);}
+
                 break;
 
             case Instructions.I_SUB:
                 left = pop();
                 right = pop();
-                push((int) left - (int) right);
+                push( (int) left - (int) right);
                 break;
 
             case Instructions.I_MUL:

@@ -19,10 +19,10 @@ public class Parser {
         Program program = new Program();
 
 
-        FunctionDeclaration toStringFunction = new FunctionDeclaration();
-        Node kazkokie = param, body ir t.t;
-        toStringFunction.add(param...body..);
-        program.nodes.add(toStringFunction);
+//        FunctionDeclaration toStringFunction = new FunctionDeclaration();
+//        Node kazkokie = param, body ir t.t;
+//        toStringFunction.addNode();param...body..);
+//        program.nodes.add(toStringFunction);
 
 
         //esme, kad parsint nereikia toString funkcijos. ja reikia paciam sukurti
@@ -774,9 +774,14 @@ public class Parser {
         return (FunctionCall) functionCall.backtrack();
 
 }
+
+
+
     public to_String parseTo_String() {
         to_String to_stringStatement = new to_String();
         Node toStringState = parseState(State.TO_STRING);
+
+
         if (toStringState != null) {
             Node lBracket = parseLBracket();
             if (lBracket != null) {

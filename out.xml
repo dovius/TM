@@ -3,9 +3,19 @@
         Type: int Name: main
         <block> 
             <statement> 
-                <toString> 
+                <VarDeclaration> 
+                    Type: string Name: c
+                </VarDeclaration>
+            </statement>
+            <statement> 
+                <return> 
                     Number: 1
-                </toString> 
+                </return> 
+            </statement>
+            <statement> 
+                <VarDeclaration> 
+                    Type: string Name: f
+                </VarDeclaration>
             </statement>
             <statement> 
                 <return> 

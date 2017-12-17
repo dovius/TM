@@ -3,43 +3,32 @@
         Type: int Name: main
         <block> 
             <statement> 
-                <VarDeclaration> 
-                    Type: string Name: f
-                    <value>
-                        <AddSubExpression> 
-                            Operator: +
-                            <left> 
-                                <return> 
-                                    Number: 1
-                                </return> 
-                            </left>
-                            <right> 
-                                <return> 
-                                    Number: 3
-                                </return> 
-                            </right> 
-                        </AddSubExpression> 
-                    </value>
-                </VarDeclaration>
+                Array Type: string Size: 20 Name: array
             </statement>
             <statement> 
-                <VarDeclaration> 
-                    Type: int Name: a
+                <VarAssigment> 
+                    Name: array
+                    <index>
+                        Number: 2
+                    </index>
                     <value>
-                        <return> 
-                            String: '45'
-                        </return> 
+                        String: 'labas'
                     </value>
-                </VarDeclaration>
+                </VarAssigment>
             </statement>
             <statement> 
                 <write> 
-                    Variable: a
+                    <Array> 
+                        Name: array
+                        <index>
+                            Number: 2
+                        </index>
+                    </Array>
                 </write>
             </statement>
             <statement> 
                 <return> 
-                    Number: 6
+                    Number: 3
                 </return> 
             </statement>
         </block>

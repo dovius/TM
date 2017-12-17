@@ -20,11 +20,11 @@ public class ToString extends Node {
     }
 
     public String toString(int offset) {
-        String str = buildTabs(offset) + "<return> \n";
+        String str = buildTabs(offset) + "<toString> \n";
         for (int i = 0; i < nodes.size(); ++i) {
             str += nodes.get(i).toString(offset + 1);
         }
-        str += buildTabs(offset) + "</return> \n";
+        str += buildTabs(offset) + "</toString> \n";
         return str;
     }
 

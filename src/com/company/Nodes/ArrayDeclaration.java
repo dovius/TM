@@ -1,9 +1,6 @@
 package com.company.Nodes;
 
-import com.company.IntermediateRepresentation;
-import com.company.Main;
-import com.company.Scope;
-import com.company.State;
+import com.company.*;
 
 import java.util.ArrayList;
 
@@ -28,13 +25,13 @@ public class ArrayDeclaration extends Node {
         this.typeSpecifier = typeSpecifier;
         this.size = size;
         this.identifier = identifier;
-        varType = typeSpecifier;
+        varType = typeSpecifier + "Array";
     }
 
     public ArrayDeclaration(String typeSpecifier, String identifier) {
         this.typeSpecifier = typeSpecifier;
         this.identifier = identifier;
-        varType = typeSpecifier;
+        varType = typeSpecifier+ "Array";;
     }
 
     public String toString(int offset) {
@@ -45,7 +42,9 @@ public class ArrayDeclaration extends Node {
 
     public void resolveNames(Scope scope) throws Exception {
         scope.addVar(identifier, this);
-        varType = typeSpecifier;
+        varType = typeSpecifier ;
+        target = (ArrayDeclaration) scope.lookup(identifier);
+
     }
 
     public void checkTypes() throws Exception {
@@ -59,7 +58,10 @@ public class ArrayDeclaration extends Node {
 
     public void allocateSlots() {
         this.localSlot = Main.localSlot;
-        localStartSlot = localSlot+1;
+        localStartSlot = localSlot;
+        if (size == null ) {
+            size = String.valueOf(Interpreter.ARR_SIZE);
+        }
         Main.localSlot += Integer.valueOf(size) ;
     }
 

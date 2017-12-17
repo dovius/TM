@@ -18,7 +18,7 @@ public class Expression extends Node {
     }
 
     public void resolveNames(Scope scope) throws Exception {
-        if (nodes == null ){
+        if (nodes == null) {
             System.out.println("sth strange...");
         }
         for (int i = 0; i < nodes.size(); ++i) {
@@ -29,9 +29,12 @@ public class Expression extends Node {
     @Override
     public void checkTypes() throws Exception {
         for (Node node : nodes) {
-            node.checkTypes();
+            //nzn ar nepagadina konors
+            if (varType == null) {
+                node.checkTypes();
+            }
         }
-        if (nodes!= null && nodes.size() != 0) {
+        if (nodes != null && nodes.size() != 0) {
             varType = nodes.get(0).varType;
         }
     }
@@ -49,7 +52,8 @@ public class Expression extends Node {
     }
 
     public String getValue() {
-        return nodes.get(0).getValue();
+        String value = nodes.get(0).getValue();
+        return value;
     }
 
 }

@@ -471,7 +471,7 @@ public class Parser {
 
         Node identifier = parseIdentifier();
         if (identifier != null) {
-            identifier.string = "Variable: " + identifier.lexem + "\n";
+            identifier.string = "Variable:" + identifier.lexem + "\n";
             expression4.nodes.add(identifier);
             return expression4;
         }

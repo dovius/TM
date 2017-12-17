@@ -12,13 +12,14 @@ public class Interpreter {
     public Object[] stack;
     public boolean running;
     public Scanner reader;
+    public static int ARR_SIZE = 128;
 
     public Interpreter(ArrayList<Instruction> ir) {
         this.code = ir;
         this.ip = 0;
         this.sp = 0;
         this.bp = 0;
-        this.stack = new Object[512];
+        this.stack = new Object[512*4];
         this.running = true;
         this.reader = new Scanner(System.in);
     }
@@ -41,6 +42,7 @@ public class Interpreter {
         Object left;
         Object right;
         int target;
+        int index;
         Object condition;
         Instruction instr = readCode();
         switch (instr.instructionNumber) {
@@ -50,20 +52,38 @@ public class Interpreter {
                 break;
 
             case Instructions.I_GET:
-                if (instr.args.size() < 2) {
-                    System.out.println("array get not implemented yet");
-                    break;
-                }
                 slotId = Integer.valueOf(instr.args.get(0));
                 push(stack[bp + slotId]);
                 break;
 
-            case Instructions.I_SET:
-                if (instr.args.size() < 3) {
-                    System.out.println("array assign not implemented yet");
-                    break;
-                }
+            case Instructions.I_ARRAY_VALUE_GET:
+                index = (int) pop();
+                slotId = Integer.valueOf(instr.args.get(0));
+                push(stack[bp+slotId+index]);
+                break;
 
+            case Instructions.I_ARRAY_VALUE_SET:
+                value = pop();
+                index = (int) pop();
+                slotId = Integer.valueOf(instr.args.get(0));
+                stack[bp + slotId + index] = value;
+                break;
+
+            case Instructions.I_ARRAY_GET:
+                slotId = Integer.valueOf(instr.args.get(0));
+                index = Integer.valueOf(instr.args.get(1));
+                int test=0;
+                for (int i = 0; i<index && i<ARR_SIZE; i++) {
+                    push(stack[bp+slotId+i]);
+                    test++;
+                }
+                for (int i = index; i<Interpreter.ARR_SIZE;i++) {
+                    push("***");
+                    test++;
+                }
+//                System.out.println(test);
+                break;
+            case Instructions.I_SET:
                 slotId = Integer.valueOf(instr.args.get(0));
                 value = pop();
                 String operator = instr.args.get(1);
@@ -84,7 +104,6 @@ public class Interpreter {
                         stack[bp + slotId] = (int) stack[bp + slotId] * (int) value;
                         break;
                 }
-                //stack[ bp + slotId ] = value;
                 break;
 
             case Instructions.I_POP:
@@ -201,7 +220,7 @@ public class Interpreter {
                 int numbArgs = Integer.valueOf(instr.args.get(0));
                 Object[] args = new Object[numbArgs];
                 for (int i = 0; i < args.length; i++) {
-                    args[i] = pop();
+                    args[args.length - i - 1] = pop();
                 }
                 oldSp = sp;
                 push(ip);
@@ -264,7 +283,6 @@ public class Interpreter {
                     running = false;
                 }
                 break;
-
             default:
                 running = false;
                 System.out.println("Error bad instruction: " + instr.instructionNumber);

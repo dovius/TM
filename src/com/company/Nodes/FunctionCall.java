@@ -9,6 +9,7 @@ import static com.company.Parser.buildTabs;
 public class FunctionCall extends Node {
     public String name;
     public boolean isStetement = false;
+    ArrayList<ArrayDeclaration> arrays = new ArrayList<>();
 
     public FunctionCall() {
     }
@@ -29,7 +30,7 @@ public class FunctionCall extends Node {
             nodeName += "statement";
         }
 
-        String str = buildTabs(offset) + "<"+ nodeName +"> \n";
+        String str = buildTabs(offset) + "<" + nodeName + "> \n";
         str += buildTabs(offset + 1) + "Name: " + name + "\n";
         if (nodes != null) {
             str += buildTabs(offset + 1) + "<parameters> \n";
@@ -38,14 +39,29 @@ public class FunctionCall extends Node {
             }
             str += buildTabs(offset + 1) + "</parameters>\n";
         }
-        str += buildTabs(offset) + "</"+ nodeName +"> \n";
+        str += buildTabs(offset) + "</" + nodeName + "> \n";
         return str;
     }
 
     public void resolveNames(Scope scope) throws Exception {
         target = scope.lookup(name);
+        varType = target.varType;
         for (int i = 0; i < nodes.size(); ++i) {
             nodes.get(i).resolveNames(scope);
+        }
+
+        for (Node expr : nodes.get(0).nodes) {
+            String variable = expr.getValue();
+            if (variable == null || variable.contains(" ")) {
+                continue;
+            }
+            Node array = scope.lookup(expr.getValue());
+            if (array instanceof ArrayDeclaration) {
+                arrays.add((ArrayDeclaration) array);
+                expr.varType = array.varType + "Array";
+                expr.nodes.get(0).varType = expr.varType;
+//                expr.
+            }
         }
     }
 
@@ -78,6 +94,9 @@ public class FunctionCall extends Node {
                 if (argsTypes == null || argsTypes.get(i) == null) {
                     throw new Exception("parameters error");
                 }
+                if (paramNode instanceof ArrayDeclaration && !paramNode.varType.contains("Array")) {
+                    paramNode.varType += "Array";
+                }
                 if (!paramNode.varType.equals(argsTypes.get(i))) {
                     throw new Exception(name + " function expected " + paramNode.varType + " type, but got " + argsTypes.get(i) + " instead");
                 }
@@ -106,7 +125,12 @@ public class FunctionCall extends Node {
         instr.instructionNumber = Instructions.I_CALL;
         instr.label = new Label();
         instr.label.position = ((FunctionDeclaration) this.target).codeOffset;
-        instr.args.add(String.valueOf(this.nodes.get(0).nodes.size()));
+        int size = this.nodes.get(0).nodes.size();
+        for (ArrayDeclaration array : arrays) {
+            size--;
+            size += Interpreter.ARR_SIZE;
+        }
+        instr.args.add(String.valueOf(size));
         rep.addInstr(instr);
     }
 }

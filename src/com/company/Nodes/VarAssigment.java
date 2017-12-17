@@ -77,8 +77,10 @@ public class VarAssigment extends Node {
             instr.args.add("( " + String.valueOf(paramTarget.name + " )"));
             rep.addInstr(instr);
         } else if (this.target instanceof ArrayDeclaration) {
+            instr.instructionNumber = Instructions.I_ARRAY_VALUE_SET;
             ArrayDeclaration arrayTarget = (ArrayDeclaration) target;
-            instr.args.add("( " + String.valueOf(arrayTarget.identifier + " )"));
+            instr.args.add(String.valueOf(arrayTarget.localStartSlot));
+            instr.args.add("(" + String.valueOf(arrayTarget.identifier) +"[" + nodes.get(1).getValue() + "]"  + ")" );
             rep.addInstr(instr);
         } else if (this.target instanceof Parameter) {
             Parameter paramTarget = (Parameter) target;

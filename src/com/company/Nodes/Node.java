@@ -81,6 +81,9 @@ public class Node {
         }
         if (state == State.IDENTIFIER) {
             varType = target.varType;
+            if (this.varType.contains("Array")) {
+                return;
+            }
             return;
         }
         System.out.println( "Check types not implement in: " + this.getClass() );
@@ -107,11 +110,19 @@ public class Node {
                 value = declTarget.name;
                 rep.addInstr( instr );
             } else if( this.target instanceof Parameter ) {
-                Parameter paramTarget = ( Parameter ) target;
-                instr.args.add( String.valueOf( paramTarget.parent.localSlot ) );
-                instr.args.add( "( " + String.valueOf( paramTarget.name.lexem + " )" ) );
+                Parameter paramTarget = (Parameter) target;
+                instr.args.add(String.valueOf(paramTarget.parent.localSlot));
+                instr.args.add("( " + String.valueOf(paramTarget.name.lexem + " )"));
                 value = paramTarget.name.lexem;
-                rep.addInstr( instr );
+                rep.addInstr(instr);
+            } else if (this.target instanceof ArrayDeclaration) {
+                System.out.println("ARRAY GET ALL");
+                ArrayDeclaration arrayDeclarationTarget = (ArrayDeclaration) target;
+                instr.instructionNumber = Instructions.I_ARRAY_GET;
+                instr.args.add(String.valueOf(arrayDeclarationTarget.localStartSlot));
+                instr.args.add(String.valueOf(((ArrayDeclaration) this.target).size));
+                instr.args.add("(" + arrayDeclarationTarget.identifier + "["+ arrayDeclarationTarget.size+"]" + ")");
+                rep.addInstr(instr);
             } else {
                 System.out.println( "Unhandled error in varExp run " );
                 throw new Exception("Unexpected variable " + this.lexem);
@@ -125,6 +136,9 @@ public class Node {
     }
 
     public String getValue() {
+        if (value == null && state == State.IDENTIFIER) {
+            return lexem;
+        }
         return value;
     }
 

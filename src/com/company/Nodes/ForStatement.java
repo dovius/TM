@@ -74,8 +74,8 @@ public class ForStatement extends Node {
 
         instr.instructionNumber = Instructions.I_JZ;
         rep.addInstr(instr);
-        nodes.get(2).run(rep);
         nodes.get(3).run(rep);
+        nodes.get(2).run(rep);
         rep.addInstr(retInstr);
         rep.placeLabel(label);
         //rep.placeLabel(retLabel);

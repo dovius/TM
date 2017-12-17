@@ -1,14 +1,7 @@
-
-
 int main() {
-
-    string zodis = 'labas';
-    string sudurtinis = zodis + zodis;
-    int a = 2+2;
-    write a;
-    write sudurtinis;
-
-   // string sudurtinis = zodis + zodis;
-   // string stringSuInt = zodis + toString(1);
+string v;
+int a = 2;
+//string as=toString(a+2);
+v=toString(4);
     return 1;
 }

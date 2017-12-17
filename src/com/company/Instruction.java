@@ -92,6 +92,10 @@ public class Instruction {
 				return "I_PRINT";
 			case 25:
 				return "I_EXIT";
+			case 26:
+				return "I_TO_INT";
+			case 27:
+				return "I_TO_STRING";
 			default:
 				return "I_UNKNOWN";
 		}

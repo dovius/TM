@@ -42,11 +42,17 @@ public final class Instructions {
 	
 	//********SCAN, PRINT********
 	public static final int I_SCAN  = 23;
-	public static final int I_PRINT = 24;	
+	public static final int I_PRINT = 24;
+
+
 	
 	//********EXIT********
 	public static final int I_EXIT  = 25;
-	
+
+	//toInt, toString
+	public static final int I_TO_INT  = 26;
+	public static final int I_TO_STRING = 27;
+
 	private int instructionNumber;
 	
 	private Instructions(int instrNumb ) {

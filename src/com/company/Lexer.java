@@ -155,6 +155,13 @@ public class Lexer {
                         case "string":
                             currentState = State.TYPE_STRING;
                             break;
+                        case "toString":
+                            currentState = State.TO_STRING;
+                            break;
+                        case "toInt":
+                            currentState = State.TO_INT;
+                            break;
+
                         case "break":
                             currentState = State.BREAK;
                             break;

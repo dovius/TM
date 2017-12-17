@@ -31,7 +31,8 @@ public enum State {
   SLASH("/"),
   NEGATION("!"),
   COLUMN(","),
-
+  TO_STRING("toString"),
+  TO_INT("toInt"),
   SINGLE_L_COMMENT("//"),
   MULTI_L_COMMENT("/*..*/"),
 

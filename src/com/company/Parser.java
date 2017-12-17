@@ -198,6 +198,12 @@ public class Parser {
             return statement;
         }
 
+        to_String to_stringcall = parseTo_String();
+        if (to_stringcall != null) {
+            statement.nodes.add(to_stringcall);
+            return statement;
+        }
+
         FunctionCall functionCall = parseFunctionCall();
         if (functionCall != null && getState(State.SEMI_CLN) != null) {
             functionCall.isStetement = true;
@@ -448,6 +454,13 @@ public class Parser {
             expression4.nodes.add(arrayIndex);
             return expression4;
         }
+
+        to_String to_stringcall = parseTo_String();
+        if (to_stringcall != null) {
+            expression4.nodes.add(to_stringcall);
+            return expression4;
+        }
+        expression4.backtrack();
 
         FunctionCall functionCall = parseFunctionCall();
         if (functionCall != null) {
@@ -723,6 +736,7 @@ public class Parser {
 
         Node identifier = parseIdentifier();
         if (identifier != null) {
+
             Node lBracket = parseLBracket();
             if (lBracket != null) {
                 Expression callParamList = parseCallParamList();
@@ -744,9 +758,32 @@ public class Parser {
         }
         return (FunctionCall) functionCall.backtrack();
     }
+    public to_String parseTo_String() {
+        to_String to_stringStatement = new to_String();
+        Node toStringState = parseState(State.TO_STRING);
+        if (toStringState != null) {
+            Node lBracket = parseLBracket();
+            if (lBracket != null) {
+                Expression expression = parseExpression();
+                Node rBracket = parseRBracket();
+                if (rBracket != null) {
+                    Node semicolumn = parseSemicolon();
+
+                    if (expression != null && semicolumn != null) {
+                        to_stringStatement.nodes.add(expression);
+
+                        return to_stringStatement;
+                    }
+                }
+            }
+        }
+        return (to_String) to_stringStatement.backtrack();
+    }
+
+
+
 
     //        <call-param-list-item>    ::= <expresion>
-//                | <expresion> , <call-param-list>
     public Expression parseCallParamList() {
         Expression callParamList = new Expression();
 
@@ -773,6 +810,7 @@ public class Parser {
     public Node parseState(State state) {
         return getState(state);
     }
+    //                | <expresion> , <call-param-list>
 
     public Node parseSemicolon() {
         return getState(State.SEMI_CLN);

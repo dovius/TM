@@ -124,7 +124,6 @@ public class Interpreter {
                 right = pop();
                 push( (int) left - (int) right);
                 break;
-
             case Instructions.I_MUL:
                 left = pop();
                 right = pop();
@@ -217,6 +216,18 @@ public class Interpreter {
 
             case Instructions.I_RET_VALUE:
                 value = pop();
+                ret(value);
+                break;
+
+            case Instructions.I_TO_STRING:
+                value = pop();
+                String temp = String.valueOf(value) ;
+
+                push(temp);
+                break;
+            case Instructions.I_TO_INT:
+                value = pop();
+                System.out.println("Print:fvdfvdvdvd " + value);
                 ret(value);
                 break;
 

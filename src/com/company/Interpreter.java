@@ -246,7 +246,9 @@ public class Interpreter {
                 break;
             case Instructions.I_TOINT:
                 value = pop();
-                Integer temp2=Integer.valueOf(String.valueOf(value));
+                String string = String.valueOf(value);
+                string = string.substring(1, string.length()-1);
+                Integer temp2=Integer.valueOf(string);
 
                 push(temp2);
                 break;

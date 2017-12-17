@@ -819,7 +819,7 @@ public class Parser {
                 if (rBracket != null) {
                     if (expression != null) {
                         toIntStatement.nodes.add(expression);
-                        toIntStatement.varType = "string";
+                        toIntStatement.varType = "int";
                         return toIntStatement;
                     }
                 }

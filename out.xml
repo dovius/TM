@@ -1,5 +1,77 @@
 <program> 
     <function-declaration> 
+        Type: int Name: sum
+        <parameters-list> 
+            <parameter> 
+                Type: int Name: a
+            </parameter> 
+        </parameters-list>
+        <block> 
+            <statement> 
+                <return> 
+                </return> 
+            </statement>
+        </block>
+    </function-declaration>
+    <function-declaration> 
+        Type: int Name: testukas
+        <parameters-list> 
+            <parameter> 
+                Array Type: int Size: null Name: array
+            </parameter> 
+            <parameter> 
+                Type: int Name: b
+            </parameter> 
+        </parameters-list>
+        <block> 
+            <statement> 
+                <VarAssigment> 
+                    Name: array
+                    <index>
+                        Number: 1
+                    </index>
+                    <value>
+                        Number: 1
+                    </value>
+                </VarAssigment>
+            </statement>
+            <statement> 
+                <VarAssigment> 
+                    Name: array
+                    <index>
+                        Number: 2
+                    </index>
+                    <value>
+                        <AddSubExpression> 
+                            Operator: +
+                            <left> 
+                                Number: 1
+                            </left>
+                            <right> 
+                                <Array> 
+                                    Name: array
+                                    <index>
+                                        Number: 1
+                                    </index>
+                                </Array>
+                            </right> 
+                        </AddSubExpression> 
+                    </value>
+                </VarAssigment>
+            </statement>
+            <statement> 
+                <return> 
+                    <Array> 
+                        Name: array
+                        <index>
+                            Number: 2
+                        </index>
+                    </Array>
+                </return> 
+            </statement>
+        </block>
+    </function-declaration>
+    <function-declaration> 
         Type: int Name: main
         <block> 
             <statement> 
@@ -9,7 +81,7 @@
                 <VarAssigment> 
                     Name: array
                     <index>
-                        Number: 2
+                        Number: 0
                     </index>
                     <value>
                         String: 'labas'

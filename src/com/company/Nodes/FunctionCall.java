@@ -30,7 +30,7 @@ public class FunctionCall extends Node {
             nodeName += "statement";
         }
 
-        String str = buildTabs(offset) + "<"+ nodeName +"> \n";
+        String str = buildTabs(offset) + "<" + nodeName + "> \n";
         str += buildTabs(offset + 1) + "Name: " + name + "\n";
         if (nodes != null) {
             str += buildTabs(offset + 1) + "<parameters> \n";
@@ -39,7 +39,7 @@ public class FunctionCall extends Node {
             }
             str += buildTabs(offset + 1) + "</parameters>\n";
         }
-        str += buildTabs(offset) + "</"+ nodeName +"> \n";
+        str += buildTabs(offset) + "</" + nodeName + "> \n";
         return str;
     }
 
@@ -50,7 +50,7 @@ public class FunctionCall extends Node {
             nodes.get(i).resolveNames(scope);
         }
 
-        for(Node expr : nodes.get(0).nodes) {
+        for (Node expr : nodes.get(0).nodes) {
             String variable = expr.getValue();
             if (variable == null || variable.contains(" ")) {
                 continue;
@@ -94,13 +94,11 @@ public class FunctionCall extends Node {
                 if (argsTypes == null || argsTypes.get(i) == null) {
                     throw new Exception("parameters error");
                 }
+                if (paramNode instanceof ArrayDeclaration && !paramNode.varType.contains("Array")) {
+                    paramNode.varType += "Array";
+                }
                 if (!paramNode.varType.equals(argsTypes.get(i))) {
-                    if (argsTypes.get(i).contains("Array") && paramNode instanceof ArrayDeclaration) {
-
-                    }
-                    else {
-                        throw new Exception(name + " function expected " + paramNode.varType + " type, but got " + argsTypes.get(i) + " instead");
-                    }
+                    throw new Exception(name + " function expected " + paramNode.varType + " type, but got " + argsTypes.get(i) + " instead");
                 }
                 i++;
             }
@@ -130,7 +128,7 @@ public class FunctionCall extends Node {
         int size = this.nodes.get(0).nodes.size();
         for (ArrayDeclaration array : arrays) {
             size--;
-            size+=Interpreter.ARR_SIZE;
+            size += Interpreter.ARR_SIZE;
         }
         instr.args.add(String.valueOf(size));
         rep.addInstr(instr);

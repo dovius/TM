@@ -17,10 +17,20 @@ public class Parser {
 //  TODO          | <function-declaration>
     public Program parseProgram() throws Exception {
         Program program = new Program();
-        to_String parseToString = parseTo_String();
-        if (parseToString != null) {
-            program.nodes.add(parseToString);
-        }
+
+
+        FunctionDeclaration toStringFunction = new FunctionDeclaration();
+        Node kazkokie = param, body ir t.t;
+        toStringFunction.add(param...body..);
+        program.nodes.add(toStringFunction);
+
+
+        //esme, kad parsint nereikia toString funkcijos. ja reikia paciam sukurti
+
+//        to_String parseToString = parseTo_String();
+//        if (parseToString != null) {
+//            program.nodes.add(parseToString);
+//        }
         FunctionDeclaration functionDeclaration = parseFunctionDeclaration();
         if (functionDeclaration != null) {
             program.addNode(functionDeclaration);

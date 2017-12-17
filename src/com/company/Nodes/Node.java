@@ -81,6 +81,9 @@ public class Node {
         }
         if (state == State.IDENTIFIER) {
             varType = target.varType;
+            if (this.varType.contains("Array")) {
+                return;
+            }
             return;
         }
         System.out.println( "Check types not implement in: " + this.getClass() );

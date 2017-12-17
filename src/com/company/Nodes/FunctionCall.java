@@ -45,19 +45,23 @@ public class FunctionCall extends Node {
 
     public void resolveNames(Scope scope) throws Exception {
         target = scope.lookup(name);
+        varType = target.varType;
         for (int i = 0; i < nodes.size(); ++i) {
             nodes.get(i).resolveNames(scope);
         }
 
         for(Node expr : nodes.get(0).nodes) {
             String variable = expr.getValue();
-            if (variable == null) {
+            if (variable == null || variable.contains(" ")) {
                 continue;
             }
             Node array = scope.lookup(expr.getValue());
-            if (array instanceof ArrayDeclaration)
-            arrays.add((ArrayDeclaration) array);
-            System.out.println(expr.getValue());
+            if (array instanceof ArrayDeclaration) {
+                arrays.add((ArrayDeclaration) array);
+                expr.varType = array.varType + "Array";
+                expr.nodes.get(0).varType = expr.varType;
+//                expr.
+            }
         }
     }
 
@@ -91,7 +95,12 @@ public class FunctionCall extends Node {
                     throw new Exception("parameters error");
                 }
                 if (!paramNode.varType.equals(argsTypes.get(i))) {
-                    throw new Exception(name + " function expected " + paramNode.varType + " type, but got " + argsTypes.get(i) + " instead");
+                    if (argsTypes.get(i).contains("Array") && paramNode instanceof ArrayDeclaration) {
+
+                    }
+                    else {
+                        throw new Exception(name + " function expected " + paramNode.varType + " type, but got " + argsTypes.get(i) + " instead");
+                    }
                 }
                 i++;
             }

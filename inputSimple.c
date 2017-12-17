@@ -11,6 +11,16 @@ int get(int mas[], int index) {
 //    return 22;
 //}
 
+int fact(int number) {
+    if (number ==0) {
+        return 1;
+    }
+    else {
+        return number * fact(number - 1);
+    }
+    return 0;
+}
+
 int main() {
     int mas[20];
     mas[0] = 123;
@@ -31,5 +41,5 @@ int main() {
     write sudurtinis;
 
 
-    return plz;
+    return fact(6);
 }

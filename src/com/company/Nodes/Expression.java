@@ -29,7 +29,10 @@ public class Expression extends Node {
     @Override
     public void checkTypes() throws Exception {
         for (Node node : nodes) {
-            node.checkTypes();
+            //nzn ar nepagadina konors
+            if (varType == null) {
+                node.checkTypes();
+            }
         }
         if (nodes != null && nodes.size() != 0) {
             varType = nodes.get(0).varType;

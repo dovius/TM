@@ -17,11 +17,16 @@ public class Parser {
 //  TODO          | <function-declaration>
     public Program parseProgram() throws Exception {
         Program program = new Program();
+        to_String parseToString = parseTo_String();
+        if (parseToString != null) {
+            program.nodes.add(parseToString);
+        }
         FunctionDeclaration functionDeclaration = parseFunctionDeclaration();
         if (functionDeclaration != null) {
             program.addNode(functionDeclaration);
             do {
                 functionDeclaration = parseFunctionDeclaration();
+
                 if (functionDeclaration != null) {
                     program.nodes.add(functionDeclaration);
                 }

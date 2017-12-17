@@ -98,6 +98,10 @@ public class Instruction {
 				return "I_ARRAY_VAL_GET";
 			case 28:
 				return "I_ARRAY_GET";
+            case 29:
+                return "I_TOSTRING";
+            case 30:
+                return "I_TOINT";
 			default:
 				return "I_UNKNOWN";
 		}

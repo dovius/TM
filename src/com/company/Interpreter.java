@@ -238,13 +238,13 @@ public class Interpreter {
                 ret(value);
                 break;
 
-            case Instructions.I_TO_STRING:
+            case Instructions.I_TOSTRING:
                 value = pop();
                 String temp = String.valueOf(value) ;
 
                 push(temp);
                 break;
-            case Instructions.I_TO_INT:
+            case Instructions.I_TOINT:
                 value = pop();
                 System.out.println("Print:fvdfvdvdvd " + value);
                 ret(value);

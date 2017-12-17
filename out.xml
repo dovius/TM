@@ -1,0 +1,17 @@
+<program> 
+    <function-declaration> 
+        Type: int Name: main
+        <block> 
+            <statement> 
+                <toString> 
+                    Number: 1
+                </toString> 
+            </statement>
+            <statement> 
+                <return> 
+                    Number: 6
+                </return> 
+            </statement>
+        </block>
+    </function-declaration>
+</program>

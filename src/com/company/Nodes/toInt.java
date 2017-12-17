@@ -47,7 +47,7 @@ public class toInt extends Node {
         if (nodes != null && nodes.size() != 0) {
             nodes.get(0).run(rep);
             Instruction instr = new Instruction();
-            instr.instructionNumber = Instructions.I_TO_INT;
+            instr.instructionNumber = Instructions.I_TOINT;
             instr.args.add(nodes.get(0).varType);
             instr.args.add(nodes.get(0).getValue());
             rep.addInstr(instr);

@@ -51,7 +51,8 @@ public final class Instructions {
 	public static final int I_ARRAY_VALUE_SET = 26;
 	public static final int I_ARRAY_VALUE_GET = 27;
 	public static final int I_ARRAY_GET = 28;
-
+	public static final int I_TOSTRING= 29;
+	public static final int I_TOINT = 30;
 	private int instructionNumber;
 	
 	private Instructions(int instrNumb ) {

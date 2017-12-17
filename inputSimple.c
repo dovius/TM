@@ -26,7 +26,7 @@ int main() {
     mas[0] = 123;
     mas[1] = 122;
     mas[2] = 121;
-    int plz = get(mas,0);
+    int test = get(mas,0);
 
     int mas2[21];
     for (int i = 0; i<21; ++i) {
@@ -35,11 +35,12 @@ int main() {
     write get(mas2, 11);
 
     string zodis = 'labas';
-    string sudurtinis = zodis + zodis;
+    string sudurtinis = zodis + zodis + zodis;
     int a = 2+2;
     write a;
     write sudurtinis;
 
-
+  //  int sk = 1 + toInt('99');
+//    string word = toString('1') + ' tai ne ' + toString('2');
     return fact(6);
 }

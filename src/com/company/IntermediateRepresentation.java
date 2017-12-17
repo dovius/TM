@@ -29,6 +29,7 @@ public class IntermediateRepresentation {
 			instructions.add(instruction);
 			return;
 		}
+
 		instructions.add(instruction);
 		if (postfixInstructions.size() != 0) {
 			skipForPostfix--;

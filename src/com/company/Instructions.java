@@ -54,6 +54,7 @@ public final class Instructions {
 	public static final int I_TOSTRING= 29;
 	public static final int I_TOINT = 30;
 	private int instructionNumber;
+
 	
 	private Instructions(int instrNumb ) {
 		this.instructionNumber = instrNumb;

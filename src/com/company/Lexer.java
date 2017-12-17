@@ -21,6 +21,7 @@ public class Lexer {
         this.fileName = fileName;
     }
 
+
     public void execute() throws IOException {
         currentState = State.MAIN;
         lexem = "";

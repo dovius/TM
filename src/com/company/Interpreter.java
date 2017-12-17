@@ -240,14 +240,15 @@ public class Interpreter {
 
             case Instructions.I_TOSTRING:
                 value = pop();
-                String temp = String.valueOf(value) ;
+                String temp = String.valueOf(value);
 
                 push(temp);
                 break;
             case Instructions.I_TOINT:
                 value = pop();
-                System.out.println("Print:fvdfvdvdvd " + value);
-                ret(value);
+                Integer temp2=Integer.valueOf(String.valueOf(value));
+
+                push(temp2);
                 break;
 
 

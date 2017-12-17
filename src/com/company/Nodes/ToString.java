@@ -9,9 +9,9 @@ import java.util.ArrayList;
 
 import static com.company.Parser.buildTabs;
 
-public class toInt extends Node {
+public class ToString extends Node {
 
-    public toInt() {
+    public ToString() {
         nodes = new ArrayList<Node>();
     }
 
@@ -47,7 +47,7 @@ public class toInt extends Node {
         if (nodes != null && nodes.size() != 0) {
             nodes.get(0).run(rep);
             Instruction instr = new Instruction();
-            instr.instructionNumber = Instructions.I_TOINT;
+            instr.instructionNumber = Instructions.I_TOSTRING;
             instr.args.add(nodes.get(0).varType);
             instr.args.add(nodes.get(0).getValue());
             rep.addInstr(instr);

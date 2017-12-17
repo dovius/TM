@@ -27,7 +27,7 @@ public class Parser {
 
         //esme, kad parsint nereikia toString funkcijos. ja reikia paciam sukurti
 
-//        to_String parseToString = parseTo_String();
+//        ToString parseToString = parseTo_String();
 //        if (parseToString != null) {
 //            program.nodes.add(parseToString);
 //        }
@@ -213,7 +213,7 @@ public class Parser {
             return statement;
         }
 
-//        to_String to_stringcall = parseTo_String();
+//        ToString to_stringcall = parseTo_String();
 //        if (to_stringcall != null) {
 //            statement.nodes.add(to_stringcall);
 //            return statement;
@@ -470,9 +470,16 @@ public class Parser {
             return expression4;
         }
 
-        to_String to_stringcall = parseTo_String();
+        ToString to_stringcall = parseTo_String();
         if (to_stringcall != null) {
             expression4.nodes.add(to_stringcall);
+            return expression4;
+        }
+        expression4.backtrack();
+
+        ToInt to_intcall = parseToInt();
+        if (to_intcall != null) {
+            expression4.nodes.add(to_intcall);
             return expression4;
         }
         expression4.backtrack();
@@ -777,8 +784,8 @@ public class Parser {
 
 
 
-    public to_String parseTo_String() {
-        to_String to_stringStatement = new to_String();
+    public ToString parseTo_String() {
+        ToString to_stringStatement = new ToString();
         Node toStringState = parseState(State.TO_STRING);
 
 
@@ -796,9 +803,30 @@ public class Parser {
                 }
             }
         }
-        return (to_String) to_stringStatement.backtrack();
+        return (ToString) to_stringStatement.backtrack();
     }
 
+    public ToInt parseToInt() {
+        ToInt toIntStatement = new ToInt();
+        Node toIntState = parseState(State.TO_INT);
+
+
+        if (toIntState != null) {
+            Node lBracket = parseLBracket();
+            if (lBracket != null) {
+                Expression expression = parseExpression();
+                Node rBracket = parseRBracket();
+                if (rBracket != null) {
+                    if (expression != null) {
+                        toIntStatement.nodes.add(expression);
+                        toIntStatement.varType = "string";
+                        return toIntStatement;
+                    }
+                }
+            }
+        }
+        return (ToInt) toIntStatement.backtrack();
+    }
 
 
 

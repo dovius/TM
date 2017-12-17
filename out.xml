@@ -4,18 +4,38 @@
         <block> 
             <statement> 
                 <VarDeclaration> 
-                    Type: string Name: c
+                    Type: string Name: f
+                    <value>
+                        <AddSubExpression> 
+                            Operator: +
+                            <left> 
+                                <return> 
+                                    Number: 1
+                                </return> 
+                            </left>
+                            <right> 
+                                <return> 
+                                    Number: 3
+                                </return> 
+                            </right> 
+                        </AddSubExpression> 
+                    </value>
                 </VarDeclaration>
-            </statement>
-            <statement> 
-                <return> 
-                    Number: 1
-                </return> 
             </statement>
             <statement> 
                 <VarDeclaration> 
-                    Type: string Name: f
+                    Type: int Name: a
+                    <value>
+                        <return> 
+                            String: '45'
+                        </return> 
+                    </value>
                 </VarDeclaration>
+            </statement>
+            <statement> 
+                <write> 
+                    Variable: a
+                </write>
             </statement>
             <statement> 
                 <return> 

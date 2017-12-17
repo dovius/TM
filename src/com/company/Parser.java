@@ -213,11 +213,11 @@ public class Parser {
             return statement;
         }
 
-        to_String to_stringcall = parseTo_String();
-        if (to_stringcall != null) {
-            statement.nodes.add(to_stringcall);
-            return statement;
-        }
+//        to_String to_stringcall = parseTo_String();
+//        if (to_stringcall != null) {
+//            statement.nodes.add(to_stringcall);
+//            return statement;
+//        }
 
         FunctionCall functionCall = parseFunctionCall();
         if (functionCall != null && getState(State.SEMI_CLN) != null) {
@@ -788,11 +788,9 @@ public class Parser {
                 Expression expression = parseExpression();
                 Node rBracket = parseRBracket();
                 if (rBracket != null) {
-                    Node semicolumn = parseSemicolon();
-
-                    if (expression != null && semicolumn != null) {
+                    if (expression != null) {
                         to_stringStatement.nodes.add(expression);
-
+                        to_stringStatement.varType = "string";
                         return to_stringStatement;
                     }
                 }

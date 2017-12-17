@@ -1,0 +1,137 @@
+//Mindaugas Čiulada Dovydas Vilimas KM
+
+int main(int a) {
+	read a;
+	if (a == 5) {
+		a = a + 1;
+	}
+
+	while(i == 2){
+	i = i +1;
+	}
+
+	for (int a = 1; 21 ; i++){
+	d= i + 2;
+	}
+
+	int b[14];
+	b = 10 - a * 5;
+	out b;
+
+    b[1] = "labas"
+    string first = 'labas';
+}
+
+<program> ::= <function-declaration> <program>
+            | <function-declaration>
+
+<function-declaration> ::= <type-specifier> <identifier> "(" <parameter-list> ")" <block-statement>
+
+<type-specifier> ::= 'char'
+                   | 'int'
+		   | 'string'
+
+<parameter-list> ::= <parameter-declaration>
+		   |<arrayDeclaration>
+		   |<arrayDeclaration> "," <parameter_list>
+		   |<parameter-list> "," <parameter-declaration>
+
+<parameter-declaration> ::= <type-specifier> <identifier>
+
+<arrayDeclaration> ::= <type> <identifier> "[" <integer> "]" ";"
+<arrayIndexStatement> ::= <identifier> "["<expression>"]"
+
+
+****************STATEMENTS****************
+<statements> ::= <statement> <statements>
+               | <statement>
+
+<statement> ::= <expression-statement>
+              | <selection-statement>
+              | <simple-statement>
+	      | <return-statement>
+	      | <loop-statement>
+
+<simple-statement> ::= <varDeclaration>
+		    | <assignmentStmt>
+                    | <ioStmt>
+
+
+<loop-statement> ::= <while-loop> | <for-loop>
+
+<while-loop> ::= "while" "(" <expresion> ")" <block-statement>
+
+<for-loop> ::= "for" "(" <varDeclaration> ";" <expression> ";" <post-pre-fix>  ")" <block-statement>
+
+<post-pre-fix> ::= <identifier> <incrementDecrementOp>
+		| <incrementDecrementOp> <identifier>
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<varDeclaration> ::= <type-specifier> <identifier>
+                  | <type-specifier> <identifier> <assigmentOp> <expression>
+
+<assignmentStmt> ::= <identifier> <assigmentOp> <expression-statement>
+                   | <arrayIndexStatement> <assigmentOp> <expression> ";"
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+<ioStmt> ::= <inputStmt>
+           | <outputStmt>
+
+<inputStmt>  ::= 'read' <identifier> ";"
+
+<outputStmt> ::= 'out' <expression> ";"
+
+<selection-statement> ::= if ( <expression> ) <block-statement>
+			| if ( <expression> ) <block-statement>else <block-statement>
+
+****************STATEMENTS****************
+
+
+
+
+****************EXPRESSIONS****************
+<expression-statement> ::= <expression> ";"
+<expresion> ::= <expr-0>
+<expr-0> ::= <expr-1> <logicOp> <expr-0>  | <expr-1>
+<expr-1> ::= <expr-2> <compareOp> <expr-1> | <expr-2>
+<expr-2> ::= <expr-3> "+" <expr-2>  | <expr-3>
+<expr-3> ::= <expr-4> "*" <expr-3>  | <expr-4>
+<expr-4> ::= <identifier>
+           | <pre-post-fix>
+           | <int>
+           | "(" <expr-0> ")"
+           | <arrayIndexStatement>
+           | <function-call>
+	   | <string>
+
+****************EXPRESSIONS****************
+<block-statement> ::= "{" <statements> "}"
+                    | "{" "}"
+
+<function-call> ::= <identifier> "(" <call-param-list> ")"
+	            | <identifier> "(" ")"
+
+<call-param-list-item>    ::= <expr-0>
+                            | <expr-0> , <call-param-list>
+
+<identifier> ::= [a-zA-Z_][a-zA-Z0-9_]*
+
+<char> ::= [a-zA-Z]
+
+<digit> ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+
+<int> ::= <digit>
+ 	| <digit> <int>
+
+<string>  ::= "'" <stringChars> "'"
+            | "'" "'"
+<stringChars> ::= <char> <stringChars>
+		| <char>
+
+<assigmentOp> ::= "="
+<incrementDecrementOp> ::= "++" | "--"
+<logicOp> ::= "&" | "|"
+<compareOp> ::= "==" | "!=" | ">" | "<" | ">=" | "<="
+
+<return-statement> ::= 'return' |
+		       'return' <expresion> ";"

@@ -47,7 +47,7 @@ public class to_String extends Node {
         if (nodes != null && nodes.size() != 0) {
             nodes.get(0).run(rep);
             Instruction instr = new Instruction();
-            instr.instructionNumber = Instructions.I_TO_STRING;
+          //  instr.instructionNumber = Instructions.I_TO_STRING;
             //instr.args.add(nodes.get(0).varType);
             instr.args.add(nodes.get(0).getValue());
             rep.addInstr(instr);

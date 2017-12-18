@@ -38,6 +38,7 @@ public class Interpreter {
         int oldSp;
         int oldBp;
         Object value;
+        Object value2;
         int slotId;
         Object left;
         Object right;
@@ -261,6 +262,17 @@ public class Interpreter {
             case Instructions.I_PRINT:
                 value = pop();
                 System.out.println("Print: " + value);
+                break;
+
+            case Instructions.I_PRINT_ARRAY:
+
+                String i = instr.args.get(0);
+                String j = instr.args.get(1);
+
+                for(int a = 0; a < Integer.valueOf(j); a++) {
+                    int ind = bp + Integer.valueOf(i) +a;
+                    System.out.println("Print: " + stack[ind]) ;
+                }
                 break;
 
             case Instructions.I_SCAN:

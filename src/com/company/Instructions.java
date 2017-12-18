@@ -53,6 +53,7 @@ public final class Instructions {
 	public static final int I_ARRAY_GET = 28;
 	public static final int I_TOSTRING= 29;
 	public static final int I_TOINT = 30;
+	public static final int I_PRINT_ARRAY = 31;
 	private int instructionNumber;
 
 	

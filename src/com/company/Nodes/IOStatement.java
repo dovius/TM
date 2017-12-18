@@ -44,12 +44,23 @@ public class IOStatement extends Node {
 
     public void run( IntermediateRepresentation rep  ) throws Exception {
         if (!isReadStatemnt) {
+            if (nodes.get(0).nodes.get(0).target instanceof ArrayDeclaration && nodes.get(0).nodes.get(0).nodes.size() == 0) {
+                Instruction instr = new Instruction();
+                ArrayDeclaration arrayDeclaration = (ArrayDeclaration)  nodes.get(0).nodes.get(0).target;
+                instr.args.add(String.valueOf(arrayDeclaration.localStartSlot));
+                instr.args.add(String.valueOf(arrayDeclaration.size));
+                instr.instructionNumber = Instructions.I_PRINT_ARRAY;
+                rep.addInstr(instr);
+
+                return;
+            }
             nodes.get(0).run(rep);
             Instruction instr = new Instruction();
             instr.args.add(nodes.get(0).getValue());
             instr.instructionNumber = Instructions.I_PRINT;
             rep.addInstr(instr);
         }
+
     }
 
     public void resolveNames(Scope scope) throws Exception {

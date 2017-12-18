@@ -102,6 +102,8 @@ public class Instruction {
                 return "I_TOSTRING";
             case 30:
                 return "I_TOINT";
+			case 31:
+				return "I_PRINT_ARRAY";
 			default:
 				return "I_UNKNOWN";
 		}

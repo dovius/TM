@@ -1,30 +1,51 @@
-int sum(int a){
-    return a+3;
-}
-int testukas(int array[],int b){
-    array[1]=1;
-    array[2]=1+array[1];
-    return array[2];
+//int sum(int a){
+//    return a+3;
+//}
+//
+//int testukas(int array[],int b){
+//    array[1]=1;
+//    array[2]=1+array[1];
+//    return array[2];
+//}
+//
+//int fact(int number) {
+//    if (number ==0) {
+//        return 1;
+//    }
+//    else {
+//        return number * fact(number - 1);
+//    }
+//    return 0;
+//}
+//
+//int get(int mas[], int index) {
+//    for (int i=0;i<2;++i) {
+//        write mas[i];
+//    }
+//    return mas[index];
+//}
+
+int fibo(int n) {
+  if (n > 1) {
+      return fibo(n-1) + fibo(n-2);
+
+  }
+  return 1;
 }
 
-int fact(int number) {
-    if (number ==0) {
-        return 1;
-    }
-    else {
-        return number * fact(number - 1);
-    }
-    return 0;
-}
-
-int get(int mas[], int index) {
-    for (int i=0;i<2;++i) {
-        write mas[i];
-    }
-    return mas[index];
-}
 
 int main(){
+
+    int a;
+    int fib[10];
+    for (int i = 0; i < 10; ++i) {
+        fib[i] = fibo(i);
+        write fib[i];
+    }
+    write 'masyvas pilnas';
+    write fib;
+
+/*
 //*************************
     string array[20];
     array[0]='labas';
@@ -52,11 +73,12 @@ int main(){
     write get(mas2, 11);
     string zodis = 'labas';
     string sudurtinis = zodis + zodis + zodis;
-    int a = 2+2;
+    //int a = 2+2;
     write a;
     write sudurtinis;
     write fact(6);
     write toString(1) + 'zodis' + toString(toInt('2'));
+*/
 
     return 3;
 }

@@ -139,6 +139,9 @@ public class Node {
         if (value == null && state == State.IDENTIFIER) {
             return lexem;
         }
+        if (nodes != null && nodes.size() > 0) {
+            return nodes.get(0).getValue();
+        }
         return value;
     }
 

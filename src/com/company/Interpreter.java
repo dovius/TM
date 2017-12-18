@@ -132,7 +132,7 @@ public class Interpreter {
 
 }
                 catch (Exception e){
-                    String tt = (String.valueOf(left)+String.valueOf(right));
+                    String tt = (String.valueOf(right)+String.valueOf(left));
                     tt=tt.replace("'","");
                     push (tt);}
 

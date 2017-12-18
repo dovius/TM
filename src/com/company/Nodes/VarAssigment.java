@@ -51,6 +51,12 @@ public class VarAssigment extends Node {
         for (Node node : nodes) {
             node.checkTypes();
         }
+        if (target instanceof ArrayDeclaration) {
+            if (!cmpTypes(target.varType, nodes.get(0).nodes)) {
+                throw new Exception("bad types in var assignment");
+            }
+            return;
+        }
         if (!cmpTypes(target.varType, nodes)) {
             throw new Exception("bad types in var assignment");
         }

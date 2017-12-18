@@ -52,7 +52,7 @@ public class FunctionCall extends Node {
 
         for (Node expr : nodes.get(0).nodes) {
             String variable = expr.getValue();
-            if (variable == null || variable.contains(" ")) {
+            if (variable == null || variable.contains(" ") || variable.contains("[")) {
                 continue;
             }
             Node array = scope.lookup(expr.getValue());

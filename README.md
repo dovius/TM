@@ -13,7 +13,7 @@ Realizuotas supaprastintos C kalbos interpretatorius
 An interpreter for a simplified C like language
 ## Implemented:
 ```
-  Arryays,,
+  Arryays,
   functions,
   for/while/if
   read/write
